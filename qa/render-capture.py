@@ -28,12 +28,15 @@ GL_FALSE=0
 GL_TRUE=1
 GL_FLOAT=0x1406
 GL_UNSIGNED_BYTE=0x1401
+GL_UNSIGNED_SHORT=0x1403
+GL_UNSIGNED_INT=0x1405
 GL_TRIANGLES=0x0004
 GL_RGBA=0x1908
 GL_RGBA32F=0x8814
 GL_COLOR_BUFFER_BIT=0x4000
 GL_DEPTH_BUFFER_BIT=0x0100
 GL_ARRAY_BUFFER=0x8892
+GL_ELEMENT_ARRAY_BUFFER=0x8893
 GL_STATIC_DRAW=0x88E4
 GL_TEXTURE_2D=0x0DE1
 GL_TEXTURE0=0x84C0
@@ -136,7 +139,7 @@ class EGLRenderer:
             ('glDepthFunc',None,[u]),('glCullFace',None,[u]),('glFrontFace',None,[u]),
             ('glBlendFunc',None,[u,u]),('glViewport',None,[i,i,i,i]),('glScissor',None,[i,i,i,i]),
             ('glClearColor',None,[f,f,f,f]),('glClearDepthf',None,[f]),('glClear',None,[u]),
-            ('glDrawArrays',None,[u,i,i]),('glFinish',None,[]),
+            ('glDrawArrays',None,[u,i,i]),('glDrawElements',None,[u,i,u,p]),('glFinish',None,[]),
             ('glReadPixels',None,[i,i,i,i,u,u,p]),
         ]:self.glfn(name,ret,*args)
 
@@ -233,15 +236,29 @@ class EGLRenderer:
             self.glBufferData(GL_ARRAY_BUFFER,len(raw),buf,GL_STATIC_DRAW)
             self.glEnableVertexAttribArray(int(a['loc']))
             self.glVertexAttribPointer(int(a['loc']),int(a['size']),int(a.get('type',GL_FLOAT)),bool(a.get('normalized',False)),0,None)
+        indexed=d.get('method')=='drawElements'
+        if indexed:
+            elements=d['indices'];index_type=int(elements['type']);offset=int(elements.get('offset',0))
+            item_size={GL_UNSIGNED_BYTE:1,GL_UNSIGNED_SHORT:2,GL_UNSIGNED_INT:4}.get(index_type)
+            raw=base64.b64decode(elements['data'])
+            if not item_size or offset<0 or offset%item_size or offset+int(d['count'])*item_size>len(raw):
+                raise ValueError(f'Invalid element buffer in draw {index}')
+            buf=C.create_string_buffer(raw);ebo=C.c_uint();self.glGenBuffers(1,C.byref(ebo))
+            self.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo)
+            self.glBufferData(GL_ELEMENT_ARRAY_BUFFER,len(raw),buf,GL_STATIC_DRAW)
         for t in d.get('textures',[]):self.texture(t)
         for name,spec in d.get('uniforms',{}).items():self.uniform(p,name,spec)
         self.state(d.get('state',{}))
         before=self.errors()
         if before:raise RuntimeError(f"OpenGL state/upload error before draw {index}: {before}")
         start=time.perf_counter()
-        self.glDrawArrays(int(d.get('mode',GL_TRIANGLES)),int(d.get('first',0)),int(d['count']))
+        if indexed:self.glDrawElements(int(d.get('mode',GL_TRIANGLES)),int(d['count']),index_type,C.c_void_p(offset))
+        else:self.glDrawArrays(int(d.get('mode',GL_TRIANGLES)),int(d.get('first',0)),int(d['count']))
         self.glFinish();errors=self.errors()
-        self.draw_report.append({'index':index,'vertices':d['count'],'mode':d.get('mode',GL_TRIANGLES),'elapsed_ms':round((time.perf_counter()-start)*1000,2),'errors':errors})
+        self.draw_report.append({'index':index,'method':'drawElements' if indexed else 'drawArrays',
+            'vertices':d.get('vertexCount',d['count']),'unique_vertices':d.get('uniqueVertices',d['count']),
+            'indices':d['count'] if indexed else 0,'submitted_vertices':d['count'],
+            'mode':d.get('mode',GL_TRIANGLES),'elapsed_ms':round((time.perf_counter()-start)*1000,2),'errors':errors})
         if errors:raise RuntimeError(f"OpenGL draw {index} failed: {errors}")
 
     def render(self,trace,outpath):
@@ -261,6 +278,8 @@ class EGLRenderer:
         return {'renderer':self.info,'width':self.width,'height':self.height,'draw_calls':len(trace['draws']),
             'source_hashes':trace.get('sourceHashes',{}),
             'vertices':sum(d['count'] for d in trace['draws']),
+            'attribute_vertices':sum(d.get('vertexCount',d['count']) for d in trace['draws']),
+            'indexed_draw_calls':sum(d.get('method')=='drawElements' for d in trace['draws']),
             'triangles':sum(d['count']//3 for d in trace['draws'] if d.get('mode',4)==4),
             'programs':len(self.programs),'shader_validation':self.compile_report,'draws':self.draw_report,
             'image':str(Path(outpath).resolve()),'verification_scope':'Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance.'}

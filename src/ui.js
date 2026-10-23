@@ -115,7 +115,7 @@
     _header(s,w,l){
       this.rect(0,0,w,l.header,C.panel);this.rect(0,l.header-1,w,1,C.border);
       this._hit(0,0,w,l.header,{type:'block',key:'header'});
-      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3',32,48,9,C.muted);
+      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.1',32,48,9,C.muted);
       if(l.mobile){
         this.button(s.panelOpen?'Close':'Edit',w-121,20,65,30,'togglePanel',undefined,s.panelOpen,false,'togglePanel');
         this.button('?',w-48,20,30,30,'help',undefined,s.helpOpen,false,'help');
@@ -216,7 +216,7 @@
       if(this.scrollMax>0){const trackH=Math.max(20,contentBottom-contentTop-10),thumbH=Math.max(24,trackH*trackH/contentHeight);this.rect(L-7,contentTop,2,trackH,C.field,1);this.rect(L-7,contentTop+(trackH-thumbH)*(this.scroll[tab]/this.scrollMax),2,thumbH,C.muted,1);}
       const by=h-l.footer-bottomHeight+14,bw=(iw-6)/2;
       this.rect(18,by-12,iw,1,C.border);this._label('Preview',18,by);
-      [['Spin','autoSpin'],[s.physicsEnabled||s.motionEnabled?'Rig overlay':'Idle',s.physicsEnabled||s.motionEnabled?'showRig':'animate'],['Soft shading','smooth'],['Wireframe','wireframe'],['Shell outline','outlines']].forEach(([name,key],i)=>this.button(name,x+(i%2)*(bw+6),by+20+Math.floor(i/2)*31,bw,26,'toggle',key,!!s[key],false,'toggle:'+key));
+      [['Spin','autoSpin'],[s.physicsEnabled||s.motionEnabled?'Rig overlay':'Idle',s.physicsEnabled||s.motionEnabled?'showRig':'animate'],['Smooth shading','smooth'],['Wireframe','wireframe'],['Shell outline','outlines']].forEach(([name,key],i)=>this.button(name,x+(i%2)*(bw+6),by+20+Math.floor(i/2)*31,bw,26,'toggle',key,!!s[key],false,'toggle:'+key));
       this.button('Physics',x+bw+6,by+82,bw,26,'tab','physics',s.tab==='physics',false,'physics:tab-footer');
       if(s.physicsEnabled)this.button('Back to editor',x,by+115,iw,30,'physicsExit',null,false,false,'physics:exit-footer');
       else{this.button('Reroll duder',x,by+115,bw,30,'randomize',null,false,false,'randomize');this.button('Shuffle all',x+bw+6,by+115,bw,30,'randomizeAll',null,false,false,'randomizeAll:footer');}
@@ -224,7 +224,7 @@
     _footer(s,w,h,l){
       const y=h-l.footer;this.rect(0,y,w,l.footer,C.panel);this.rect(0,y,w,1,C.border);
       this._hit(0,y,w,l.footer,{type:'block',key:'footer'});
-      if(l.left&&!l.mobile)this.text('V3   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
+      if(l.left&&!l.mobile)this.text('V3.1   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
       const x=(l.mobile?0:l.left)+18,st=s.stats||{},tris=st.triangles>=1000?(st.triangles/1000).toFixed(1)+'K':String(st.triangles||0);
       const text=(st.count||16)+((st.count||16)===1?' DUDER   ':' DUDERS   ')+(st.drawCalls??3)+' DRAWS   '+tris+' TRIS'+(w>650?(st.offlineCapture?'   OFFLINE REPLAY':'   '+Math.round(st.fps||0)+' FPS'):'');
       this.text(text,x,y+(l.footer-10)/2,10,C.lime);

@@ -253,7 +253,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const v=[m[0],m[4],m[8],0,m[1],m[5],m[9],0,m[2],m[6],m[10],0,0,0,0,1],t=transformVector(v,[m[12],m[13],m[14]]);
     v[12]=-t[0];v[13]=-t[1];v[14]=-t[2];return v;
   }
-  function bake(geometry,recipe,smoothNormals=false,pose=null) {
+  function bake(geometry,recipe,smoothNormals=true,pose=null) {
     const r=sanitizeRecipe(recipe),parts=primitives(r),src=geometry.positions,ns=geometry.normals,cs=geometry.colors,meta=geometry.meta;
     if(!src||src.length%9!==0||!meta||meta.length!==src.length/3*4)throw new Error('Expected non-indexed DuderGeometry positions and vec4 meta.');
     const transforms=pose&&pose.transforms,posed=Array.isArray(transforms)&&transforms.length>=7,inv=posed?transforms.map(rigidInverse):null;
@@ -271,14 +271,14 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       for(const off of offsets){const d=posedField(p.map((v,k)=>v+off[k]));for(let k=0;k<3;k++)g[k]+=off[k]*d;}return norm(g);
     }
     const positions=[],normals=[],colors=[];
-    function emit(vs,body,flat,level){
+    function emit(vs,body,flat,level,kind){
       if(level>0){
         const midpoint=(a,b)=>({p:a.p.map((v,i)=>(v+b.p[i])*.5),rest:a.rest.map((v,i)=>(v+b.rest[i])*.5),n:norm(a.n.map((v,i)=>v+b.n[i])),c:a.c.map((v,i)=>(v+b.c[i])*.5),joint:(a.joint+b.joint)*.5});
         const ab=midpoint(vs[0],vs[1]),bc=midpoint(vs[1],vs[2]),ca=midpoint(vs[2],vs[0]);
-        emit([vs[0],ab,ca],body,flat,level-1);emit([ab,vs[1],bc],body,flat,level-1);emit([ca,bc,vs[2]],body,flat,level-1);emit([ab,bc,ca],body,flat,level-1);return;
+        emit([vs[0],ab,ca],body,flat,level-1,kind);emit([ab,vs[1],bc],body,flat,level-1,kind);emit([ca,bc,vs[2]],body,flat,level-1,kind);emit([ab,bc,ca],body,flat,level-1,kind);return;
       }
       for(const v of vs){
-        const n=body&&!smoothNormals?norm(flat.map((x,i)=>mix(x,v.n[i],v.joint*.97))):v.n;
+        const n=!smoothNormals?(body?norm(flat.map((x,i)=>mix(x,v.n[i],v.joint*.97))):kind===1?flat:v.n):v.n;
         positions.push(...v.p);normals.push(...n);colors.push(...(body?skinColor(v.rest,r):v.c));
       }
     }
@@ -305,25 +305,37 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       }
       let flat=norm(cross(sub(vs[1].p,vs[0].p),sub(vs[2].p,vs[0].p)));
       if(body && dot(flat,vs[0].n)<0)flat=flat.map(x=>-x);
-      emit(vs,body,flat,body&&r.pattern!==0?2:0);
+      emit(vs,body,flat,body&&r.pattern!==0?2:0,meta[vi*4+2]);
     }
     return {positions:new Float32Array(positions),normals:new Float32Array(normals),colors:new Float32Array(colors),triangles:positions.length/9,poseApplied:posed};
   }
   function glb(baked,recipe) {
-    const r=sanitizeRecipe(recipe),pos=baked.positions,nor=baked.normals,col=baked.colors,count=pos.length/3;
-    if(!Number.isInteger(count)||nor.length!==pos.length||col.length!==pos.length)throw new Error('GLB attributes must have equal vertex counts.');
+    const r=sanitizeRecipe(recipe),source=[baked.positions,baked.normals,baked.colors],sourceCount=source[0].length/3;
+    if(!Number.isInteger(sourceCount)||source.some(a=>a.length!==source[0].length))throw new Error('GLB attributes must have equal vertex counts.');
+    // The bake remains expanded for per-triangle pattern subdivision and QA.
+    // Compact the final POSITION/NORMAL/COLOR records for the exported mesh,
+    // preserving intentional color or normal seams without moving vertices.
+    const packed=[[],[],[]],indices=new Uint32Array(sourceCount),seen=new Map();
+    for(let i=0;i<sourceCount;i++){
+      const values=source.flatMap(a=>Array.from(a.subarray(i*3,i*3+3)));
+      if(!values.every(Number.isFinite))throw new Error('Non-finite export attribute.');
+      const key=values.join(',');let index=seen.get(key);
+      if(index===undefined){index=seen.size;seen.set(key,index);for(let a=0;a<3;a++)packed[a].push(...values.slice(a*3,a*3+3));}
+      indices[i]=index;
+    }
+    const [pos,nor,col]=packed.map(a=>new Float32Array(a)),count=pos.length/3;
     const linear=new Float32Array(col.length);for(let i=0;i<col.length;i++){const c=clamp(col[i],0,1);linear[i]=c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4);}
     const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];
     for(let i=0;i<pos.length;i++){if(!Number.isFinite(pos[i]))throw new Error('Non-finite export vertex.');min[i%3]=Math.min(min[i%3],pos[i]);max[i%3]=Math.max(max[i%3],pos[i]);}
-    const arrays=[pos,nor,linear],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
+    const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
-    for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 2.0'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'}],extras:{recipe:r,notes:'Static coherent Surface Nets tessellation of the SDF body, projected with the Critters blend-shell technique. Rigid accessories remain separate surfaces. This visual mesh is not a CAD B-rep or a rig. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.1'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'2.0',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.1.0',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);

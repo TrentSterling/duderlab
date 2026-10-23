@@ -1,4 +1,4 @@
-/* Duder Lab V3 — batched WebGL2 skinning, bounded SDF correction, and welded-normal hull outlines.
+/* Duder Lab V3.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -175,20 +175,40 @@
       this.uniforms={};for(const name of ['uData','uVP','uGrid','uFocus','uCamera','uSmooth','uWire','uOutline','uOutlineWidth','uViewport','uProjection','uViewDir'])this.uniforms[name]=gl.getUniformLocation(this.program,name);
       this.bgUniforms={};for(const name of ['uGrid','uGround','uSelected','uFocus','uSize','uScene','uEye','uRight','uUp','uForward','uExtent','uShadows[0]','uShadowCount'])this.bgUniforms[name]=gl.getUniformLocation(this.bg,name);
       this.rigUniform=gl.getUniformLocation(this.rigProgram,'uVP');
-      this.vao=gl.createVertexArray();this.emptyVAO=gl.createVertexArray();this.rigVAO=gl.createVertexArray();this.rigBuffer=gl.createBuffer();
-      this.buffers=[];this.count=0;this.triangles=0;this.texWidth=128;
+      this.vao=gl.createVertexArray();this.wireVAO=gl.createVertexArray();this.emptyVAO=gl.createVertexArray();this.rigVAO=gl.createVertexArray();this.rigBuffer=gl.createBuffer();
+      this.buffers=[];this.wireBuffers=[];this.wireReady=false;this.count=0;this.vertexCount=0;this.expandedVertexCount=0;this.indexCount=0;this.triangles=0;this.texWidth=128;
       this.data=new Float32Array(this.texWidth*16*4);this.texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,this.texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA32F,this.texWidth,16,0,gl.RGBA,gl.FLOAT,this.data);
       this.frame();this.last=[];this.drawCalls=0;this.geometryById=new Map();this.geometryKeys=new Map();this.poses={};
       gl.clearColor(.95,.95,.92,1);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);
     }
     rebuild(recipes,mode,selected,idsOverride){
       const gl=this.gl,ids=idsOverride||(mode==='focus'?[selected]:recipes.map((_,i)=>i)),all=ids.map(i=>{const key=JSON.stringify(recipes[i]);if(this.geometryKeys.get(i)===key)return this.geometryById.get(i);const g=DuderGeometry.build(recipes[i],i);this.geometryById.set(i,g);this.geometryKeys.set(i,key);return g;});
-      gl.bindVertexArray(this.vao);this.buffers.forEach(b=>gl.deleteBuffer(b));this.buffers=[];
-      [['positions',3],['normals',3],['colors',3],['meta',4],['bary',3],['skinIndices',4],['skinWeights',4],['outline',4]].forEach(([key,size],loc)=>{
-        const n=all.reduce((sum,g)=>sum+g[key].length,0),data=new Float32Array(n);let off=0;for(const g of all){data.set(g[key],off);off+=g[key].length;}
-        const buffer=gl.createBuffer();this.buffers.push(buffer);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,size,gl.FLOAT,false,0,0);
-      });gl.bindVertexArray(null);this.count=all.reduce((sum,g)=>sum+g.positions.length/3,0);this.triangles=this.count/3;this.last=ids;
+      this.buffers.forEach(b=>gl.deleteBuffer(b));this.wireBuffers.forEach(b=>gl.deleteBuffer(b));gl.deleteVertexArray(this.wireVAO);this.wireVAO=gl.createVertexArray();this.buffers=[];this.wireBuffers=[];this.wireReady=false;this.batchGeometry=all;
+      this.vertexCount=all.reduce((sum,g)=>sum+g.indexed.positions.length/3,0);this.indexCount=all.reduce((sum,g)=>sum+g.indexed.indices.length,0);
+      this.expandedVertexCount=all.reduce((sum,g)=>sum+g.positions.length/3,0);this.count=this.expandedVertexCount;this.triangles=this.indexCount/3;
+      // WebGL2 supports 32-bit element indices, so all sixteen high-detail beans
+      // remain one batch even when it exceeds the 65,535-vertex Uint16 limit.
+      if(this.vertexCount>0xffffffff||this.indexCount>0x7fffffff)throw Error('Duder batch exceeds WebGL2 index or draw-count limits.');
+      gl.bindVertexArray(this.vao);this.gpuGeometryBytes=0;
+      [['positions',3,0],['normals',3,1],['colors',3,2],['meta',4,3],['skinIndices',4,5],['skinWeights',4,6],['outline',4,7]].forEach(([key,size,loc])=>{
+        const data=new Float32Array(this.vertexCount*size);let off=0;for(const g of all){data.set(g.indexed[key],off);off+=g.indexed[key].length;}
+        const buffer=gl.createBuffer();this.buffers.push(buffer);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,size,gl.FLOAT,false,0,0);this.gpuGeometryBytes+=data.byteLength;
+      });
+      // Barycentrics are per triangle, not per welded vertex. They are only
+      // uploaded into the optional wireframe VAO, never the normal render path.
+      gl.disableVertexAttribArray(4);
+      const indices=new Uint32Array(this.indexCount);let offset=0,base=0;
+      for(const g of all){for(const index of g.indexed.indices)indices[offset++]=index+base;base+=g.indexed.positions.length/3;}
+      const elements=gl.createBuffer();this.buffers.push(elements);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,elements);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);this.gpuGeometryBytes+=indices.byteLength;
+      gl.bindVertexArray(null);this.last=ids;
       this.restRadius=.8;for(const g of all)for(let i=0;i<g.positions.length;i+=3)this.restRadius=Math.max(this.restRadius,Math.hypot(g.positions[i],g.positions[i+2])*1.10);
+    }
+    prepareWireframe(){
+      if(this.wireReady)return;const gl=this.gl;gl.bindVertexArray(this.wireVAO);
+      [['positions',3],['normals',3],['colors',3],['meta',4],['bary',3],['skinIndices',4],['skinWeights',4],['outline',4]].forEach(([key,size],loc)=>{
+        const data=new Float32Array(this.expandedVertexCount*size);let off=0;for(const g of this.batchGeometry){data.set(g[key],off);off+=g[key].length;}
+        const buffer=gl.createBuffer();this.wireBuffers.push(buffer);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,size,gl.FLOAT,false,0,0);
+      });this.wireReady=true;
     }
     idleTransforms(recipe,time,animate){
       const out=Array.from({length:7},M.identity);if(!animate)return out;
@@ -253,8 +273,11 @@
       gl.drawArrays(gl.TRIANGLES,0,3);this.drawCalls++;
       gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.useProgram(this.program);gl.bindVertexArray(this.vao);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);
       gl.uniform1i(this.uniforms.uData,0);gl.uniformMatrix4fv(this.uniforms.uVP,false,this.vpMatrix);gl.uniform2fv(this.uniforms.uGrid,this.grid);gl.uniform1i(this.uniforms.uFocus,state.mode==='focus'?state.selected:-1);gl.uniform3fv(this.uniforms.uCamera,this.eye);gl.uniform1i(this.uniforms.uSmooth,state.smooth?1:0);gl.uniform1i(this.uniforms.uWire,state.wireframe?1:0);gl.uniform2f(this.uniforms.uViewport,vp.w,vp.h);gl.uniform1f(this.uniforms.uOutlineWidth,state.outlineWidth??2.2);gl.uniform1f(this.uniforms.uProjection,state.projectionStrength??.55);gl.uniform3fv(this.uniforms.uViewDir,this.forward);
-      if(state.outlines!==false){gl.uniform1i(this.uniforms.uOutline,1);gl.cullFace(gl.FRONT);gl.drawArrays(gl.TRIANGLES,0,this.count);this.drawCalls++;}
-      gl.uniform1i(this.uniforms.uOutline,0);gl.cullFace(gl.BACK);gl.drawArrays(gl.TRIANGLES,0,this.count);this.drawCalls++;
+      if(state.outlines!==false){gl.uniform1i(this.uniforms.uOutline,1);gl.cullFace(gl.FRONT);gl.drawElements(gl.TRIANGLES,this.indexCount,gl.UNSIGNED_INT,0);this.drawCalls++;}
+      gl.uniform1i(this.uniforms.uOutline,0);gl.cullFace(gl.BACK);
+      if(state.wireframe){this.prepareWireframe();gl.bindVertexArray(this.wireVAO);gl.drawArrays(gl.TRIANGLES,0,this.expandedVertexCount);}
+      else gl.drawElements(gl.TRIANGLES,this.indexCount,gl.UNSIGNED_INT,0);
+      this.drawCalls++;
       if(state.showRig&&(state.physicsEnabled||(state.motionEnabled&&state.mode==='focus')))this.drawRig();gl.bindVertexArray(null);gl.viewport(0,0,this.canvas.width,this.canvas.height);return this.drawCalls;
     }
     labels(recipes,mode,selected){const v=this.viewport;if(!v||mode==='focus')return[];return recipes.map((r,i)=>({x:v.x+(i%4+.5)*v.w/4,y:v.y+(Math.floor(i/4)+1)*v.h/4-17,text:String(i+1).padStart(2,'0')+'  '+r.name,selected:i===selected}));}

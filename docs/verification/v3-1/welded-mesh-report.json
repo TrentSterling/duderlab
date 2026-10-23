@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "cases": 102,
+  "closedGearChecks": 102,
+  "expandedVertices": 733452,
+  "indexedVertices": 124744,
+  "vertexReduction": 0.8299220671564056,
+  "sharedSmoothVertices": 609388,
+  "maxNormalDelta": 0,
+  "examples": [
+    {
+      "hat": "none",
+      "expandedVertices": 5136,
+      "indexedVertices": 872,
+      "triangles": 1712,
+      "uniquePositions": 872
+    },
+    {
+      "hat": "cap",
+      "expandedVertices": 6012,
+      "indexedVertices": 1064,
+      "triangles": 2004,
+      "uniquePositions": 1024
+    },
+    {
+      "hat": "bucket",
+      "expandedVertices": 5928,
+      "indexedVertices": 1006,
+      "triangles": 1976,
+      "uniquePositions": 1006
+    },
+    {
+      "hat": "beanie",
+      "expandedVertices": 6288,
+      "indexedVertices": 1066,
+      "triangles": 2096,
+      "uniquePositions": 1066
+    },
+    {
+      "hat": "bowler",
+      "expandedVertices": 6288,
+      "indexedVertices": 1066,
+      "triangles": 2096,
+      "uniquePositions": 1066
+    },
+    {
+      "hat": "sunhat",
+      "expandedVertices": 6144,
+      "indexedVertices": 1042,
+      "triangles": 2048,
+      "uniquePositions": 1042
+    }
+  ],
+  "exports": [
+    {
+      "pattern": 0,
+      "hat": "cap",
+      "glasses": "square",
+      "posed": false,
+      "triangles": 2004,
+      "expandedVertices": 6012,
+      "indexedVertices": 1044,
+      "bytes": 63812
+    },
+    {
+      "pattern": 3,
+      "hat": "bucket",
+      "glasses": "round",
+      "posed": false,
+      "triangles": 21284,
+      "expandedVertices": 63852,
+      "indexedVertices": 10660,
+      "bytes": 641360
+    },
+    {
+      "pattern": 7,
+      "hat": "beanie",
+      "glasses": "catEye",
+      "posed": false,
+      "triangles": 21356,
+      "expandedVertices": 64068,
+      "indexedVertices": 10696,
+      "bytes": 643524
+    },
+    {
+      "pattern": 6,
+      "hat": "sunhat",
+      "glasses": "aviator",
+      "posed": true,
+      "triangles": 21428,
+      "expandedVertices": 64284,
+      "indexedVertices": 10734,
+      "bytes": 645772
+    }
+  ],
+  "flatGearTrianglesChecked": 528,
+  "smoothEyeLensVerticesChecked": 576
+}

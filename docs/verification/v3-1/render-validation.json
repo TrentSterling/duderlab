@@ -1,0 +1,297 @@
+{
+  "version": "3.1.0",
+  "verificationScope": "Actual captured WebGL2 application shaders, buffers, element indices and state replayed on Mesa llvmpipe OpenGL ES 3.2; not browser input or hardware performance.",
+  "sourceHashes": {
+    "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+    "core.js": "232661e2ca5dfba9be5bdcddec960e049be4ae9ffcd17aa8b3695970bc7b1ca7",
+    "shell.js": "71e8dde46bfb76a09100c2d5247fc147529dfd8162f7115d799f11427396cd8d",
+    "geometry.js": "1b676e78ac8e215b00598b3dd6f093112b4979188590402e1e0caded21d0481e",
+    "animation.js": "0c4ef154423d759f0674233d9ee99d3669667468aa8eeb1267455949676f8f07",
+    "renderer.js": "54d62fcd3d810d48f372126c79194cfbfb19160f41495e8539590605dae90f82",
+    "ui.js": "71150e93baad2ea0b0701be010b64b3fb9a3b8b3ed3bcb59e6eb5a0837ff12ab"
+  },
+  "renderer": {
+    "vendor": "Mesa",
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+    "shading_language": "OpenGL ES GLSL ES 3.20",
+    "egl_version": "1.5"
+  },
+  "gallery": {
+    "duders": 16,
+    "triangles": 28280,
+    "indexedVertices": 14494,
+    "expandedVertices": 84840,
+    "vertexRecordReductionPercent": 82.916,
+    "indices": 84840,
+    "indexType": "UNSIGNED_INT / Uint32Array",
+    "normalGeometryBytes": 1788760,
+    "equivalentExpandedGeometryBytes": 9502080,
+    "normalGeometryByteReductionPercent": 81.175,
+    "byteMetric": "Seven packed Float32 vertex attributes (100 bytes per indexed vertex) plus Uint32 indices; excludes optional wireframe buffers, textures and other renderer allocations.",
+    "wireframeAdditionalBytes": 9502080
+  },
+  "scenarios": [
+    {
+      "name": "final-gallery",
+      "stats": {
+        "count": 16,
+        "totalCount": 16,
+        "drawCalls": 4,
+        "triangles": 28280,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 14494,
+        "expandedVertices": 84840,
+        "indices": 84840,
+        "geometryBytes": 1788760
+      },
+      "drawCalls": 4,
+      "indexedDrawCalls": 2,
+      "passes": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "indices": 0,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 14494,
+          "indices": 84840,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 14494,
+          "indices": 84840,
+          "errors": []
+        },
+        {
+          "index": 3,
+          "method": "drawArrays",
+          "vertices": 5040,
+          "indices": 0,
+          "errors": []
+        }
+      ],
+      "wireUploaded": false,
+      "errors": []
+    },
+    {
+      "name": "final-wireframe",
+      "stats": {
+        "count": 16,
+        "totalCount": 16,
+        "drawCalls": 4,
+        "triangles": 28280,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 14494,
+        "expandedVertices": 84840,
+        "indices": 84840,
+        "geometryBytes": 1788760
+      },
+      "drawCalls": 4,
+      "indexedDrawCalls": 1,
+      "passes": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "indices": 0,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 14494,
+          "indices": 84840,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawArrays",
+          "vertices": 84840,
+          "indices": 0,
+          "errors": []
+        },
+        {
+          "index": 3,
+          "method": "drawArrays",
+          "vertices": 5040,
+          "indices": 0,
+          "errors": []
+        }
+      ],
+      "wireUploaded": true,
+      "errors": []
+    },
+    {
+      "name": "final-sumo-rig",
+      "stats": {
+        "count": 2,
+        "totalCount": 16,
+        "drawCalls": 5,
+        "triangles": 3464,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1804,
+        "expandedVertices": 10392,
+        "indices": 10392,
+        "geometryBytes": 221968
+      },
+      "drawCalls": 5,
+      "indexedDrawCalls": 2,
+      "passes": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "indices": 0,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 1804,
+          "indices": 10392,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 1804,
+          "indices": 10392,
+          "errors": []
+        },
+        {
+          "index": 3,
+          "method": "drawArrays",
+          "vertices": 2168,
+          "indices": 0,
+          "errors": []
+        },
+        {
+          "index": 4,
+          "method": "drawArrays",
+          "vertices": 4332,
+          "indices": 0,
+          "errors": []
+        }
+      ],
+      "wireUploaded": false,
+      "errors": []
+    },
+    {
+      "name": "final-pile",
+      "stats": {
+        "count": 8,
+        "totalCount": 16,
+        "drawCalls": 4,
+        "triangles": 14180,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 7248,
+        "expandedVertices": 42540,
+        "indices": 42540,
+        "geometryBytes": 894960
+      },
+      "drawCalls": 4,
+      "indexedDrawCalls": 2,
+      "passes": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "indices": 0,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 7248,
+          "indices": 42540,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 7248,
+          "indices": 42540,
+          "errors": []
+        },
+        {
+          "index": 3,
+          "method": "drawArrays",
+          "vertices": 4578,
+          "indices": 0,
+          "errors": []
+        }
+      ],
+      "wireUploaded": false,
+      "errors": []
+    }
+  ],
+  "indexedBatchValidation": {
+    "geometryStats": {
+      "count": 16,
+      "totalCount": 16,
+      "drawCalls": 3,
+      "triangles": 28280,
+      "fps": 0,
+      "offlineCapture": true,
+      "vertices": 14494,
+      "expandedVertices": 84840,
+      "indices": 84840,
+      "geometryBytes": 1788760
+    },
+    "normalDraws": [
+      "drawArrays",
+      "drawElements",
+      "drawElements"
+    ],
+    "wireDraws": [
+      "drawArrays",
+      "drawElements",
+      "drawArrays"
+    ],
+    "comparedFloatAttributes": 2121000,
+    "indexOffsetsPreserveEveryAttribute": true,
+    "normalGpuBytes": 1788760,
+    "expandedGpuBytes": 9502080,
+    "wireBuffers": 8,
+    "indexedVsExpandedIdenticalPixels": true,
+    "pixelSize": [
+      1200,
+      900
+    ]
+  },
+  "hatComparisons": {
+    "styles": [
+      "cap",
+      "bucket",
+      "beanie",
+      "bowler",
+      "sunhat"
+    ],
+    "views": [
+      "front",
+      "side",
+      "back"
+    ],
+    "beforeAfterRenders": 30,
+    "GL_errors": 0,
+    "visualInspection": "Shared gear shading is smooth; no background-colored face cracks observed in these views. Cap crown and visor remain overlapping closed solids."
+  },
+  "shaderValidation": {
+    "allStagesCompiledAndLinked": true,
+    "logs": [
+      "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+    ],
+    "note": "Existing Mesa static-analysis warnings for vertex shader globals remain; globals are assigned in main before field/gradient use. No compilation, linking or draw errors."
+  }
+}

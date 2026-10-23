@@ -27,7 +27,7 @@ const constants={
   UNPACK_FLIP_Y_WEBGL:0x9240,UNPACK_PREMULTIPLY_ALPHA_WEBGL:0x9241,UNPACK_ALIGNMENT:0x0CF5,
   MAX_TEXTURE_SIZE:0x0D33,MAX_VERTEX_TEXTURE_IMAGE_UNITS:0x8B4C,MAX_TEXTURE_IMAGE_UNITS:0x8872,
   CURRENT_PROGRAM:0x8B8D,VERTEX_ARRAY_BINDING:0x85B5,VIEWPORT:0x0BA2,
-  ACTIVE_TEXTURE:0x84E0,TEXTURE_BINDING_2D:0x8069,ARRAY_BUFFER_BINDING:0x8894,
+  ACTIVE_TEXTURE:0x84E0,TEXTURE_BINDING_2D:0x8069,ARRAY_BUFFER_BINDING:0x8894,ELEMENT_ARRAY_BUFFER_BINDING:0x8895,
   NO_ERROR:0
 };
 const clone=v=>JSON.parse(JSON.stringify(v));
@@ -40,7 +40,7 @@ function rawBytes(view){
 }
 
 export function mockGL(width,height){
-  let serial=0,program=null,arrayBuffer=null,vao=null,activeUnit=0;
+  let serial=0,program=null,arrayBuffer=null,defaultElements=null,vao=null,activeUnit=0;
   const boundTextures=new Map(),draws=[],pixelStore={};
   const state={viewport:[0,0,width,height],depthTest:false,depthMask:true,depthFunc:constants.LESS,cullFaceEnabled:false,cullFace:constants.BACK,blend:false,blendFunc:[constants.ONE,constants.ZERO],scissorTest:false};
   const clear={color:[0,0,0,0],depth:1};
@@ -49,9 +49,10 @@ export function mockGL(width,height){
     createShader(type){return {...create('shader'),type,source:''};},shaderSource(s,source){s.source=source;},compileShader(){},getShaderParameter(){return true;},getShaderInfoLog(){return '';},deleteShader(){},
     createProgram(){return {...create('program'),shaders:[],uniforms:{}};},attachShader(p,s){p.shaders.push(s);},linkProgram(){},getProgramParameter(){return true;},getProgramInfoLog(){return '';},deleteProgram(){},useProgram(p){program=p;},
     getUniformLocation(p,name){return {program:p,name};},
-    createVertexArray(){return {...create('vao'),attributes:{}};},bindVertexArray(v){vao=v;},deleteVertexArray(){},
-    createBuffer(){return {...create('buffer'),data:Buffer.alloc(0)};},bindBuffer(target,b){if(target!==constants.ARRAY_BUFFER)throw Error('Unexpected buffer target '+target);arrayBuffer=b;},deleteBuffer(){},
-    bufferData(target,data,usage){if(!arrayBuffer)throw Error('No bound ARRAY_BUFFER');arrayBuffer.data=rawBytes(data);arrayBuffer.usage=usage;},
+    createVertexArray(){return {...create('vao'),attributes:{},elementBuffer:null};},bindVertexArray(v){vao=v;},deleteVertexArray(){},
+    createBuffer(){return {...create('buffer'),data:Buffer.alloc(0)};},
+    bindBuffer(target,b){if(target===constants.ARRAY_BUFFER)arrayBuffer=b;else if(target===constants.ELEMENT_ARRAY_BUFFER){if(vao)vao.elementBuffer=b;else defaultElements=b;}else throw Error('Unexpected buffer target '+target);},deleteBuffer(){},
+    bufferData(target,data,usage){const buffer=target===constants.ARRAY_BUFFER?arrayBuffer:target===constants.ELEMENT_ARRAY_BUFFER?(vao?vao.elementBuffer:defaultElements):null;if(!buffer)throw Error('No bound buffer for target '+target);buffer.data=rawBytes(data);buffer.usage=usage;},
     enableVertexAttribArray(loc){if(!vao)throw Error('Attribute without VAO');vao.attributes[loc]??={};vao.attributes[loc].enabled=true;},
     disableVertexAttribArray(loc){if(vao?.attributes[loc])vao.attributes[loc].enabled=false;},
     vertexAttribPointer(loc,size,type,normalized,stride,offset){if(!vao||!arrayBuffer)throw Error('Attribute pointer missing VAO or buffer');vao.attributes[loc]={...vao.attributes[loc],buffer:arrayBuffer,size,type,normalized,stride,offset};},
@@ -76,23 +77,36 @@ export function mockGL(width,height){
     disable(cap){switch(cap){case constants.DEPTH_TEST:state.depthTest=false;break;case constants.CULL_FACE:state.cullFaceEnabled=false;break;case constants.BLEND:state.blend=false;break;case constants.SCISSOR_TEST:state.scissorTest=false;break;default:throw Error('Unknown disable '+cap);}},
     isEnabled(cap){return cap===constants.DEPTH_TEST?state.depthTest:cap===constants.CULL_FACE?state.cullFaceEnabled:cap===constants.BLEND?state.blend:state.scissorTest;},
     getError(){return 0;},
-    getParameter(p){switch(p){case constants.MAX_TEXTURE_SIZE:return 16384;case constants.MAX_VERTEX_TEXTURE_IMAGE_UNITS:case constants.MAX_TEXTURE_IMAGE_UNITS:return 32;case constants.CURRENT_PROGRAM:return program;case constants.VERTEX_ARRAY_BINDING:return vao;case constants.VIEWPORT:return state.viewport;case constants.ACTIVE_TEXTURE:return constants.TEXTURE0+activeUnit;case constants.TEXTURE_BINDING_2D:return boundTextures.get(activeUnit);case constants.ARRAY_BUFFER_BINDING:return arrayBuffer;default:throw Error('Unhandled getParameter '+p);}},
+    getParameter(p){switch(p){case constants.MAX_TEXTURE_SIZE:return 16384;case constants.MAX_VERTEX_TEXTURE_IMAGE_UNITS:case constants.MAX_TEXTURE_IMAGE_UNITS:return 32;case constants.CURRENT_PROGRAM:return program;case constants.VERTEX_ARRAY_BINDING:return vao;case constants.VIEWPORT:return state.viewport;case constants.ACTIVE_TEXTURE:return constants.TEXTURE0+activeUnit;case constants.TEXTURE_BINDING_2D:return boundTextures.get(activeUnit);case constants.ARRAY_BUFFER_BINDING:return arrayBuffer;case constants.ELEMENT_ARRAY_BUFFER_BINDING:return vao?vao.elementBuffer:defaultElements;default:throw Error('Unhandled getParameter '+p);}},
     drawArrays(mode,first,count){
       if(!program)throw Error('drawArrays without program');
       gl.drawCount++;if(!gl.captureDraws)return;
-      const attributes=[];
-      for(const [location,a] of Object.entries(vao?.attributes||{})){
-        if(!a.enabled)continue;if(a.type!==constants.FLOAT)throw Error('Nonfloat attribute not supported');
-        const stride=a.stride||a.size*4,packed=Buffer.alloc(count*a.size*4),src=a.buffer.data;
-        for(let i=0;i<count;i++)for(let c=0;c<a.size;c++){
-          const off=a.offset+(first+i)*stride+c*4;if(off+4>src.length)throw Error('Attribute buffer overrun');packed.writeFloatLE(src.readFloatLE(off),(i*a.size+c)*4);
-        }
-        attributes.push({loc:Number(location),size:a.size,type:a.type,normalized:a.normalized,encoding:'float32',data:packed.toString('base64')});
-      }
-      const textures=[];for(const [unit,t]of boundTextures)if(t?.width)textures.push({unit,target:t.target,internalFormat:t.internalFormat,format:t.format,type:t.type,width:t.width,height:t.height,encoding:t.encoding,data:t.data,parameters:{...t.parameters},flipY:!!t.flipY,premultiplyAlpha:!!t.premultiplyAlpha});
-      draws.push({vs:program.shaders.find(s=>s.type===constants.VERTEX_SHADER)?.source,fs:program.shaders.find(s=>s.type===constants.FRAGMENT_SHADER)?.source,uniforms:clone(program.uniforms),attributes,textures,state:clone(state),mode,first:0,count});
+      recordDraw({method:'drawArrays',mode,first,count,vertexCount:count,uniqueVertices:count});
+    },
+    drawElements(mode,count,type,offset){
+      if(!program)throw Error('drawElements without program');
+      const buffer=vao?vao.elementBuffer:defaultElements;if(!buffer)throw Error('drawElements without ELEMENT_ARRAY_BUFFER');
+      gl.drawCount++;if(!gl.captureDraws)return;
+      const bytes=type===constants.UNSIGNED_INT?4:type===constants.UNSIGNED_SHORT?2:type===constants.UNSIGNED_BYTE?1:0;
+      if(!bytes||offset%bytes!==0||offset<0||count<0||offset+count*bytes>buffer.data.length)throw Error('Invalid element type, offset or count');
+      const packed=buffer.data.subarray(offset,offset+count*bytes),used=new Set();let vertexCount=0;
+      for(let i=0;i<count;i++){const index=packed.readUIntLE(i*bytes,bytes);used.add(index);vertexCount=Math.max(vertexCount,index+1);}
+      recordDraw({method:'drawElements',mode,first:0,count,vertexCount,uniqueVertices:used.size,indices:{type,encoding:'uint'+bytes*8,offset:0,data:packed.toString('base64')}});
     }
   };
+  function recordDraw(spec){
+    const attributes=[];
+    for(const [location,a] of Object.entries(vao?.attributes||{})){
+      if(!a.enabled)continue;if(a.type!==constants.FLOAT)throw Error('Nonfloat attribute not supported');
+      const stride=a.stride||a.size*4,packed=Buffer.alloc(spec.vertexCount*a.size*4),src=a.buffer.data;
+      for(let i=0;i<spec.vertexCount;i++){
+        const off=a.offset+(spec.first+i)*stride;if(off+a.size*4>src.length)throw Error('Attribute buffer overrun');src.copy(packed,i*a.size*4,off,off+a.size*4);
+      }
+      attributes.push({loc:Number(location),size:a.size,type:a.type,normalized:a.normalized,encoding:'float32',data:packed.toString('base64')});
+    }
+    const textures=[];for(const [unit,t]of boundTextures)if(t?.width)textures.push({unit,target:t.target,internalFormat:t.internalFormat,format:t.format,type:t.type,width:t.width,height:t.height,encoding:t.encoding,data:t.data,parameters:{...t.parameters},flipY:!!t.flipY,premultiplyAlpha:!!t.premultiplyAlpha});
+    draws.push({vs:program.shaders.find(s=>s.type===constants.VERTEX_SHADER)?.source,fs:program.shaders.find(s=>s.type===constants.FRAGMENT_SHADER)?.source,uniforms:clone(program.uniforms),attributes,textures,state:clone(state),...spec,first:0});
+  }
   for(const type of ['1i','1f','2f','3f','4f','1iv','2iv','3iv','4iv','1fv','2fv','3fv','4fv'])gl['uniform'+type]=(loc,...value)=>{if(!loc)return;loc.program.uniforms[loc.name]={type,value:type.endsWith('v')?Array.from(value[0]):value};};
   gl.uniformMatrix4fv=(loc,transpose,value)=>{loc.program.uniforms[loc.name]={type:'Matrix4fv',transpose:!!transpose,value:Array.from(value)};};
   return {gl,draws,clear};
@@ -116,7 +130,7 @@ export async function createCaptureSession(options={}){
   const recipes=context.DuderCore.presets(),selected=options.selected??0,mode=options.physicsMode||options.motionClip?'focus':options.mode||'gallery';
   if(options.recipe)recipes[selected]=context.DuderCore.sanitizeRecipe({...recipes[selected],...options.recipe});
   const ids=options.physicsMode==='sumo'?[selected,(selected+1)%16]:options.physicsMode==='pile'?Array.from({length:options.pileCount||8},(_,i)=>(selected+i)%16):mode==='focus'?[selected]:recipes.map((_,i)=>i);
-  const state={tab:options.tab||(options.physicsMode?'physics':options.motionClip?'motion':'shape'),mode,selected,panelOpen:!!options.panelOpen,helpOpen:false,autoSpin:false,animate:options.animate!==false,smooth:!!options.smooth,wireframe:false,outlines:options.outlines!==false,outlineWidth:options.outlineWidth??2.2,projectionStrength:options.projectionStrength??.55,showRig:options.showRig??(!!options.physicsMode&&options.physicsMode!=='pile'),physicsEnabled:!!options.physicsMode,physicsMode:options.physicsMode||'ragdoll',physicsPaused:false,pileCount:options.pileCount||8,motionEnabled:!!options.motionClip,motionClip:options.motionClip||'idle',motionTime:0,motionSpeed:options.motionSpeed??1,motionAmplitude:options.motionAmplitude??1,motionPlaying:true,poseById:{},toast:'',dt:0,stats:{count:ids.length,totalCount:16,drawCalls:4,triangles:0,fps:0,offlineCapture:true}};
+  const state={tab:options.tab||(options.physicsMode?'physics':options.motionClip?'motion':'shape'),mode,selected,panelOpen:!!options.panelOpen,helpOpen:false,autoSpin:false,animate:options.animate!==false,smooth:options.smooth!==false,wireframe:!!options.wireframe,outlines:options.outlines!==false,outlineWidth:options.outlineWidth??2.2,projectionStrength:options.projectionStrength??.55,showRig:options.showRig??(!!options.physicsMode&&options.physicsMode!=='pile'),physicsEnabled:!!options.physicsMode,physicsMode:options.physicsMode||'ragdoll',physicsPaused:false,pileCount:options.pileCount||8,motionEnabled:!!options.motionClip,motionClip:options.motionClip||'idle',motionTime:0,motionSpeed:options.motionSpeed??1,motionAmplitude:options.motionAmplitude??1,motionPlaying:true,poseById:{},toast:'',dt:0,stats:{count:ids.length,totalCount:16,drawCalls:4,triangles:0,fps:0,offlineCapture:true}};
   const renderer=new context.DuderRenderer(canvas),ui=new context.DuderUI(gl,canvas,()=>{});await ui.ready;
   let physics=null,simulationTime=0;
   if(options.physicsMode){
@@ -145,7 +159,7 @@ export async function createCaptureSession(options={}){
       state.motionDuration=context.DuderAnimation.clips.find(c=>c.id===state.motionClip).duration;state.motionProgress=(state.motionTime%state.motionDuration)/state.motionDuration;
     }
     draws.length=0;gl.drawCount=0;renderer.draw(state,recipes,time,viewport);
-    state.stats.count=activeCount;state.stats.triangles=renderer.triangles;state.stats.drawCalls=renderer.drawCalls+(options.onlyScene?0:1);state.labels=renderer.labels(recipes,mode,selected);
+    state.stats.count=activeCount;state.stats.triangles=renderer.triangles;state.stats.drawCalls=renderer.drawCalls+(options.onlyScene?0:1);state.stats.vertices=renderer.vertexCount;state.stats.expandedVertices=renderer.expandedVertexCount;state.stats.indices=renderer.indexCount;state.stats.geometryBytes=renderer.gpuGeometryBytes;state.labels=renderer.labels(recipes,mode,selected);
     if(!options.onlyScene)ui.draw(state,width,height);
     const expected=2+(state.outlines?1:0)+((state.physicsEnabled||state.motionEnabled)&&state.showRig?1:0)+(options.onlyScene?0:1);
     if(draws.length!==expected)throw Error('Expected '+expected+' draw calls, received '+draws.length);

@@ -1,0 +1,221 @@
+{
+  "shapes": 35,
+  "totalTriangles": 76452,
+  "maxRefinements": 4,
+  "maxMs": 1873.48,
+  "defaultUnderarmSignedDistance": 0.07690578358503608,
+  "neutralGlbBytes": 54112,
+  "checks": [
+    {
+      "index": 0,
+      "triangles": 796,
+      "refinements": 0,
+      "ms": 157.08
+    },
+    {
+      "index": 1,
+      "triangles": 1284,
+      "refinements": 0,
+      "ms": 212.35
+    },
+    {
+      "index": 2,
+      "triangles": 2344,
+      "refinements": 0,
+      "ms": 249.72
+    },
+    {
+      "index": 3,
+      "triangles": 2924,
+      "refinements": 0,
+      "ms": 352.29
+    },
+    {
+      "index": 4,
+      "triangles": 1696,
+      "refinements": 0,
+      "ms": 149.66
+    },
+    {
+      "index": 5,
+      "triangles": 1048,
+      "refinements": 0,
+      "ms": 109.1
+    },
+    {
+      "index": 6,
+      "triangles": 992,
+      "refinements": 0,
+      "ms": 105.96
+    },
+    {
+      "index": 7,
+      "triangles": 2068,
+      "refinements": 0,
+      "ms": 207.59
+    },
+    {
+      "index": 8,
+      "triangles": 1620,
+      "refinements": 0,
+      "ms": 116.63
+    },
+    {
+      "index": 9,
+      "triangles": 1220,
+      "refinements": 0,
+      "ms": 154.04
+    },
+    {
+      "index": 10,
+      "triangles": 696,
+      "refinements": 0,
+      "ms": 89.53
+    },
+    {
+      "index": 11,
+      "triangles": 1972,
+      "refinements": 0,
+      "ms": 216.89
+    },
+    {
+      "index": 12,
+      "triangles": 2324,
+      "refinements": 0,
+      "ms": 212.07
+    },
+    {
+      "index": 13,
+      "triangles": 2300,
+      "refinements": 0,
+      "ms": 253.7
+    },
+    {
+      "index": 14,
+      "triangles": 1576,
+      "refinements": 0,
+      "ms": 173.99
+    },
+    {
+      "index": 15,
+      "triangles": 2632,
+      "refinements": 0,
+      "ms": 262.95
+    },
+    {
+      "index": 16,
+      "triangles": 1436,
+      "refinements": 0,
+      "ms": 102.53
+    },
+    {
+      "index": 17,
+      "triangles": 2160,
+      "refinements": 0,
+      "ms": 165.87
+    },
+    {
+      "index": 18,
+      "triangles": 2184,
+      "refinements": 0,
+      "ms": 182.41
+    },
+    {
+      "index": 19,
+      "triangles": 2128,
+      "refinements": 0,
+      "ms": 203.97
+    },
+    {
+      "index": 20,
+      "triangles": 1604,
+      "refinements": 0,
+      "ms": 107.68
+    },
+    {
+      "index": 21,
+      "triangles": 6164,
+      "refinements": 4,
+      "ms": 859.48
+    },
+    {
+      "index": 22,
+      "triangles": 696,
+      "refinements": 0,
+      "ms": 53.44
+    },
+    {
+      "index": 23,
+      "triangles": 1904,
+      "refinements": 0,
+      "ms": 131.61
+    },
+    {
+      "index": 24,
+      "triangles": 2248,
+      "refinements": 0,
+      "ms": 154.15
+    },
+    {
+      "index": 25,
+      "triangles": 1340,
+      "refinements": 1,
+      "ms": 131.62
+    },
+    {
+      "index": 26,
+      "triangles": 628,
+      "refinements": 0,
+      "ms": 47.18
+    },
+    {
+      "index": 27,
+      "triangles": 13104,
+      "refinements": 4,
+      "ms": 1873.48
+    },
+    {
+      "index": 28,
+      "triangles": 1480,
+      "refinements": 0,
+      "ms": 100.39
+    },
+    {
+      "index": 29,
+      "triangles": 2292,
+      "refinements": 0,
+      "ms": 203.33
+    },
+    {
+      "index": 30,
+      "triangles": 2200,
+      "refinements": 0,
+      "ms": 165.67
+    },
+    {
+      "index": 31,
+      "triangles": 1808,
+      "refinements": 0,
+      "ms": 167.35
+    },
+    {
+      "index": 32,
+      "triangles": 1380,
+      "refinements": 0,
+      "ms": 120.76
+    },
+    {
+      "index": 33,
+      "triangles": 2752,
+      "refinements": 0,
+      "ms": 173.22
+    },
+    {
+      "index": 34,
+      "triangles": 1452,
+      "refinements": 0,
+      "ms": 98.4
+    }
+  ],
+  "failed": []
+}

@@ -1,8 +1,8 @@
 # Duder Lab
 
-An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current baseline: **V3**.
+An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.1 — Smooth Duders**.
 
-![Eight ragdolls in the bean pile](docs/media/v3-pile-proof-frame-107.png)
+![Sixteen smooth duders with welded geometry and shell outlines](docs/media/v3-1-smooth-gallery.png)
 
 ## Run
 
@@ -35,7 +35,28 @@ Python 3 is the only build dependency:
 python3 build.py
 ```
 
-On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3.html`, and `dist/index.html`. UTF-8 is explicit, and the output directory is created automatically.
+On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-1.html`, and `dist/index.html`. UTF-8 is explicit, and the output directory is created automatically.
+
+## V3.1: smooth shading and welded geometry
+
+- Smooth shading is enabled by default for the body and all gear. The Preview toggle still provides flat shading.
+- Coincident positions are canonicalized before shared normals are calculated. Accessories use angle-weighted normals across adjacent faces and color boundaries; the body retains its SDF gradient normals.
+- Compatible vertex records are welded into indexed buffers. Both the fill and outline use `drawElements` on the same character batch. Color, material, and skinning boundaries keep any distinct attributes they need, while matching positions and smooth normals stay aligned.
+- The cap visor now tapers to exact shared endpoints, closing the gaps at its two ends. Solid sunglass lenses now include their missing perimeter walls. Revolved seams and poles use exact shared coordinates.
+- GLB export also welds matching position, normal, and color records and writes an indexed mesh. The current shading choice and posed shape are preserved.
+
+For the default 16-duder gallery, the same V3.1 mesh has the following storage cost:
+
+| Geometry layout | Vertex records | Geometry buffer bytes |
+| --- | ---: | ---: |
+| Expanded triangle layout | 84,840 | 9,502,080 |
+| Indexed normal rendering | 14,494 | 1,788,760 |
+
+That is **82.9% fewer vertex records** and **81.2% less GPU geometry-buffer storage**, including the index buffer. This comparison excludes textures and UI buffers. Wireframe mode lazily uploads an additional expanded copy because barycentric wire edges require per-triangle attributes. These are storage measurements, not hardware FPS claims.
+
+The body and wearables remain separate, closed components where appropriate. Welding shared vertices does not perform a Boolean union of intersecting solids; hat trim, brims, and the body are not remeshed into one watertight CAD object.
+
+The [cap comparison](docs/media/v3-1-cap-comparison.png) and [bucket-hat comparison](docs/media/v3-1-bucket-comparison.png) show V3 above V3.1 from three angles.
 
 ## Implementation
 
@@ -43,7 +64,7 @@ On Windows, `py -3 build.py` works with the Python launcher. The script writes `
 - Procedural skin patterns sample rest-space coordinates.
 - Each ragdoll has seven bodies and six joints. Cannon-es runs at a fixed 120 Hz simulation step.
 - Pile mode uses smaller collision proxies and staggered spawns; its optional 16-bean setting has 112 rigid bodies and 96 joints.
-- V3 outlines use a shared-position extrusion-normal weld after geometry assembly. Flat lighting normals remain separate. This is not a Boolean union of the body and wearables.
+- Shell outlines use shared smooth extrusion normals after geometry assembly. Fill and outline geometry share the indexed render path.
 - Bodies, eyes, and accessories share one fill draw. The stage, outline, and GPU glyph UI bring the total to four draws. The optional rig overlay adds one. More beans still increase physics and triangle work.
 - JSON exports retain editable recipes. GLB exports bake the current pose into one static mesh/material; runtime joints and a glTF skeleton are not exported.
 
@@ -58,10 +79,12 @@ node qa/check-animation.mjs
 node qa/check-physics.mjs
 node qa/check-pile.mjs
 node qa/check-outline-weld.mjs
+node qa/check-hat-topology.mjs
+node qa/check-welded-mesh.mjs
 node qa/check-ui-v3.mjs
 ```
 
-V3's recorded results are in `docs/verification/`. They cover 43 application interactions, shell connectivity and skin weights, animation continuity, ragdoll/pile stability, 90 wearable/detail combinations, and responsive UI routes. The interaction harness mocks DOM/WebGL transport; it does not replace a browser test.
+Recorded results are in `docs/verification/v3-1/`, with the original baseline in `docs/verification/v3/`. The V3.1 checks cover application interactions, shell connectivity and skin weights, animation continuity, 102 gear/dimension combinations with indexed reconstruction, 45 hat topology variants, smooth and posed GLB exports, and responsive UI routes. The interaction harness mocks DOM/WebGL transport; it does not replace a browser test. The render report separately records actual software GLES shader compilation and indexed draws.
 
 [Watch or download the V3 motion proof](docs/media/duder-v3-motion.mp4). It replays actual application shaders and simulation using software GLES. It is not a hardware FPS benchmark.
 

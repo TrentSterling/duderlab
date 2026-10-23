@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="dark"><meta name="description" content="Duder Lab V3: offline parametric beans, stable bone skinning plus SDF shells, rigid-body ragdolls, active sumo, bean piles, procedural animation, welded shell outlines, and posed GLB export.">
-<meta name="theme-color" content="#14171a"><title>Duder Lab V3 — Motion & Bean Piles</title>
+<meta name="color-scheme" content="dark"><meta name="description" content="Duder Lab V3.1: offline parametric beans, smooth welded geometry, closed wearable meshes, SDF shell outlines, rigid-body ragdolls, sumo, bean piles, procedural animation, and posed GLB export.">
+<meta name="theme-color" content="#14171a"><title>Duder Lab V3.1 — Smooth Duders</title>
 <style>*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#14171a}#duder{width:100%;height:100%;display:block;touch-action:none;outline:none}#fallback{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#161c20;color:#eef1dc;padding:24px;max-width:580px;border:1px solid #55613f;border-radius:12px;font:16px/1.5 system-ui,sans-serif}#fallback[hidden]{display:none}</style>
-</head><body><canvas id="duder" tabindex="0" role="application" aria-label="Duder Lab V3 interactive 3D bean generator and physics playground. B starts a bean pile, M opens animation, S starts sumo, P releases to ragdoll, Space pauses motion, left drag grabs, right drag orbits, X shows the rig, O toggles shell outlines. G gallery, F frame, R reroll, question mark help."></canvas><div id="fallback">Preparing the duder workshop…</div>
+</head><body><canvas id="duder" tabindex="0" role="application" aria-label="Duder Lab V3.1 interactive 3D bean generator and physics playground. B starts a bean pile, M opens animation, S starts sumo, P releases to ragdoll, Space pauses motion, left drag grabs, right drag orbits, X shows the rig, O toggles shell outlines. G gallery, F frame, R reroll, question mark help."></canvas><div id="fallback">Preparing the duder workshop…</div>
 <!-- This file is completely self-contained: no imports, CDNs, fetches, or external assets.
 Original rendering/character UI: Duder Lab, made for Trent Sterling.
 SDF blend-shell projection adapted from https://github.com/TrentSterling/critters .
@@ -13380,7 +13380,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const v=[m[0],m[4],m[8],0,m[1],m[5],m[9],0,m[2],m[6],m[10],0,0,0,0,1],t=transformVector(v,[m[12],m[13],m[14]]);
     v[12]=-t[0];v[13]=-t[1];v[14]=-t[2];return v;
   }
-  function bake(geometry,recipe,smoothNormals=false,pose=null) {
+  function bake(geometry,recipe,smoothNormals=true,pose=null) {
     const r=sanitizeRecipe(recipe),parts=primitives(r),src=geometry.positions,ns=geometry.normals,cs=geometry.colors,meta=geometry.meta;
     if(!src||src.length%9!==0||!meta||meta.length!==src.length/3*4)throw new Error('Expected non-indexed DuderGeometry positions and vec4 meta.');
     const transforms=pose&&pose.transforms,posed=Array.isArray(transforms)&&transforms.length>=7,inv=posed?transforms.map(rigidInverse):null;
@@ -13398,14 +13398,14 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       for(const off of offsets){const d=posedField(p.map((v,k)=>v+off[k]));for(let k=0;k<3;k++)g[k]+=off[k]*d;}return norm(g);
     }
     const positions=[],normals=[],colors=[];
-    function emit(vs,body,flat,level){
+    function emit(vs,body,flat,level,kind){
       if(level>0){
         const midpoint=(a,b)=>({p:a.p.map((v,i)=>(v+b.p[i])*.5),rest:a.rest.map((v,i)=>(v+b.rest[i])*.5),n:norm(a.n.map((v,i)=>v+b.n[i])),c:a.c.map((v,i)=>(v+b.c[i])*.5),joint:(a.joint+b.joint)*.5});
         const ab=midpoint(vs[0],vs[1]),bc=midpoint(vs[1],vs[2]),ca=midpoint(vs[2],vs[0]);
-        emit([vs[0],ab,ca],body,flat,level-1);emit([ab,vs[1],bc],body,flat,level-1);emit([ca,bc,vs[2]],body,flat,level-1);emit([ab,bc,ca],body,flat,level-1);return;
+        emit([vs[0],ab,ca],body,flat,level-1,kind);emit([ab,vs[1],bc],body,flat,level-1,kind);emit([ca,bc,vs[2]],body,flat,level-1,kind);emit([ab,bc,ca],body,flat,level-1,kind);return;
       }
       for(const v of vs){
-        const n=body&&!smoothNormals?norm(flat.map((x,i)=>mix(x,v.n[i],v.joint*.97))):v.n;
+        const n=!smoothNormals?(body?norm(flat.map((x,i)=>mix(x,v.n[i],v.joint*.97))):kind===1?flat:v.n):v.n;
         positions.push(...v.p);normals.push(...n);colors.push(...(body?skinColor(v.rest,r):v.c));
       }
     }
@@ -13432,27 +13432,39 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       }
       let flat=norm(cross(sub(vs[1].p,vs[0].p),sub(vs[2].p,vs[0].p)));
       if(body && dot(flat,vs[0].n)<0)flat=flat.map(x=>-x);
-      emit(vs,body,flat,body&&r.pattern!==0?2:0);
+      emit(vs,body,flat,body&&r.pattern!==0?2:0,meta[vi*4+2]);
     }
     return {positions:new Float32Array(positions),normals:new Float32Array(normals),colors:new Float32Array(colors),triangles:positions.length/9,poseApplied:posed};
   }
   function glb(baked,recipe) {
-    const r=sanitizeRecipe(recipe),pos=baked.positions,nor=baked.normals,col=baked.colors,count=pos.length/3;
-    if(!Number.isInteger(count)||nor.length!==pos.length||col.length!==pos.length)throw new Error('GLB attributes must have equal vertex counts.');
+    const r=sanitizeRecipe(recipe),source=[baked.positions,baked.normals,baked.colors],sourceCount=source[0].length/3;
+    if(!Number.isInteger(sourceCount)||source.some(a=>a.length!==source[0].length))throw new Error('GLB attributes must have equal vertex counts.');
+    // The bake remains expanded for per-triangle pattern subdivision and QA.
+    // Compact the final POSITION/NORMAL/COLOR records for the exported mesh,
+    // preserving intentional color or normal seams without moving vertices.
+    const packed=[[],[],[]],indices=new Uint32Array(sourceCount),seen=new Map();
+    for(let i=0;i<sourceCount;i++){
+      const values=source.flatMap(a=>Array.from(a.subarray(i*3,i*3+3)));
+      if(!values.every(Number.isFinite))throw new Error('Non-finite export attribute.');
+      const key=values.join(',');let index=seen.get(key);
+      if(index===undefined){index=seen.size;seen.set(key,index);for(let a=0;a<3;a++)packed[a].push(...values.slice(a*3,a*3+3));}
+      indices[i]=index;
+    }
+    const [pos,nor,col]=packed.map(a=>new Float32Array(a)),count=pos.length/3;
     const linear=new Float32Array(col.length);for(let i=0;i<col.length;i++){const c=clamp(col[i],0,1);linear[i]=c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4);}
     const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];
     for(let i=0;i<pos.length;i++){if(!Number.isFinite(pos[i]))throw new Error('Non-finite export vertex.');min[i%3]=Math.min(min[i%3],pos[i]);max[i%3]=Math.max(max[i%3],pos[i]);}
-    const arrays=[pos,nor,linear],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
+    const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
-    for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 2.0'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'}],extras:{recipe:r,notes:'Static coherent Surface Nets tessellation of the SDF body, projected with the Critters blend-shell technique. Rigid accessories remain separate surfaces. This visual mesh is not a CAD B-rep or a rig. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.1'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'2.0',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.1.0',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
@@ -13634,7 +13646,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   const sub = (a, b) => [a[0]-b[0], a[1]-b[1], a[2]-b[2]];
   const dot = (a, b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
   const cross = (a,b) => [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
-  const norm = v => { const d=Math.hypot(...v)||1; return v.map(x=>x/d); };
+  const norm = v => { const d=Math.hypot(...v); return d>1e-12?v.map(x=>x/d):[0,1,0]; };
   const mixCol = (a,b,t) => a.map((x,i)=>x+(b[i]-x)*t);
   const validCol = (v, fallback) => Array.isArray(v)&&v.length>=3 ? v.slice(0,3).map(x=>clamp(Number(x)||0,0,1)) : fallback;
   const DARK = [0.025,0.032,0.045];
@@ -13676,37 +13688,68 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       this.triFacing(a,b,c,dir,color,kind,rough);this.triFacing(a,c,d,dir,color,kind,rough);
     }
     finish() {
-      // Keep flat lighting normals, but weld the extrusion direction at shared
-      // positions. Angle weighting is independent of triangle area/diagonal and
-      // closes the cracks that per-face hull expansion opens at hat/frame edges.
+      // Canonicalize coincident positions before calculating either lighting or
+      // hull normals. Keep material/color splits, but give both sides of every
+      // such split exactly the same position and smooth extrusion direction.
+      // Body coordinates are in unscaled SDF space; accessories are already in
+      // physical space, so those surfaces must not share a position bucket.
       const count=this.p.length/3,keys=new Array(count),welded=new Map();
       for(let i=0;i<count;i++){
         const off=i*3,key=this.outlineGroups[i]+':'+this.m[i*4+2]+':'+this.p.slice(off,off+3).map(x=>Math.round(x*1e6)).join(',');
-        keys[i]=key;if(!welded.has(key))welded.set(key,[0,0,0]);
+        keys[i]=key;
+        if(!welded.has(key))welded.set(key,{p:this.p.slice(off,off+3).map(x=>Math.abs(x)<1e-10?0:Math.fround(x)),n:[0,0,0],fallback:norm(this.n.slice(off,off+3))});
+        const p=welded.get(key).p;for(let j=0;j<3;j++)this.p[off+j]=p[j];
       }
       for(let tri=0;tri<count;tri+=3){
         const pts=[0,1,2].map(i=>this.p.slice((tri+i)*3,(tri+i)*3+3));
         const face=norm(cross(sub(pts[1],pts[0]),sub(pts[2],pts[0])));
         for(let j=0;j<3;j++){
           const a=norm(sub(pts[(j+1)%3],pts[j])),b=norm(sub(pts[(j+2)%3],pts[j]));
-          const angle=Math.acos(clamp(dot(a,b),-1,1)),n=welded.get(keys[tri+j]);
+          const angle=Math.acos(clamp(dot(a,b),-1,1)),n=welded.get(keys[tri+j]).n;
           for(let k=0;k<3;k++)n[k]+=face[k]*angle;
         }
       }
       const outline=new Float32Array(count*4);
       for(let i=0;i<count;i++){
-        const n=this.m[i*4+1]>=0?this.n.slice(i*3,i*3+3):norm(welded.get(keys[i]));
+        const shared=welded.get(keys[i]);
+        // Preserve the body's smooth SDF gradient; angle-weight every CAD/gear
+        // surface, including poles, caps and material boundaries.
+        const n=this.m[i*4+1]>=0||Math.hypot(...shared.n)<1e-10?shared.fallback:norm(shared.n);
+        for(let j=0;j<3;j++)this.n[i*3+j]=n[j];
         outline.set([...n,this.outlineScales[i]],i*4);
       }
       return {positions:new Float32Array(this.p),normals:new Float32Array(this.n),colors:new Float32Array(this.c),
         meta:new Float32Array(this.m),bary:new Float32Array(this.b),outline,
         counts:{triangles:this.p.length/9,vertices:this.p.length/3,shellTriangles:this.shellTriangles,
-          accessoryTriangles:this.accessoryTriangles,eyeTriangles:this.eyeTriangles}};
+          accessoryTriangles:this.accessoryTriangles,eyeTriangles:this.eyeTriangles,uniquePositions:welded.size}};
     }
   }
 
+  function indexedGeometry(geometry) {
+    // WebGL indexes complete vertex records. A color/roughness boundary still
+    // needs separate records, while the canonical position and smooth normal
+    // remain identical. Barycentrics deliberately stay in the expanded copy for
+    // the optional wireframe view; they must not prevent normal-mode welding.
+    const attributes=[['positions',3],['normals',3],['colors',3],['meta',4],['skinIndices',4],['skinWeights',4],['outline',4]];
+    const packed=Object.fromEntries(attributes.map(([name])=>[name,[]]));
+    const count=geometry.positions.length/3,indices=new Uint32Array(count),seen=new Map();
+    for(let i=0;i<count;i++){
+      const key=attributes.map(([name,size])=>Array.from(geometry[name].subarray(i*size,(i+1)*size)).join(',')).join(';');
+      let index=seen.get(key);
+      if(index===undefined){
+        index=seen.size;seen.set(key,index);
+        for(const [name,size]of attributes)for(let j=0;j<size;j++)packed[name].push(geometry[name][i*size+j]);
+      }
+      indices[i]=index;
+    }
+    const out=Object.fromEntries(attributes.map(([name])=>[name,new Float32Array(packed[name])]));
+    out.indices=indices;
+    out.counts={...geometry.counts,vertices:seen.size,indices:indices.length,expandedVertices:count,weldedVerticesRemoved:count-seen.size};
+    return out;
+  }
+
   function sphere(B,center,scale,sides,rings,col,kind,rough,pid=-1,smooth=false) {
-    function point(i,j) {const t=PI*i/rings,a=TAU*j/sides;return [Math.sin(t)*Math.cos(a),Math.cos(t),Math.sin(t)*Math.sin(a)];}
+    function point(i,j) {if(i===0)return [0,1,0];if(i===rings)return [0,-1,0];const t=PI*i/rings,a=TAU*(j%sides)/sides;return [Math.sin(t)*Math.cos(a),Math.cos(t),Math.sin(t)*Math.sin(a)];}
     function emit(ua,ub,uc){
       const un=[ua,ub,uc],vs=un.map(q=>q.map((x,i)=>center[i]+x*scale[i]));
       const dir=vs[0].map((_,i)=>(vs[0][i]+vs[1][i]+vs[2][i])/3-center[i]);
@@ -13731,7 +13774,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       if(Math.abs(dr)+Math.abs(dy)<1e-8)continue;
       for(let i=0;i<sides;i++){
         const t=TAU*i/sides,tn=TAU*(i+1)/sides,tm=(t+tn)/2;
-        const p=(v,t)=>[v[0]*Math.cos(t),v[1]+offsetY,v[0]*Math.sin(t)*depth];
+        const p=(v,t)=>{const radius=Math.abs(v[0])<1e-10?0:v[0],angle=t===TAU?0:t;return [radius*Math.cos(angle),v[1]+offsetY,radius*Math.sin(angle)*depth];};
         const outward=[orient*dy*Math.cos(tm),-orient*dr,orient*dy*Math.sin(tm)/depth];
         B.quad(p(a,t),p(a,tn),p(b,tn),p(b,t),outward,col,1,rough);
       }
@@ -13807,6 +13850,9 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
           const back=[[center[0],center[1],center[2]-.009*w],point(inner[i],-.006*w),point(inner[j],-.006*w)];
           B.triFacing(...front,[0,0,1],lens,3,.18,-1,front.map(surfaceNormal));
           B.triFacing(...back,[0,0,-1],lens,3,.18,-1,back.map(p=>surfaceNormal(p).map(v=>-v)));
+          // The perimeter is buried inside the frame, but must still close the
+          // lens solid so its front/back surfaces share one watertight boundary.
+          B.quad(front[1],back[1],back[2],front[2],outward,lens,3,.18);
         }
       }
       const maxX=xy.reduce((v,p)=>Math.max(v,sign*p[0]),0),sideX=Math.max(m.radiusAt(cy)+.028*w,maxX+.020*w);
@@ -13830,8 +13876,12 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       for(const a of [PI/2,1.25,1.02,.80,Math.asin(.23/innerR)])profile.push([Math.cos(a)*innerR*w,(centerY+Math.sin(a)*innerR)*w]);
       lathe(B,profile,sides,d,col,.74,y);
       const rim=Array.from({length:11},(_,i)=>{
-        const a=-PI/2+PI*i/10,c=Math.max(0,Math.cos(a)),ri=.350*w,ro=ri+.30*w*Math.pow(c,.7);
-        return {inner:[Math.sin(a)*ri,y+.004*w,Math.cos(a)*ri*d],outer:[Math.sin(a)*ro,y-.060*w*c,Math.cos(a)*ro*d]};
+        const a=-PI/2+PI*i/10,c=i===0||i===10?0:Math.max(0,Math.cos(a)),ri=.350*w,ro=ri+.30*w*Math.pow(c,.7);
+        const inner=[Math.sin(a)*ri,y+.004*w,c*ri*d];
+        // A visor tapers to one shared vertex at either end. Previously the
+        // inner/outer heights differed there, creating collinear open edges
+        // that no nondegenerate end cap could close.
+        return {inner,outer:c===0?inner.slice():[Math.sin(a)*ro,y+.004*w-.064*w*c,c*ro*d]};
       });
       for(let i=0;i<rim.length-1;i++){
         const a=rim[i],b=rim[i+1],down=p=>[p[0],p[1]-.025*w,p[2]];
@@ -13889,9 +13939,10 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       const p=Array.from(out.positions.subarray(i*3,i*3+3)),skin=global.DuderCore.skinWeightsForPoint(p,parts,num(r,'blend',.16));
       out.skinIndices.set(skin.indices,i*4);out.skinWeights.set(skin.weights,i*4);
     }
-    out.counts.parts=7;out.counts.hat=r.hat||'none';out.counts.glasses=r.glasses||'none';return out;
+    out.counts.parts=7;out.counts.hat=r.hat||'none';out.counts.glasses=r.glasses||'none';
+    out.indexed=indexedGeometry(out);return out;
   }
-  global.DuderGeometry={build,metrics,version:'3.0.0',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
+  global.DuderGeometry={build,metrics,version:'3.1.0',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
@@ -14340,7 +14391,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
 
 </script>
 <script>
-/* Duder Lab V3 — batched WebGL2 skinning, bounded SDF correction, and welded-normal hull outlines.
+/* Duder Lab V3.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -14517,20 +14568,40 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       this.uniforms={};for(const name of ['uData','uVP','uGrid','uFocus','uCamera','uSmooth','uWire','uOutline','uOutlineWidth','uViewport','uProjection','uViewDir'])this.uniforms[name]=gl.getUniformLocation(this.program,name);
       this.bgUniforms={};for(const name of ['uGrid','uGround','uSelected','uFocus','uSize','uScene','uEye','uRight','uUp','uForward','uExtent','uShadows[0]','uShadowCount'])this.bgUniforms[name]=gl.getUniformLocation(this.bg,name);
       this.rigUniform=gl.getUniformLocation(this.rigProgram,'uVP');
-      this.vao=gl.createVertexArray();this.emptyVAO=gl.createVertexArray();this.rigVAO=gl.createVertexArray();this.rigBuffer=gl.createBuffer();
-      this.buffers=[];this.count=0;this.triangles=0;this.texWidth=128;
+      this.vao=gl.createVertexArray();this.wireVAO=gl.createVertexArray();this.emptyVAO=gl.createVertexArray();this.rigVAO=gl.createVertexArray();this.rigBuffer=gl.createBuffer();
+      this.buffers=[];this.wireBuffers=[];this.wireReady=false;this.count=0;this.vertexCount=0;this.expandedVertexCount=0;this.indexCount=0;this.triangles=0;this.texWidth=128;
       this.data=new Float32Array(this.texWidth*16*4);this.texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,this.texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA32F,this.texWidth,16,0,gl.RGBA,gl.FLOAT,this.data);
       this.frame();this.last=[];this.drawCalls=0;this.geometryById=new Map();this.geometryKeys=new Map();this.poses={};
       gl.clearColor(.95,.95,.92,1);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);
     }
     rebuild(recipes,mode,selected,idsOverride){
       const gl=this.gl,ids=idsOverride||(mode==='focus'?[selected]:recipes.map((_,i)=>i)),all=ids.map(i=>{const key=JSON.stringify(recipes[i]);if(this.geometryKeys.get(i)===key)return this.geometryById.get(i);const g=DuderGeometry.build(recipes[i],i);this.geometryById.set(i,g);this.geometryKeys.set(i,key);return g;});
-      gl.bindVertexArray(this.vao);this.buffers.forEach(b=>gl.deleteBuffer(b));this.buffers=[];
-      [['positions',3],['normals',3],['colors',3],['meta',4],['bary',3],['skinIndices',4],['skinWeights',4],['outline',4]].forEach(([key,size],loc)=>{
-        const n=all.reduce((sum,g)=>sum+g[key].length,0),data=new Float32Array(n);let off=0;for(const g of all){data.set(g[key],off);off+=g[key].length;}
-        const buffer=gl.createBuffer();this.buffers.push(buffer);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,size,gl.FLOAT,false,0,0);
-      });gl.bindVertexArray(null);this.count=all.reduce((sum,g)=>sum+g.positions.length/3,0);this.triangles=this.count/3;this.last=ids;
+      this.buffers.forEach(b=>gl.deleteBuffer(b));this.wireBuffers.forEach(b=>gl.deleteBuffer(b));gl.deleteVertexArray(this.wireVAO);this.wireVAO=gl.createVertexArray();this.buffers=[];this.wireBuffers=[];this.wireReady=false;this.batchGeometry=all;
+      this.vertexCount=all.reduce((sum,g)=>sum+g.indexed.positions.length/3,0);this.indexCount=all.reduce((sum,g)=>sum+g.indexed.indices.length,0);
+      this.expandedVertexCount=all.reduce((sum,g)=>sum+g.positions.length/3,0);this.count=this.expandedVertexCount;this.triangles=this.indexCount/3;
+      // WebGL2 supports 32-bit element indices, so all sixteen high-detail beans
+      // remain one batch even when it exceeds the 65,535-vertex Uint16 limit.
+      if(this.vertexCount>0xffffffff||this.indexCount>0x7fffffff)throw Error('Duder batch exceeds WebGL2 index or draw-count limits.');
+      gl.bindVertexArray(this.vao);this.gpuGeometryBytes=0;
+      [['positions',3,0],['normals',3,1],['colors',3,2],['meta',4,3],['skinIndices',4,5],['skinWeights',4,6],['outline',4,7]].forEach(([key,size,loc])=>{
+        const data=new Float32Array(this.vertexCount*size);let off=0;for(const g of all){data.set(g.indexed[key],off);off+=g.indexed[key].length;}
+        const buffer=gl.createBuffer();this.buffers.push(buffer);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,size,gl.FLOAT,false,0,0);this.gpuGeometryBytes+=data.byteLength;
+      });
+      // Barycentrics are per triangle, not per welded vertex. They are only
+      // uploaded into the optional wireframe VAO, never the normal render path.
+      gl.disableVertexAttribArray(4);
+      const indices=new Uint32Array(this.indexCount);let offset=0,base=0;
+      for(const g of all){for(const index of g.indexed.indices)indices[offset++]=index+base;base+=g.indexed.positions.length/3;}
+      const elements=gl.createBuffer();this.buffers.push(elements);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,elements);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);this.gpuGeometryBytes+=indices.byteLength;
+      gl.bindVertexArray(null);this.last=ids;
       this.restRadius=.8;for(const g of all)for(let i=0;i<g.positions.length;i+=3)this.restRadius=Math.max(this.restRadius,Math.hypot(g.positions[i],g.positions[i+2])*1.10);
+    }
+    prepareWireframe(){
+      if(this.wireReady)return;const gl=this.gl;gl.bindVertexArray(this.wireVAO);
+      [['positions',3],['normals',3],['colors',3],['meta',4],['bary',3],['skinIndices',4],['skinWeights',4],['outline',4]].forEach(([key,size],loc)=>{
+        const data=new Float32Array(this.expandedVertexCount*size);let off=0;for(const g of this.batchGeometry){data.set(g[key],off);off+=g[key].length;}
+        const buffer=gl.createBuffer();this.wireBuffers.push(buffer);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,size,gl.FLOAT,false,0,0);
+      });this.wireReady=true;
     }
     idleTransforms(recipe,time,animate){
       const out=Array.from({length:7},M.identity);if(!animate)return out;
@@ -14595,8 +14666,11 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       gl.drawArrays(gl.TRIANGLES,0,3);this.drawCalls++;
       gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.useProgram(this.program);gl.bindVertexArray(this.vao);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);
       gl.uniform1i(this.uniforms.uData,0);gl.uniformMatrix4fv(this.uniforms.uVP,false,this.vpMatrix);gl.uniform2fv(this.uniforms.uGrid,this.grid);gl.uniform1i(this.uniforms.uFocus,state.mode==='focus'?state.selected:-1);gl.uniform3fv(this.uniforms.uCamera,this.eye);gl.uniform1i(this.uniforms.uSmooth,state.smooth?1:0);gl.uniform1i(this.uniforms.uWire,state.wireframe?1:0);gl.uniform2f(this.uniforms.uViewport,vp.w,vp.h);gl.uniform1f(this.uniforms.uOutlineWidth,state.outlineWidth??2.2);gl.uniform1f(this.uniforms.uProjection,state.projectionStrength??.55);gl.uniform3fv(this.uniforms.uViewDir,this.forward);
-      if(state.outlines!==false){gl.uniform1i(this.uniforms.uOutline,1);gl.cullFace(gl.FRONT);gl.drawArrays(gl.TRIANGLES,0,this.count);this.drawCalls++;}
-      gl.uniform1i(this.uniforms.uOutline,0);gl.cullFace(gl.BACK);gl.drawArrays(gl.TRIANGLES,0,this.count);this.drawCalls++;
+      if(state.outlines!==false){gl.uniform1i(this.uniforms.uOutline,1);gl.cullFace(gl.FRONT);gl.drawElements(gl.TRIANGLES,this.indexCount,gl.UNSIGNED_INT,0);this.drawCalls++;}
+      gl.uniform1i(this.uniforms.uOutline,0);gl.cullFace(gl.BACK);
+      if(state.wireframe){this.prepareWireframe();gl.bindVertexArray(this.wireVAO);gl.drawArrays(gl.TRIANGLES,0,this.expandedVertexCount);}
+      else gl.drawElements(gl.TRIANGLES,this.indexCount,gl.UNSIGNED_INT,0);
+      this.drawCalls++;
       if(state.showRig&&(state.physicsEnabled||(state.motionEnabled&&state.mode==='focus')))this.drawRig();gl.bindVertexArray(null);gl.viewport(0,0,this.canvas.width,this.canvas.height);return this.drawCalls;
     }
     labels(recipes,mode,selected){const v=this.viewport;if(!v||mode==='focus')return[];return recipes.map((r,i)=>({x:v.x+(i%4+.5)*v.w/4,y:v.y+(Math.floor(i/4)+1)*v.h/4-17,text:String(i+1).padStart(2,'0')+'  '+r.name,selected:i===selected}));}
@@ -14724,7 +14798,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     _header(s,w,l){
       this.rect(0,0,w,l.header,C.panel);this.rect(0,l.header-1,w,1,C.border);
       this._hit(0,0,w,l.header,{type:'block',key:'header'});
-      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3',32,48,9,C.muted);
+      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.1',32,48,9,C.muted);
       if(l.mobile){
         this.button(s.panelOpen?'Close':'Edit',w-121,20,65,30,'togglePanel',undefined,s.panelOpen,false,'togglePanel');
         this.button('?',w-48,20,30,30,'help',undefined,s.helpOpen,false,'help');
@@ -14825,7 +14899,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       if(this.scrollMax>0){const trackH=Math.max(20,contentBottom-contentTop-10),thumbH=Math.max(24,trackH*trackH/contentHeight);this.rect(L-7,contentTop,2,trackH,C.field,1);this.rect(L-7,contentTop+(trackH-thumbH)*(this.scroll[tab]/this.scrollMax),2,thumbH,C.muted,1);}
       const by=h-l.footer-bottomHeight+14,bw=(iw-6)/2;
       this.rect(18,by-12,iw,1,C.border);this._label('Preview',18,by);
-      [['Spin','autoSpin'],[s.physicsEnabled||s.motionEnabled?'Rig overlay':'Idle',s.physicsEnabled||s.motionEnabled?'showRig':'animate'],['Soft shading','smooth'],['Wireframe','wireframe'],['Shell outline','outlines']].forEach(([name,key],i)=>this.button(name,x+(i%2)*(bw+6),by+20+Math.floor(i/2)*31,bw,26,'toggle',key,!!s[key],false,'toggle:'+key));
+      [['Spin','autoSpin'],[s.physicsEnabled||s.motionEnabled?'Rig overlay':'Idle',s.physicsEnabled||s.motionEnabled?'showRig':'animate'],['Smooth shading','smooth'],['Wireframe','wireframe'],['Shell outline','outlines']].forEach(([name,key],i)=>this.button(name,x+(i%2)*(bw+6),by+20+Math.floor(i/2)*31,bw,26,'toggle',key,!!s[key],false,'toggle:'+key));
       this.button('Physics',x+bw+6,by+82,bw,26,'tab','physics',s.tab==='physics',false,'physics:tab-footer');
       if(s.physicsEnabled)this.button('Back to editor',x,by+115,iw,30,'physicsExit',null,false,false,'physics:exit-footer');
       else{this.button('Reroll duder',x,by+115,bw,30,'randomize',null,false,false,'randomize');this.button('Shuffle all',x+bw+6,by+115,bw,30,'randomizeAll',null,false,false,'randomizeAll:footer');}
@@ -14833,7 +14907,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     _footer(s,w,h,l){
       const y=h-l.footer;this.rect(0,y,w,l.footer,C.panel);this.rect(0,y,w,1,C.border);
       this._hit(0,y,w,l.footer,{type:'block',key:'footer'});
-      if(l.left&&!l.mobile)this.text('V3   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
+      if(l.left&&!l.mobile)this.text('V3.1   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
       const x=(l.mobile?0:l.left)+18,st=s.stats||{},tris=st.triangles>=1000?(st.triangles/1000).toFixed(1)+'K':String(st.triangles||0);
       const text=(st.count||16)+((st.count||16)===1?' DUDER   ':' DUDERS   ')+(st.drawCalls??3)+' DRAWS   '+tris+' TRIS'+(w>650?(st.offlineCapture?'   OFFLINE REPLAY':'   '+Math.round(st.fps||0)+' FPS'):'');
       this.text(text,x,y+(l.footer-10)/2,10,C.lime);
@@ -14932,7 +15006,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   const STORAGE='tront-duder-lab-v03';
   let recipes=DuderCore.presets();
-  let state={tab:'shape',mode:'gallery',selected:0,panelOpen:false,helpOpen:false,autoSpin:false,animate:true,smooth:false,wireframe:false,outlines:true,outlineWidth:2.2,projectionStrength:.55,physicsEnabled:false,physicsMode:'ragdoll',physicsPaused:false,physicsSettings:{gravity:9.81,damping:.18},physicsStats:{bodies:7,joints:6,maxJointError:0,sleeping:false},pileCount:8,motionEnabled:false,motionClip:'idle',motionTime:0,motionSpeed:1,motionAmplitude:1,motionPlaying:true,showRig:true,poseById:{},toast:'',dt:0,stats:{count:16,drawCalls:3,triangles:0,fps:0}};
+  let state={tab:'shape',mode:'gallery',selected:0,panelOpen:false,helpOpen:false,autoSpin:false,animate:true,smooth:true,wireframe:false,outlines:true,outlineWidth:2.2,projectionStrength:.55,physicsEnabled:false,physicsMode:'ragdoll',physicsPaused:false,physicsSettings:{gravity:9.81,damping:.18},physicsStats:{bodies:7,joints:6,maxJointError:0,sleeping:false},pileCount:8,motionEnabled:false,motionClip:'idle',motionTime:0,motionSpeed:1,motionAmplitude:1,motionPlaying:true,showRig:true,poseById:{},toast:'',dt:0,stats:{count:16,drawCalls:3,triangles:0,fps:0}};
   const search=new URLSearchParams(location.search),isQA=search.has('qa');
   try{if(!isQA){const old=JSON.parse(localStorage.getItem(STORAGE)||localStorage.getItem('tront-duder-lab-v02')||localStorage.getItem('tront-duder-lab-v01')||'null');if(old&&[1,2,3].includes(old.version)&&Array.isArray(old.recipes)&&old.recipes.length===16){recipes=old.recipes.map(DuderCore.sanitizeRecipe);state.selected=clamp(old.selected|0,0,15);}}}catch(e){/* Local storage can be unavailable for file://. Explicit recipe export remains usable. */}
   if(search.get('focus')){state.mode='focus';state.selected=clamp(parseInt(search.get('focus'))||0,0,15);}
@@ -15042,7 +15116,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     else if(name==='exportRecipe')exportRecipe();
     else if(name==='importRecipe')importRecipe();
     else if(name==='reset'){stopPhysics();state.motionEnabled=false;recipes=DuderCore.presets();state.selected=0;dirty=true;renderer.frame(state);persist();toast('Original 16 restored');}
-    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3.png');});}
+    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-1.png');});}
     state.recipe=recipes[state.selected];
   }
   try{
@@ -15113,7 +15187,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       frames++;
       if(frames%30===0){
         const err=renderer.gl.getError();if(err!==0){errors.push('WebGL error '+err);console.error('WebGL error',err);}
-        canvas.dataset.diagnostics=JSON.stringify({version:'3.0.0',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
+        canvas.dataset.diagnostics=JSON.stringify({version:'3.1.0',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
       }
       requestAnimationFrame(tick);
     }catch(e){errors.push(e.message);console.error(e);canvas.dataset.error=e.message;fallback.hidden=false;fallback.textContent=e.message;}
