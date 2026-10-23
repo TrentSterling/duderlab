@@ -116,7 +116,7 @@
     else if(name==='exportRecipe')exportRecipe();
     else if(name==='importRecipe')importRecipe();
     else if(name==='reset'){stopPhysics();state.motionEnabled=false;recipes=DuderCore.presets();state.selected=0;dirty=true;renderer.frame(state);persist();toast('Original 16 restored');}
-    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-1.png');});}
+    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-1-1.png');});}
     state.recipe=recipes[state.selected];
   }
   try{
@@ -187,7 +187,7 @@
       frames++;
       if(frames%30===0){
         const err=renderer.gl.getError();if(err!==0){errors.push('WebGL error '+err);console.error('WebGL error',err);}
-        canvas.dataset.diagnostics=JSON.stringify({version:'3.1.0',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
+        canvas.dataset.diagnostics=JSON.stringify({version:'3.1.1',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
       }
       requestAnimationFrame(tick);
     }catch(e){errors.push(e.message);console.error(e);canvas.dataset.error=e.message;fallback.hidden=false;fallback.textContent=e.message;}

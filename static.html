@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="dark"><meta name="description" content="Duder Lab V3.1: offline parametric beans, smooth welded geometry, closed wearable meshes, SDF shell outlines, rigid-body ragdolls, sumo, bean piles, procedural animation, and posed GLB export.">
-<meta name="theme-color" content="#14171a"><title>Duder Lab V3.1 — Smooth Duders</title>
+<meta name="color-scheme" content="dark"><meta name="description" content="Duder Lab V3.1.1: offline parametric beans, smooth welded geometry, closed wearable meshes, SDF shell outlines, rigid-body ragdolls, sumo, bean piles, procedural animation, and posed GLB export.">
+<meta name="theme-color" content="#14171a"><title>Duder Lab V3.1.1 — Smooth Duders</title>
 <style>*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#14171a}#duder{width:100%;height:100%;display:block;touch-action:none;outline:none}#fallback{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#161c20;color:#eef1dc;padding:24px;max-width:580px;border:1px solid #55613f;border-radius:12px;font:16px/1.5 system-ui,sans-serif}#fallback[hidden]{display:none}</style>
-</head><body><canvas id="duder" tabindex="0" role="application" aria-label="Duder Lab V3.1 interactive 3D bean generator and physics playground. B starts a bean pile, M opens animation, S starts sumo, P releases to ragdoll, Space pauses motion, left drag grabs, right drag orbits, X shows the rig, O toggles shell outlines. G gallery, F frame, R reroll, question mark help."></canvas><div id="fallback">Preparing the duder workshop…</div>
+</head><body><canvas id="duder" tabindex="0" role="application" aria-label="Duder Lab V3.1.1 interactive 3D bean generator and physics playground. B starts a bean pile, M opens animation, S starts sumo, P releases to ragdoll, Space pauses motion, left drag grabs, right drag orbits, X shows the rig, O toggles shell outlines. G gallery, F frame, R reroll, question mark help."></canvas><div id="fallback">Preparing the duder workshop…</div>
 <!-- This file is completely self-contained: no imports, CDNs, fetches, or external assets.
 Original rendering/character UI: Duder Lab, made for Trent Sterling.
 SDF blend-shell projection adapted from https://github.com/TrentSterling/critters .
@@ -13457,14 +13457,14 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
     for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 3.1'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.1.1'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'3.1.0',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.1.1',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
@@ -13669,23 +13669,24 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
 
   class Builder {
     constructor(id) {this.id=id;this.p=[];this.n=[];this.c=[];this.m=[];this.b=[];this.outlineScale=1;this.outlineGroup=0;this.outlineScales=[];this.outlineGroups=[];this.shellTriangles=0;this.accessoryTriangles=0;this.eyeTriangles=0;}
-    tri(a,b,c,color,kind=1,rough=.7,pid=-1,smooth=null) {
+    tri(a,b,c,color,kind=1,rough=.7,pid=-1,smooth=null,outlineWeights=null) {
       const n=cross(sub(b,a),sub(c,a));
       if(dot(n,n)<1e-18) return;
       const N=norm(n), vs=[a,b,c];
       for(let i=0;i<3;i++){
         this.p.push(...vs[i]);this.n.push(...(smooth?smooth[i]:N));this.c.push(...color);
         this.m.push(this.id,pid,kind,rough);this.b.push(i===0?1:0,i===1?1:0,i===2?1:0);
-        this.outlineScales.push(kind===2||kind===3?0:this.outlineScale);this.outlineGroups.push(this.outlineGroup);
+        this.outlineScales.push(kind===2||kind===3?0:this.outlineScale*(outlineWeights?outlineWeights[i]:1));this.outlineGroups.push(this.outlineGroup);
       }
       if(pid>=0)this.shellTriangles++;else if(kind===2)this.eyeTriangles++;else this.accessoryTriangles++;
     }
-    triFacing(a,b,c,dir,color,kind=1,rough=.7,pid=-1,smooth=null) {
-      if(dot(cross(sub(b,a),sub(c,a)),dir)<0){const t=b;b=c;c=t;if(smooth)smooth=[smooth[0],smooth[2],smooth[1]];}
-      this.tri(a,b,c,color,kind,rough,pid,smooth);
+    triFacing(a,b,c,dir,color,kind=1,rough=.7,pid=-1,smooth=null,outlineWeights=null) {
+      if(dot(cross(sub(b,a),sub(c,a)),dir)<0){const t=b;b=c;c=t;if(smooth)smooth=[smooth[0],smooth[2],smooth[1]];if(outlineWeights)outlineWeights=[outlineWeights[0],outlineWeights[2],outlineWeights[1]];}
+      this.tri(a,b,c,color,kind,rough,pid,smooth,outlineWeights);
     }
-    quad(a,b,c,d,dir,color,kind=1,rough=.7) {
-      this.triFacing(a,b,c,dir,color,kind,rough);this.triFacing(a,c,d,dir,color,kind,rough);
+    quad(a,b,c,d,dir,color,kind=1,rough=.7,outlineWeights=null) {
+      this.triFacing(a,b,c,dir,color,kind,rough,-1,null,outlineWeights?[outlineWeights[0],outlineWeights[1],outlineWeights[2]]:null);
+      this.triFacing(a,c,d,dir,color,kind,rough,-1,null,outlineWeights?[outlineWeights[0],outlineWeights[2],outlineWeights[3]]:null);
     }
     finish() {
       // Canonicalize coincident positions before calculating either lighting or
@@ -13764,7 +13765,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
 
   // Closed profile in (radius,height), revolved about Y. A closed profile
   // includes the inner skin so the hat brim/crown has real thickness.
-  function lathe(B,profile,sides,depth,col,rough=.72,offsetY=0,outline=true) {
+  function lathe(B,profile,sides,depth,col,rough=.72,offsetY=0,outline=true,outlineWeights=null,edgeColors=null) {
     const previousStroke=B.outlineScale;if(!outline)B.outlineScale=0;
     // Profiles are oriented; use the right-hand outward normal of their 2D edge.
     let area=0;for(let i=0;i<profile.length;i++){const a=profile[i],b=profile[(i+1)%profile.length];area+=a[0]*b[1]-b[0]*a[1];}
@@ -13776,7 +13777,11 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
         const t=TAU*i/sides,tn=TAU*(i+1)/sides,tm=(t+tn)/2;
         const p=(v,t)=>{const radius=Math.abs(v[0])<1e-10?0:v[0],angle=t===TAU?0:t;return [radius*Math.cos(angle),v[1]+offsetY,radius*Math.sin(angle)*depth];};
         const outward=[orient*dy*Math.cos(tm),-orient*dr,orient*dy*Math.sin(tm)/depth];
-        B.quad(p(a,t),p(a,tn),p(b,tn),p(b,t),outward,col,1,rough);
+        // Keep the hollow hat's inner/contact loop fixed while the exterior
+        // expands. Moving both edges of a thin underside annulus by a constant
+        // pixel width can detach its stroke from the visible hem over the head.
+        const wa=outlineWeights?outlineWeights[k]:1,wb=outlineWeights?outlineWeights[(k+1)%profile.length]:1;
+        B.quad(p(a,t),p(a,tn),p(b,tn),p(b,t),outward,edgeColors?.[k]||col,1,rough,[wa,wa,wb,wb]);
       }
     }
     B.outlineScale=previousStroke;
@@ -13874,36 +13879,43 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       // Close the shell on the underside lip, following the bean's upper dome.
       for(const a of [Math.asin(.23/outerR),.80,1.02,1.25,PI/2])profile.push([Math.cos(a)*outerR*w,(centerY+Math.sin(a)*outerR)*w]);
       for(const a of [PI/2,1.25,1.02,.80,Math.asin(.23/innerR)])profile.push([Math.cos(a)*innerR*w,(centerY+Math.sin(a)*innerR)*w]);
-      lathe(B,profile,sides,d,col,.74,y);
+      lathe(B,profile,sides,d,col,.74,y,true,[1,1,1,1,1,0,0,0,0,0]);
       const rim=Array.from({length:11},(_,i)=>{
         const a=-PI/2+PI*i/10,c=i===0||i===10?0:Math.max(0,Math.cos(a)),ri=.350*w,ro=ri+.30*w*Math.pow(c,.7);
         const inner=[Math.sin(a)*ri,y+.004*w,c*ri*d];
         // A visor tapers to one shared vertex at either end. Previously the
         // inner/outer heights differed there, creating collinear open edges
         // that no nondegenerate end cap could close.
-        return {inner,outer:c===0?inner.slice():[Math.sin(a)*ro,y+.004*w-.064*w*c,c*ro*d]};
+        return {inner,outer:c===0?inner.slice():[Math.sin(a)*ro,y+.004*w-.064*w*c,c*ro*d],outlineWeight:c===0?0:1};
       });
       for(let i=0;i<rim.length-1;i++){
         const a=rim[i],b=rim[i+1],down=p=>[p[0],p[1]-.025*w,p[2]];
-        B.quad(a.inner,a.outer,b.outer,b.inner,[0,1,0],col,1,.77);
-        B.quad(down(a.inner),down(a.outer),down(b.outer),down(b.inner),[0,-1,0],mixCol(col,DARK,.10),1,.8);
+        // Anchor the visor's contact arc and coincident tapered endpoints too;
+        // its top/underside stretch to the moving outer edge as one hull.
+        const weights=[0,a.outlineWeight,b.outlineWeight,0];
+        B.quad(a.inner,a.outer,b.outer,b.inner,[0,1,0],col,1,.77,weights);
+        B.quad(down(a.inner),down(a.outer),down(b.outer),down(b.inner),[0,-1,0],mixCol(col,DARK,.10),1,.8,weights);
         const dir=[(a.outer[0]+b.outer[0])/2,0,(a.outer[2]+b.outer[2])/2];
-        B.quad(a.outer,down(a.outer),down(b.outer),b.outer,dir,col,1,.75);
-        B.quad(a.inner,b.inner,down(b.inner),down(a.inner),dir.map(x=>-x),col,1,.75);
+        B.quad(a.outer,down(a.outer),down(b.outer),b.outer,dir,col,1,.75,[a.outlineWeight,a.outlineWeight,b.outlineWeight,b.outlineWeight]);
+        B.quad(a.inner,b.inner,down(b.inner),down(a.inner),dir.map(x=>-x),col,1,.75,[0,0,0,0]);
       }
       sphere(B,[0,m.top+.039*w,0],[.034*w,.020*w,.034*w*d],6,3,mixCol(col,DARK,.12),1,.75);
     }else if(type==='bucket'){
-      lathe(B,P([[.340,0],[.590,-.080],[.605,-.045],[.400,.025],[.320,.300],[0,.300],[0,.267],[.290,.267],[.365,.025]]),sides,d,col,.82,y);
+      lathe(B,P([[.340,0],[.590,-.080],[.605,-.045],[.400,.025],[.320,.300],[0,.300],[0,.267],[.290,.267],[.365,.025]]),sides,d,col,.82,y,true,[0,1,1,1,1,1,0,0,0]);
       lathe(B,P([[.391,.052],[.383,.082],[.387,.084],[.396,.054]]),sides,d,mixCol(col,DARK,.13),.83,y,false);
     }else if(type==='beanie'){
       const base=m.top-.245*w;
-      lathe(B,P([[.377,0],[.424,0],[.431,.091],[.411,.130],[.376,.229],[.295,.340],[.166,.412],[0,.439],[0,.400],[.146,.378],[.264,.312],[.342,.210],[.377,.109]]),sides,d,col,.94,base);
-      lathe(B,P([[.424,.008],[.438,.010],[.443,.078],[.432,.094],[.414,.091]]),sides,d,mixCol(col,DARK,.08),.94,base,false);
+      // Joined crown/cuff profiles form one closed surface, with microscopic
+      // intersection notches removed. The bottom outer crease uses 75% of
+      // the shell width to stay covered by the cuff; the interior is fixed.
+      const shape=[[.377,0],[.424,0],[.438,.010],[.443,.078],[.432,.094],[.411,.130],[.376,.229],[.295,.340],[.166,.412],[0,.439],[0,.400],[.146,.378],[.264,.312],[.342,.210],[.377,.109]];
+      const tint=mixCol(col,DARK,.08),edgeColors=shape.map((_,i)=>i>=1&&i<=3?tint:col);
+      lathe(B,P(shape),sides,d,col,.94,base,true,[0,.75,1,1,1,1,1,1,1,1,0,0,0,0,0],edgeColors);
     }else if(type==='bowler'){
-      lathe(B,P([[.340,0],[.555,-.010],[.577,.021],[.549,.046],[.410,.040],[.409,.144],[.364,.248],[.247,.319],[0,.346],[0,.314],[.220,.289],[.330,.222],[.375,.122],[.375,.023]]),sides,d,col,.64,y);
+      lathe(B,P([[.340,0],[.555,-.010],[.577,.021],[.549,.046],[.410,.040],[.409,.144],[.364,.248],[.247,.319],[0,.346],[0,.314],[.220,.289],[.330,.222],[.375,.122],[.375,.023]]),sides,d,col,.64,y,true,[0,1,1,1,1,1,1,1,1,0,0,0,0,0]);
       lathe(B,P([[.409,.054],[.414,.056],[.410,.108],[.404,.110]]),sides,d,mixCol(col,DARK,.55),.8,y,false);
     }else if(type==='sunhat'){
-      lathe(B,P([[.340,0],[.755,-.056],[.777,-.033],[.760,-.004],[.410,.025],[.380,.198],[.313,.275],[0,.278],[0,.244],[.291,.242],[.348,.181],[.377,.025]]),sides,d,col,.88,y);
+      lathe(B,P([[.340,0],[.755,-.056],[.777,-.033],[.760,-.004],[.410,.025],[.380,.198],[.313,.275],[0,.278],[0,.244],[.291,.242],[.348,.181],[.377,.025]]),sides,d,col,.88,y,true,[0,1,1,1,1,1,1,1,0,0,0,0]);
       lathe(B,P([[.402,.060],[.408,.062],[.399,.117],[.392,.119]]),sides,d,mixCol(col,[.17,.105,.06],.66),.85,y,false);
     }
   }
@@ -13942,7 +13954,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     out.counts.parts=7;out.counts.hat=r.hat||'none';out.counts.glasses=r.glasses||'none';
     out.indexed=indexedGeometry(out);return out;
   }
-  global.DuderGeometry={build,metrics,version:'3.1.0',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
+  global.DuderGeometry={build,metrics,version:'3.1.1',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
@@ -14391,7 +14403,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
 
 </script>
 <script>
-/* Duder Lab V3.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.1.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -14424,7 +14436,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   uniform bool uOutline;uniform float uOutlineWidth;uniform vec2 uViewport;uniform vec3 uViewDir;
   uniform float uProjection;
   out vec3 vWorld;out vec3 vNormal;out vec3 vLocal;out vec3 vColor;out vec3 vBary;
-  out float vJoint;flat out int vId;flat out float vKind;flat out float vRough;flat out float vOutlineScale;
+  out float vJoint;flat out int vId;flat out float vKind;flat out float vRough;out float vOutlineScale;
   vec4 A[7];vec4 B[7];mat4 T[7];mat4 IT[7];float K;float Depth;bool Physics;
   float sdRC(vec3 p,vec4 a,vec4 b){
     vec3 ba=b.xyz-a.xyz;float l2=dot(ba,ba),rr=a.w-b.w;
@@ -14475,7 +14487,10 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       // Fade its expansion instead of normalizing numerical noise to full width.
       float silhouette=smoothstep(.08,.35,length(cross(n,uViewDir)));
       if(length(direction)>.00001)clip.xy+=normalize(direction)*(2.*uOutlineWidth*aOutline.w*silhouette/uViewport)*clip.w;
-      clip.z+=.00015*clip.w;
+      // A pinned inner loop must keep its original depth as well as XY; even
+      // the small shell bias can push a thin contact strip into the head.
+      // Keep the existing bias on every expanded surface, including eyewear.
+      clip.z+=.00015*clip.w*step(.001,aOutline.w);
     }
     gl_Position=clip;
   }`;
@@ -14483,13 +14498,16 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   precision highp float;precision highp int;
   uniform sampler2D uData;uniform vec3 uCamera;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;
   in vec3 vWorld;in vec3 vNormal;in vec3 vLocal;in vec3 vColor;in vec3 vBary;in float vJoint;
-  flat in int vId;flat in float vKind;flat in float vRough;flat in float vOutlineScale;
+  flat in int vId;flat in float vKind;flat in float vRough;in float vOutlineScale;
   out vec4 outColor;
   ${DuderCore.skinGLSL}
   vec3 linearRGB(vec3 c){return pow(max(c,vec3(0)),vec3(2.2));}
   vec3 srgb(vec3 c){return pow(max(c,vec3(0)),vec3(1./2.2));}
   void main(){
-    if(uOutline){if(vOutlineScale<.001)discard;outColor=vec4(.055,.075,.09,1.);return;}
+    // Interior hat loops stay attached while outer rims expand. Interpolate
+    // their weight so a mixed 0/1 triangle bridges the two edges instead of
+    // disappearing according to whichever vertex happens to provoke it.
+    if(uOutline){if(vOutlineScale<=0.)discard;outColor=vec4(.055,.075,.09,1.);return;}
     vec4 base=texelFetch(uData,ivec2(1,vId),0),acc=texelFetch(uData,ivec2(2,vId),0),par=texelFetch(uData,ivec2(0,vId),0);
     vec3 albedo=vColor;float rough=vRough;
     if(vKind<.5){albedo=skinColor(vLocal,base.rgb,acc.rgb,acc.a,par.z,par.w);rough=base.a;}
@@ -14798,7 +14816,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     _header(s,w,l){
       this.rect(0,0,w,l.header,C.panel);this.rect(0,l.header-1,w,1,C.border);
       this._hit(0,0,w,l.header,{type:'block',key:'header'});
-      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.1',32,48,9,C.muted);
+      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.1.1',32,48,9,C.muted);
       if(l.mobile){
         this.button(s.panelOpen?'Close':'Edit',w-121,20,65,30,'togglePanel',undefined,s.panelOpen,false,'togglePanel');
         this.button('?',w-48,20,30,30,'help',undefined,s.helpOpen,false,'help');
@@ -14907,7 +14925,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     _footer(s,w,h,l){
       const y=h-l.footer;this.rect(0,y,w,l.footer,C.panel);this.rect(0,y,w,1,C.border);
       this._hit(0,y,w,l.footer,{type:'block',key:'footer'});
-      if(l.left&&!l.mobile)this.text('V3.1   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
+      if(l.left&&!l.mobile)this.text('V3.1.1   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
       const x=(l.mobile?0:l.left)+18,st=s.stats||{},tris=st.triangles>=1000?(st.triangles/1000).toFixed(1)+'K':String(st.triangles||0);
       const text=(st.count||16)+((st.count||16)===1?' DUDER   ':' DUDERS   ')+(st.drawCalls??3)+' DRAWS   '+tris+' TRIS'+(w>650?(st.offlineCapture?'   OFFLINE REPLAY':'   '+Math.round(st.fps||0)+' FPS'):'');
       this.text(text,x,y+(l.footer-10)/2,10,C.lime);
@@ -15116,7 +15134,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     else if(name==='exportRecipe')exportRecipe();
     else if(name==='importRecipe')importRecipe();
     else if(name==='reset'){stopPhysics();state.motionEnabled=false;recipes=DuderCore.presets();state.selected=0;dirty=true;renderer.frame(state);persist();toast('Original 16 restored');}
-    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-1.png');});}
+    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-1-1.png');});}
     state.recipe=recipes[state.selected];
   }
   try{
@@ -15187,7 +15205,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       frames++;
       if(frames%30===0){
         const err=renderer.gl.getError();if(err!==0){errors.push('WebGL error '+err);console.error('WebGL error',err);}
-        canvas.dataset.diagnostics=JSON.stringify({version:'3.1.0',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
+        canvas.dataset.diagnostics=JSON.stringify({version:'3.1.1',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
       }
       requestAnimationFrame(tick);
     }catch(e){errors.push(e.message);console.error(e);canvas.dataset.error=e.message;fallback.hidden=false;fallback.textContent=e.message;}

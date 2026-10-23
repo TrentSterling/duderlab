@@ -1,0 +1,1043 @@
+{
+  "sourceRoot": "/workspace/scratch/b025ef671811/duder-lab-v3-1-1",
+  "checks": 45,
+  "passed": true,
+  "failures": [],
+  "results": [
+    {
+      "hat": "cap",
+      "facets": 8,
+      "depth": 0.62,
+      "triangles": 228,
+      "vertices": 120,
+      "components": [
+        {
+          "triangles": 128,
+          "vertices": 66,
+          "signedVolume": 0.00817101672280078
+        },
+        {
+          "triangles": 76,
+          "vertices": 40,
+          "signedVolume": 0.004638560267213212
+        },
+        {
+          "triangles": 24,
+          "vertices": 14,
+          "signedVolume": 0.00003724182797467404
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "cap",
+      "facets": 8,
+      "depth": 1,
+      "triangles": 228,
+      "vertices": 120,
+      "components": [
+        {
+          "triangles": 128,
+          "vertices": 66,
+          "signedVolume": 0.013179059463954396
+        },
+        {
+          "triangles": 76,
+          "vertices": 40,
+          "signedVolume": 0.00748154848802595
+        },
+        {
+          "triangles": 24,
+          "vertices": 14,
+          "signedVolume": 0.000060067464192208346
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "cap",
+      "facets": 8,
+      "depth": 1.24,
+      "triangles": 228,
+      "vertices": 120,
+      "components": [
+        {
+          "triangles": 128,
+          "vertices": 66,
+          "signedVolume": 0.01634203344560156
+        },
+        {
+          "triangles": 76,
+          "vertices": 40,
+          "signedVolume": 0.009277120534426425
+        },
+        {
+          "triangles": 24,
+          "vertices": 14,
+          "signedVolume": 0.00007448365594934809
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "cap",
+      "facets": 12,
+      "depth": 0.62,
+      "triangles": 292,
+      "vertices": 152,
+      "components": [
+        {
+          "triangles": 192,
+          "vertices": 98,
+          "signedVolume": 0.00866667178348321
+        },
+        {
+          "triangles": 76,
+          "vertices": 40,
+          "signedVolume": 0.004638560267213212
+        },
+        {
+          "triangles": 24,
+          "vertices": 14,
+          "signedVolume": 0.00003724182797467404
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "cap",
+      "facets": 12,
+      "depth": 1,
+      "triangles": 292,
+      "vertices": 152,
+      "components": [
+        {
+          "triangles": 192,
+          "vertices": 98,
+          "signedVolume": 0.013978502674511615
+        },
+        {
+          "triangles": 76,
+          "vertices": 40,
+          "signedVolume": 0.00748154848802595
+        },
+        {
+          "triangles": 24,
+          "vertices": 14,
+          "signedVolume": 0.000060067464192208346
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "cap",
+      "facets": 12,
+      "depth": 1.24,
+      "triangles": 292,
+      "vertices": 152,
+      "components": [
+        {
+          "triangles": 192,
+          "vertices": 98,
+          "signedVolume": 0.01733334356696642
+        },
+        {
+          "triangles": 76,
+          "vertices": 40,
+          "signedVolume": 0.009277120534426425
+        },
+        {
+          "triangles": 24,
+          "vertices": 14,
+          "signedVolume": 0.00007448365594934809
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "cap",
+      "facets": 16,
+      "depth": 0.62,
+      "triangles": 356,
+      "vertices": 184,
+      "components": [
+        {
+          "triangles": 256,
+          "vertices": 130,
+          "signedVolume": 0.008844245242892554
+        },
+        {
+          "triangles": 76,
+          "vertices": 40,
+          "signedVolume": 0.004638560267213212
+        },
+        {
+          "triangles": 24,
+          "vertices": 14,
+          "signedVolume": 0.00003724182797467404
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "cap",
+      "facets": 16,
+      "depth": 1,
+      "triangles": 356,
+      "vertices": 184,
+      "components": [
+        {
+          "triangles": 256,
+          "vertices": 130,
+          "signedVolume": 0.014264912603708886
+        },
+        {
+          "triangles": 76,
+          "vertices": 40,
+          "signedVolume": 0.00748154848802595
+        },
+        {
+          "triangles": 24,
+          "vertices": 14,
+          "signedVolume": 0.000060067464192208346
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "cap",
+      "facets": 16,
+      "depth": 1.24,
+      "triangles": 356,
+      "vertices": 184,
+      "components": [
+        {
+          "triangles": 256,
+          "vertices": 130,
+          "signedVolume": 0.017688490485785108
+        },
+        {
+          "triangles": 76,
+          "vertices": 40,
+          "signedVolume": 0.009277120534426425
+        },
+        {
+          "triangles": 24,
+          "vertices": 14,
+          "signedVolume": 0.00007448365594934809
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bucket",
+      "facets": 8,
+      "depth": 0.62,
+      "triangles": 176,
+      "vertices": 90,
+      "components": [
+        {
+          "triangles": 112,
+          "vertices": 58,
+          "signedVolume": 0.033864764914298684
+        },
+        {
+          "triangles": 64,
+          "vertices": 32,
+          "signedVolume": 0.00020758768635857213
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bucket",
+      "facets": 8,
+      "depth": 1,
+      "triangles": 176,
+      "vertices": 90,
+      "components": [
+        {
+          "triangles": 112,
+          "vertices": 58,
+          "signedVolume": 0.05462058974969611
+        },
+        {
+          "triangles": 64,
+          "vertices": 32,
+          "signedVolume": 0.00033481880695869883
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bucket",
+      "facets": 8,
+      "depth": 1.24,
+      "triangles": 176,
+      "vertices": 90,
+      "components": [
+        {
+          "triangles": 112,
+          "vertices": 58,
+          "signedVolume": 0.06772952982859737
+        },
+        {
+          "triangles": 64,
+          "vertices": 32,
+          "signedVolume": 0.00041517537271714425
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bucket",
+      "facets": 12,
+      "depth": 0.62,
+      "triangles": 264,
+      "vertices": 134,
+      "components": [
+        {
+          "triangles": 168,
+          "vertices": 86,
+          "signedVolume": 0.035919004285811774
+        },
+        {
+          "triangles": 96,
+          "vertices": 48,
+          "signedVolume": 0.00022017991263712587
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bucket",
+      "facets": 12,
+      "depth": 1,
+      "triangles": 264,
+      "vertices": 134,
+      "components": [
+        {
+          "triangles": 168,
+          "vertices": 86,
+          "signedVolume": 0.0579338825830049
+        },
+        {
+          "triangles": 96,
+          "vertices": 48,
+          "signedVolume": 0.000355129132608821
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bucket",
+      "facets": 12,
+      "depth": 1.24,
+      "triangles": 264,
+      "vertices": 134,
+      "components": [
+        {
+          "triangles": 168,
+          "vertices": 86,
+          "signedVolume": 0.07183800857162355
+        },
+        {
+          "triangles": 96,
+          "vertices": 48,
+          "signedVolume": 0.00044035982527425174
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bucket",
+      "facets": 16,
+      "depth": 0.62,
+      "triangles": 352,
+      "vertices": 178,
+      "components": [
+        {
+          "triangles": 224,
+          "vertices": 114,
+          "signedVolume": 0.03665495710775027
+        },
+        {
+          "triangles": 128,
+          "vertices": 64,
+          "signedVolume": 0.00022469111127719992
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bucket",
+      "facets": 16,
+      "depth": 1,
+      "triangles": 352,
+      "vertices": 178,
+      "components": [
+        {
+          "triangles": 224,
+          "vertices": 114,
+          "signedVolume": 0.05912090236609656
+        },
+        {
+          "triangles": 128,
+          "vertices": 64,
+          "signedVolume": 0.0003624050215290832
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bucket",
+      "facets": 16,
+      "depth": 1.24,
+      "triangles": 352,
+      "vertices": 178,
+      "components": [
+        {
+          "triangles": 224,
+          "vertices": 114,
+          "signedVolume": 0.07330991421550054
+        },
+        {
+          "triangles": 128,
+          "vertices": 64,
+          "signedVolume": 0.00044938222255439984
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "beanie",
+      "facets": 8,
+      "depth": 0.62,
+      "triangles": 208,
+      "vertices": 106,
+      "components": [
+        {
+          "triangles": 208,
+          "vertices": 106,
+          "signedVolume": 0.027359443788776912
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "beanie",
+      "facets": 8,
+      "depth": 1,
+      "triangles": 208,
+      "vertices": 106,
+      "components": [
+        {
+          "triangles": 208,
+          "vertices": 106,
+          "signedVolume": 0.04412813499935207
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "beanie",
+      "facets": 8,
+      "depth": 1.24,
+      "triangles": 208,
+      "vertices": 106,
+      "components": [
+        {
+          "triangles": 208,
+          "vertices": 106,
+          "signedVolume": 0.054718887577553825
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "beanie",
+      "facets": 12,
+      "depth": 0.62,
+      "triangles": 312,
+      "vertices": 158,
+      "components": [
+        {
+          "triangles": 312,
+          "vertices": 158,
+          "signedVolume": 0.029019073296706062
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "beanie",
+      "facets": 12,
+      "depth": 1,
+      "triangles": 312,
+      "vertices": 158,
+      "components": [
+        {
+          "triangles": 312,
+          "vertices": 158,
+          "signedVolume": 0.04680495695432164
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "beanie",
+      "facets": 12,
+      "depth": 1.24,
+      "triangles": 312,
+      "vertices": 158,
+      "components": [
+        {
+          "triangles": 312,
+          "vertices": 158,
+          "signedVolume": 0.058038146593412124
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "beanie",
+      "facets": 16,
+      "depth": 0.62,
+      "triangles": 416,
+      "vertices": 210,
+      "components": [
+        {
+          "triangles": 416,
+          "vertices": 210,
+          "signedVolume": 0.0296136509450598
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "beanie",
+      "facets": 16,
+      "depth": 1,
+      "triangles": 416,
+      "vertices": 210,
+      "components": [
+        {
+          "triangles": 416,
+          "vertices": 210,
+          "signedVolume": 0.04776395200101921
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "beanie",
+      "facets": 16,
+      "depth": 1.24,
+      "triangles": 416,
+      "vertices": 210,
+      "components": [
+        {
+          "triangles": 416,
+          "vertices": 210,
+          "signedVolume": 0.0592273018901196
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bowler",
+      "facets": 8,
+      "depth": 0.62,
+      "triangles": 256,
+      "vertices": 130,
+      "components": [
+        {
+          "triangles": 192,
+          "vertices": 98,
+          "signedVolume": 0.034780463323217374
+        },
+        {
+          "triangles": 64,
+          "vertices": 32,
+          "signedVolume": 0.0004262126608061632
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bowler",
+      "facets": 8,
+      "depth": 1,
+      "triangles": 256,
+      "vertices": 130,
+      "components": [
+        {
+          "triangles": 192,
+          "vertices": 98,
+          "signedVolume": 0.05609752315251465
+        },
+        {
+          "triangles": 64,
+          "vertices": 32,
+          "signedVolume": 0.0006874382273463469
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bowler",
+      "facets": 8,
+      "depth": 1.24,
+      "triangles": 256,
+      "vertices": 130,
+      "components": [
+        {
+          "triangles": 192,
+          "vertices": 98,
+          "signedVolume": 0.06956092664643475
+        },
+        {
+          "triangles": 64,
+          "vertices": 32,
+          "signedVolume": 0.0008524253216123264
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bowler",
+      "facets": 12,
+      "depth": 0.62,
+      "triangles": 384,
+      "vertices": 194,
+      "components": [
+        {
+          "triangles": 288,
+          "vertices": 146,
+          "signedVolume": 0.03689025202256018
+        },
+        {
+          "triangles": 96,
+          "vertices": 48,
+          "signedVolume": 0.0004520673124198248
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bowler",
+      "facets": 12,
+      "depth": 1,
+      "triangles": 384,
+      "vertices": 194,
+      "components": [
+        {
+          "triangles": 288,
+          "vertices": 146,
+          "signedVolume": 0.05950040847879365
+        },
+        {
+          "triangles": 96,
+          "vertices": 48,
+          "signedVolume": 0.0007291401853739435
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bowler",
+      "facets": 12,
+      "depth": 1.24,
+      "triangles": 384,
+      "vertices": 194,
+      "components": [
+        {
+          "triangles": 288,
+          "vertices": 146,
+          "signedVolume": 0.07378050404512036
+        },
+        {
+          "triangles": 96,
+          "vertices": 48,
+          "signedVolume": 0.0009041346248396497
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bowler",
+      "facets": 16,
+      "depth": 0.62,
+      "triangles": 512,
+      "vertices": 258,
+      "components": [
+        {
+          "triangles": 384,
+          "vertices": 194,
+          "signedVolume": 0.03764609935567811
+        },
+        {
+          "triangles": 128,
+          "vertices": 64,
+          "signedVolume": 0.00046133000127788554
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bowler",
+      "facets": 16,
+      "depth": 1,
+      "triangles": 512,
+      "vertices": 258,
+      "components": [
+        {
+          "triangles": 384,
+          "vertices": 194,
+          "signedVolume": 0.060719517799964866
+        },
+        {
+          "triangles": 128,
+          "vertices": 64,
+          "signedVolume": 0.0007440801718619926
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "bowler",
+      "facets": 16,
+      "depth": 1.24,
+      "triangles": 512,
+      "vertices": 258,
+      "components": [
+        {
+          "triangles": 384,
+          "vertices": 194,
+          "signedVolume": 0.07529219871135621
+        },
+        {
+          "triangles": 128,
+          "vertices": 64,
+          "signedVolume": 0.0009226600025557711
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "sunhat",
+      "facets": 8,
+      "depth": 0.62,
+      "triangles": 224,
+      "vertices": 114,
+      "components": [
+        {
+          "triangles": 160,
+          "vertices": 82,
+          "signedVolume": 0.051916851075925634
+        },
+        {
+          "triangles": 64,
+          "vertices": 32,
+          "signedVolume": 0.0005199971841725326
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "sunhat",
+      "facets": 8,
+      "depth": 1,
+      "triangles": 224,
+      "vertices": 114,
+      "components": [
+        {
+          "triangles": 160,
+          "vertices": 82,
+          "signedVolume": 0.08373685431262348
+        },
+        {
+          "triangles": 64,
+          "vertices": 32,
+          "signedVolume": 0.0008387045187565254
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "sunhat",
+      "facets": 8,
+      "depth": 1.24,
+      "triangles": 224,
+      "vertices": 114,
+      "components": [
+        {
+          "triangles": 160,
+          "vertices": 82,
+          "signedVolume": 0.10383370215185127
+        },
+        {
+          "triangles": 64,
+          "vertices": 32,
+          "signedVolume": 0.0010399943683450652
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "sunhat",
+      "facets": 12,
+      "depth": 0.62,
+      "triangles": 336,
+      "vertices": 170,
+      "components": [
+        {
+          "triangles": 240,
+          "vertices": 122,
+          "signedVolume": 0.05506613650919413
+        },
+        {
+          "triangles": 96,
+          "vertices": 48,
+          "signedVolume": 0.0005515403267904968
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "sunhat",
+      "facets": 12,
+      "depth": 1,
+      "triangles": 336,
+      "vertices": 170,
+      "components": [
+        {
+          "triangles": 240,
+          "vertices": 122,
+          "signedVolume": 0.08881634842054478
+        },
+        {
+          "triangles": 96,
+          "vertices": 48,
+          "signedVolume": 0.0008895811402633888
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "sunhat",
+      "facets": 12,
+      "depth": 1.24,
+      "triangles": 336,
+      "vertices": 170,
+      "components": [
+        {
+          "triangles": 240,
+          "vertices": 122,
+          "signedVolume": 0.11013227301838827
+        },
+        {
+          "triangles": 96,
+          "vertices": 48,
+          "signedVolume": 0.0011030806535809936
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "sunhat",
+      "facets": 16,
+      "depth": 0.62,
+      "triangles": 448,
+      "vertices": 226,
+      "components": [
+        {
+          "triangles": 320,
+          "vertices": 162,
+          "signedVolume": 0.05619439631301344
+        },
+        {
+          "triangles": 128,
+          "vertices": 64,
+          "signedVolume": 0.0005628409605466487
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "sunhat",
+      "facets": 16,
+      "depth": 1,
+      "triangles": 448,
+      "vertices": 226,
+      "components": [
+        {
+          "triangles": 320,
+          "vertices": 162,
+          "signedVolume": 0.09063612112251926
+        },
+        {
+          "triangles": 128,
+          "vertices": 64,
+          "signedVolume": 0.0009078075719452743
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    },
+    {
+      "hat": "sunhat",
+      "facets": 16,
+      "depth": 1.24,
+      "triangles": 448,
+      "vertices": 226,
+      "components": [
+        {
+          "triangles": 320,
+          "vertices": 162,
+          "signedVolume": 0.11238879262602688
+        },
+        {
+          "triangles": 128,
+          "vertices": 64,
+          "signedVolume": 0.0011256819210932975
+        }
+      ],
+      "openOrNonmanifoldEdges": 0,
+      "inconsistentWindingEdges": 0,
+      "degenerateTriangles": 0,
+      "tJunctions": 0
+    }
+  ]
+}

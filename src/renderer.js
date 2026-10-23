@@ -1,4 +1,4 @@
-/* Duder Lab V3.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.1.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -31,7 +31,7 @@
   uniform bool uOutline;uniform float uOutlineWidth;uniform vec2 uViewport;uniform vec3 uViewDir;
   uniform float uProjection;
   out vec3 vWorld;out vec3 vNormal;out vec3 vLocal;out vec3 vColor;out vec3 vBary;
-  out float vJoint;flat out int vId;flat out float vKind;flat out float vRough;flat out float vOutlineScale;
+  out float vJoint;flat out int vId;flat out float vKind;flat out float vRough;out float vOutlineScale;
   vec4 A[7];vec4 B[7];mat4 T[7];mat4 IT[7];float K;float Depth;bool Physics;
   float sdRC(vec3 p,vec4 a,vec4 b){
     vec3 ba=b.xyz-a.xyz;float l2=dot(ba,ba),rr=a.w-b.w;
@@ -82,7 +82,10 @@
       // Fade its expansion instead of normalizing numerical noise to full width.
       float silhouette=smoothstep(.08,.35,length(cross(n,uViewDir)));
       if(length(direction)>.00001)clip.xy+=normalize(direction)*(2.*uOutlineWidth*aOutline.w*silhouette/uViewport)*clip.w;
-      clip.z+=.00015*clip.w;
+      // A pinned inner loop must keep its original depth as well as XY; even
+      // the small shell bias can push a thin contact strip into the head.
+      // Keep the existing bias on every expanded surface, including eyewear.
+      clip.z+=.00015*clip.w*step(.001,aOutline.w);
     }
     gl_Position=clip;
   }`;
@@ -90,13 +93,16 @@
   precision highp float;precision highp int;
   uniform sampler2D uData;uniform vec3 uCamera;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;
   in vec3 vWorld;in vec3 vNormal;in vec3 vLocal;in vec3 vColor;in vec3 vBary;in float vJoint;
-  flat in int vId;flat in float vKind;flat in float vRough;flat in float vOutlineScale;
+  flat in int vId;flat in float vKind;flat in float vRough;in float vOutlineScale;
   out vec4 outColor;
   ${DuderCore.skinGLSL}
   vec3 linearRGB(vec3 c){return pow(max(c,vec3(0)),vec3(2.2));}
   vec3 srgb(vec3 c){return pow(max(c,vec3(0)),vec3(1./2.2));}
   void main(){
-    if(uOutline){if(vOutlineScale<.001)discard;outColor=vec4(.055,.075,.09,1.);return;}
+    // Interior hat loops stay attached while outer rims expand. Interpolate
+    // their weight so a mixed 0/1 triangle bridges the two edges instead of
+    // disappearing according to whichever vertex happens to provoke it.
+    if(uOutline){if(vOutlineScale<=0.)discard;outColor=vec4(.055,.075,.09,1.);return;}
     vec4 base=texelFetch(uData,ivec2(1,vId),0),acc=texelFetch(uData,ivec2(2,vId),0),par=texelFetch(uData,ivec2(0,vId),0);
     vec3 albedo=vColor;float rough=vRough;
     if(vKind<.5){albedo=skinColor(vLocal,base.rgb,acc.rgb,acc.a,par.z,par.w);rough=base.a;}

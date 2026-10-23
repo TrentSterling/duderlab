@@ -30,23 +30,24 @@
 
   class Builder {
     constructor(id) {this.id=id;this.p=[];this.n=[];this.c=[];this.m=[];this.b=[];this.outlineScale=1;this.outlineGroup=0;this.outlineScales=[];this.outlineGroups=[];this.shellTriangles=0;this.accessoryTriangles=0;this.eyeTriangles=0;}
-    tri(a,b,c,color,kind=1,rough=.7,pid=-1,smooth=null) {
+    tri(a,b,c,color,kind=1,rough=.7,pid=-1,smooth=null,outlineWeights=null) {
       const n=cross(sub(b,a),sub(c,a));
       if(dot(n,n)<1e-18) return;
       const N=norm(n), vs=[a,b,c];
       for(let i=0;i<3;i++){
         this.p.push(...vs[i]);this.n.push(...(smooth?smooth[i]:N));this.c.push(...color);
         this.m.push(this.id,pid,kind,rough);this.b.push(i===0?1:0,i===1?1:0,i===2?1:0);
-        this.outlineScales.push(kind===2||kind===3?0:this.outlineScale);this.outlineGroups.push(this.outlineGroup);
+        this.outlineScales.push(kind===2||kind===3?0:this.outlineScale*(outlineWeights?outlineWeights[i]:1));this.outlineGroups.push(this.outlineGroup);
       }
       if(pid>=0)this.shellTriangles++;else if(kind===2)this.eyeTriangles++;else this.accessoryTriangles++;
     }
-    triFacing(a,b,c,dir,color,kind=1,rough=.7,pid=-1,smooth=null) {
-      if(dot(cross(sub(b,a),sub(c,a)),dir)<0){const t=b;b=c;c=t;if(smooth)smooth=[smooth[0],smooth[2],smooth[1]];}
-      this.tri(a,b,c,color,kind,rough,pid,smooth);
+    triFacing(a,b,c,dir,color,kind=1,rough=.7,pid=-1,smooth=null,outlineWeights=null) {
+      if(dot(cross(sub(b,a),sub(c,a)),dir)<0){const t=b;b=c;c=t;if(smooth)smooth=[smooth[0],smooth[2],smooth[1]];if(outlineWeights)outlineWeights=[outlineWeights[0],outlineWeights[2],outlineWeights[1]];}
+      this.tri(a,b,c,color,kind,rough,pid,smooth,outlineWeights);
     }
-    quad(a,b,c,d,dir,color,kind=1,rough=.7) {
-      this.triFacing(a,b,c,dir,color,kind,rough);this.triFacing(a,c,d,dir,color,kind,rough);
+    quad(a,b,c,d,dir,color,kind=1,rough=.7,outlineWeights=null) {
+      this.triFacing(a,b,c,dir,color,kind,rough,-1,null,outlineWeights?[outlineWeights[0],outlineWeights[1],outlineWeights[2]]:null);
+      this.triFacing(a,c,d,dir,color,kind,rough,-1,null,outlineWeights?[outlineWeights[0],outlineWeights[2],outlineWeights[3]]:null);
     }
     finish() {
       // Canonicalize coincident positions before calculating either lighting or
@@ -125,7 +126,7 @@
 
   // Closed profile in (radius,height), revolved about Y. A closed profile
   // includes the inner skin so the hat brim/crown has real thickness.
-  function lathe(B,profile,sides,depth,col,rough=.72,offsetY=0,outline=true) {
+  function lathe(B,profile,sides,depth,col,rough=.72,offsetY=0,outline=true,outlineWeights=null,edgeColors=null) {
     const previousStroke=B.outlineScale;if(!outline)B.outlineScale=0;
     // Profiles are oriented; use the right-hand outward normal of their 2D edge.
     let area=0;for(let i=0;i<profile.length;i++){const a=profile[i],b=profile[(i+1)%profile.length];area+=a[0]*b[1]-b[0]*a[1];}
@@ -137,7 +138,11 @@
         const t=TAU*i/sides,tn=TAU*(i+1)/sides,tm=(t+tn)/2;
         const p=(v,t)=>{const radius=Math.abs(v[0])<1e-10?0:v[0],angle=t===TAU?0:t;return [radius*Math.cos(angle),v[1]+offsetY,radius*Math.sin(angle)*depth];};
         const outward=[orient*dy*Math.cos(tm),-orient*dr,orient*dy*Math.sin(tm)/depth];
-        B.quad(p(a,t),p(a,tn),p(b,tn),p(b,t),outward,col,1,rough);
+        // Keep the hollow hat's inner/contact loop fixed while the exterior
+        // expands. Moving both edges of a thin underside annulus by a constant
+        // pixel width can detach its stroke from the visible hem over the head.
+        const wa=outlineWeights?outlineWeights[k]:1,wb=outlineWeights?outlineWeights[(k+1)%profile.length]:1;
+        B.quad(p(a,t),p(a,tn),p(b,tn),p(b,t),outward,edgeColors?.[k]||col,1,rough,[wa,wa,wb,wb]);
       }
     }
     B.outlineScale=previousStroke;
@@ -235,36 +240,43 @@
       // Close the shell on the underside lip, following the bean's upper dome.
       for(const a of [Math.asin(.23/outerR),.80,1.02,1.25,PI/2])profile.push([Math.cos(a)*outerR*w,(centerY+Math.sin(a)*outerR)*w]);
       for(const a of [PI/2,1.25,1.02,.80,Math.asin(.23/innerR)])profile.push([Math.cos(a)*innerR*w,(centerY+Math.sin(a)*innerR)*w]);
-      lathe(B,profile,sides,d,col,.74,y);
+      lathe(B,profile,sides,d,col,.74,y,true,[1,1,1,1,1,0,0,0,0,0]);
       const rim=Array.from({length:11},(_,i)=>{
         const a=-PI/2+PI*i/10,c=i===0||i===10?0:Math.max(0,Math.cos(a)),ri=.350*w,ro=ri+.30*w*Math.pow(c,.7);
         const inner=[Math.sin(a)*ri,y+.004*w,c*ri*d];
         // A visor tapers to one shared vertex at either end. Previously the
         // inner/outer heights differed there, creating collinear open edges
         // that no nondegenerate end cap could close.
-        return {inner,outer:c===0?inner.slice():[Math.sin(a)*ro,y+.004*w-.064*w*c,c*ro*d]};
+        return {inner,outer:c===0?inner.slice():[Math.sin(a)*ro,y+.004*w-.064*w*c,c*ro*d],outlineWeight:c===0?0:1};
       });
       for(let i=0;i<rim.length-1;i++){
         const a=rim[i],b=rim[i+1],down=p=>[p[0],p[1]-.025*w,p[2]];
-        B.quad(a.inner,a.outer,b.outer,b.inner,[0,1,0],col,1,.77);
-        B.quad(down(a.inner),down(a.outer),down(b.outer),down(b.inner),[0,-1,0],mixCol(col,DARK,.10),1,.8);
+        // Anchor the visor's contact arc and coincident tapered endpoints too;
+        // its top/underside stretch to the moving outer edge as one hull.
+        const weights=[0,a.outlineWeight,b.outlineWeight,0];
+        B.quad(a.inner,a.outer,b.outer,b.inner,[0,1,0],col,1,.77,weights);
+        B.quad(down(a.inner),down(a.outer),down(b.outer),down(b.inner),[0,-1,0],mixCol(col,DARK,.10),1,.8,weights);
         const dir=[(a.outer[0]+b.outer[0])/2,0,(a.outer[2]+b.outer[2])/2];
-        B.quad(a.outer,down(a.outer),down(b.outer),b.outer,dir,col,1,.75);
-        B.quad(a.inner,b.inner,down(b.inner),down(a.inner),dir.map(x=>-x),col,1,.75);
+        B.quad(a.outer,down(a.outer),down(b.outer),b.outer,dir,col,1,.75,[a.outlineWeight,a.outlineWeight,b.outlineWeight,b.outlineWeight]);
+        B.quad(a.inner,b.inner,down(b.inner),down(a.inner),dir.map(x=>-x),col,1,.75,[0,0,0,0]);
       }
       sphere(B,[0,m.top+.039*w,0],[.034*w,.020*w,.034*w*d],6,3,mixCol(col,DARK,.12),1,.75);
     }else if(type==='bucket'){
-      lathe(B,P([[.340,0],[.590,-.080],[.605,-.045],[.400,.025],[.320,.300],[0,.300],[0,.267],[.290,.267],[.365,.025]]),sides,d,col,.82,y);
+      lathe(B,P([[.340,0],[.590,-.080],[.605,-.045],[.400,.025],[.320,.300],[0,.300],[0,.267],[.290,.267],[.365,.025]]),sides,d,col,.82,y,true,[0,1,1,1,1,1,0,0,0]);
       lathe(B,P([[.391,.052],[.383,.082],[.387,.084],[.396,.054]]),sides,d,mixCol(col,DARK,.13),.83,y,false);
     }else if(type==='beanie'){
       const base=m.top-.245*w;
-      lathe(B,P([[.377,0],[.424,0],[.431,.091],[.411,.130],[.376,.229],[.295,.340],[.166,.412],[0,.439],[0,.400],[.146,.378],[.264,.312],[.342,.210],[.377,.109]]),sides,d,col,.94,base);
-      lathe(B,P([[.424,.008],[.438,.010],[.443,.078],[.432,.094],[.414,.091]]),sides,d,mixCol(col,DARK,.08),.94,base,false);
+      // Joined crown/cuff profiles form one closed surface, with microscopic
+      // intersection notches removed. The bottom outer crease uses 75% of
+      // the shell width to stay covered by the cuff; the interior is fixed.
+      const shape=[[.377,0],[.424,0],[.438,.010],[.443,.078],[.432,.094],[.411,.130],[.376,.229],[.295,.340],[.166,.412],[0,.439],[0,.400],[.146,.378],[.264,.312],[.342,.210],[.377,.109]];
+      const tint=mixCol(col,DARK,.08),edgeColors=shape.map((_,i)=>i>=1&&i<=3?tint:col);
+      lathe(B,P(shape),sides,d,col,.94,base,true,[0,.75,1,1,1,1,1,1,1,1,0,0,0,0,0],edgeColors);
     }else if(type==='bowler'){
-      lathe(B,P([[.340,0],[.555,-.010],[.577,.021],[.549,.046],[.410,.040],[.409,.144],[.364,.248],[.247,.319],[0,.346],[0,.314],[.220,.289],[.330,.222],[.375,.122],[.375,.023]]),sides,d,col,.64,y);
+      lathe(B,P([[.340,0],[.555,-.010],[.577,.021],[.549,.046],[.410,.040],[.409,.144],[.364,.248],[.247,.319],[0,.346],[0,.314],[.220,.289],[.330,.222],[.375,.122],[.375,.023]]),sides,d,col,.64,y,true,[0,1,1,1,1,1,1,1,1,0,0,0,0,0]);
       lathe(B,P([[.409,.054],[.414,.056],[.410,.108],[.404,.110]]),sides,d,mixCol(col,DARK,.55),.8,y,false);
     }else if(type==='sunhat'){
-      lathe(B,P([[.340,0],[.755,-.056],[.777,-.033],[.760,-.004],[.410,.025],[.380,.198],[.313,.275],[0,.278],[0,.244],[.291,.242],[.348,.181],[.377,.025]]),sides,d,col,.88,y);
+      lathe(B,P([[.340,0],[.755,-.056],[.777,-.033],[.760,-.004],[.410,.025],[.380,.198],[.313,.275],[0,.278],[0,.244],[.291,.242],[.348,.181],[.377,.025]]),sides,d,col,.88,y,true,[0,1,1,1,1,1,1,1,0,0,0,0]);
       lathe(B,P([[.402,.060],[.408,.062],[.399,.117],[.392,.119]]),sides,d,mixCol(col,[.17,.105,.06],.66),.85,y,false);
     }
   }
@@ -303,5 +315,5 @@
     out.counts.parts=7;out.counts.hat=r.hat||'none';out.counts.glasses=r.glasses||'none';
     out.indexed=indexedGeometry(out);return out;
   }
-  global.DuderGeometry={build,metrics,version:'3.1.0',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
+  global.DuderGeometry={build,metrics,version:'3.1.1',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
 })(typeof window!=='undefined'?window:globalThis);
