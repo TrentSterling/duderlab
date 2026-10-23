@@ -1,0 +1,12 @@
+/dist/
+/output/
+/duder-lab-v*.html
+/qa/*.json
+/qa/*.png
+/qa/*.mp4
+/qa/*.log
+__pycache__/
+*.pyc
+*.partial.mp4
+.DS_Store
+Thumbs.db
