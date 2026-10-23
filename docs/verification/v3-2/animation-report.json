@@ -1,0 +1,664 @@
+{
+  "sourceHashes": {
+    "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+    "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+    "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+    "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c"
+  },
+  "clips": [
+    "idle",
+    "walk",
+    "wave",
+    "dance"
+  ],
+  "samples": 768,
+  "bakedSamples": 48,
+  "maxJointGap": 3.4943683800698077e-07,
+  "maxRigidError": 3.0830459563091495e-07,
+  "maxLoopError": 0,
+  "maxShoulderSwing": 0.89027879292162,
+  "maxHipSwing": 0.6399897193488263,
+  "minBakedY": 0.003000000026077032,
+  "maxBounds": 2.339500994386269,
+  "clipTravel": {
+    "idle": [
+      [
+        0.03618538063019514,
+        0.004672490218654346,
+        0.028945264834910632
+      ],
+      [
+        0.025829032959937992,
+        0.037205657972321005,
+        0.035788141110837446
+      ],
+      [
+        0.05883738362342128,
+        0.04466693754494189,
+        0.034868055334314696
+      ],
+      [
+        0.024233253705501556,
+        0.038277198357880016,
+        0.007513469726443286
+      ],
+      [
+        0.060946071434020865,
+        0.051146298734843776,
+        0.016910029721260073
+      ],
+      [
+        0.00217764379931612,
+        0.008624494562535098,
+        0.012645851477245756
+      ],
+      [
+        0.00217764379931612,
+        0.008624494562535098,
+        0.012650011674304545
+      ]
+    ],
+    "walk": [
+      [
+        0.048234643340110794,
+        0.03432983001694101,
+        0.0022219279408454973
+      ],
+      [
+        0.018967237892747124,
+        0.09779731486380105,
+        0.3439564529240133
+      ],
+      [
+        0.08176664846390502,
+        0.11654863907098756,
+        0.5129003788612784
+      ],
+      [
+        0.018967237892747124,
+        0.09779731486380105,
+        0.3439564529240133
+      ],
+      [
+        0.08176664846390502,
+        0.11654863907098756,
+        0.5129003788612784
+      ],
+      [
+        0.09107173953652384,
+        0.1394588345744181,
+        0.292107531452179
+      ],
+      [
+        0.09107173953652384,
+        0.1394588345744181,
+        0.292107531452179
+      ]
+    ],
+    "wave": [
+      [
+        0.0414033504575491,
+        0.00831925457343452,
+        0.022084973305463794
+      ],
+      [
+        0.10605054217964416,
+        0.4435635357883574,
+        0.004568202742934208
+      ],
+      [
+        0.318303825813532,
+        0.9540499518930915,
+        0.12233591861128812
+      ],
+      [
+        0.03213254677220245,
+        0.012164509158064662,
+        0.02931922917034477
+      ],
+      [
+        0.05368176208734521,
+        0.010196237144246778,
+        0.018696455765143033
+      ],
+      [
+        0.000943243895866891,
+        0.02025690021564369,
+        0.004078337222989656
+      ],
+      [
+        0.0004222679335856572,
+        4.418843160848562e-05,
+        0.00431632484430447
+      ]
+    ],
+    "dance": [
+      [
+        0.45846222788095475,
+        0.10054327027872212,
+        0.12902608543634417
+      ],
+      [
+        0.3462238551414012,
+        0.35557105520010013,
+        0.5254271538722515
+      ],
+      [
+        0.2685232589423655,
+        0.3957424127638338,
+        0.7008200862407685
+      ],
+      [
+        0.3462238551414012,
+        0.35557105520010013,
+        0.5254271538722515
+      ],
+      [
+        0.2610985604166983,
+        0.39590902124643323,
+        0.7150916322976352
+      ],
+      [
+        0.0893499218255282,
+        0.17616688060786106,
+        0.029388615906238563
+      ],
+      [
+        0.0893499218255282,
+        0.17616688060786106,
+        0.029388615906238563
+      ]
+    ]
+  },
+  "waveReadability": {
+    "recipes": [
+      "Blue Duder",
+      "Blue Shift",
+      "Coral Cap",
+      "Sunshine",
+      "Mint Bucket",
+      "Lilac Nap",
+      "Orange Pilot",
+      "Teal Bowler",
+      "Pink Pop",
+      "Cookie Crumb",
+      "Cloud Nine",
+      "Star Gazer",
+      "Lime Safari",
+      "Berry Buddy",
+      "Caramel Patch",
+      "Cyan Static",
+      "Cowabunga",
+      "short-wide",
+      "tall-thin",
+      "short-thick-arms",
+      "long-wide-spread",
+      "short-wide-short-arms",
+      "tall-thin-long-arms",
+      "all-minimum-dimensions"
+    ],
+    "amplitudes": [
+      0,
+      1,
+      1.25
+    ],
+    "numericSamples": 4680,
+    "heldSamples": 1968,
+    "minForearmUp": 0.9634457854219386,
+    "maxForearmForward": 0.23666402242012297,
+    "minProjectedHandClearanceByWidth": 0.12092647485275539,
+    "minLateralSweepByForearmLength": 0.18087786877644882,
+    "maxElbowToHandTravel": 9.438566133620364e-06,
+    "maxArmLengthError": 7.435137550082516e-08,
+    "maxZeroAmplitudeMotion": 0,
+    "maxNearSeamStep": 0.005103351610411883,
+    "cases": [
+      {
+        "recipe": "Blue Duder",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Blue Duder",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Blue Shift",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Blue Shift",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Coral Cap",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Coral Cap",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Sunshine",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Sunshine",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Mint Bucket",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Mint Bucket",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Lilac Nap",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Lilac Nap",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Orange Pilot",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Orange Pilot",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Teal Bowler",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Teal Bowler",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Pink Pop",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Pink Pop",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Cookie Crumb",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Cookie Crumb",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Cloud Nine",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Cloud Nine",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Star Gazer",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Star Gazer",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Lime Safari",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Lime Safari",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Berry Buddy",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Berry Buddy",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Caramel Patch",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Caramel Patch",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Cyan Static",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Cyan Static",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "Cowabunga",
+        "amplitude": 1,
+        "minUp": 0.9692785755653665,
+        "maxForward": 0.18400690398617045,
+        "minHandClearanceByWidth": 0.27635545213408574,
+        "lateralSweepByForearmLength": 0.39759713757453086,
+        "elbowToHandTravel": 2.9569616597644953e-06
+      },
+      {
+        "recipe": "Cowabunga",
+        "amplitude": 1.25,
+        "minUp": 0.9640628944703173,
+        "maxForward": 0.19204528966001844,
+        "minHandClearanceByWidth": 0.27573218971439073,
+        "lateralSweepByForearmLength": 0.4284860964547108,
+        "elbowToHandTravel": 2.602687435831884e-06
+      },
+      {
+        "recipe": "short-wide",
+        "amplitude": 1,
+        "minUp": 0.9690438181813729,
+        "maxForward": 0.18599161027130648,
+        "minHandClearanceByWidth": 0.2307999025866192,
+        "lateralSweepByForearmLength": 0.3958815442986592,
+        "elbowToHandTravel": 3.4851226934294194e-06
+      },
+      {
+        "recipe": "short-wide",
+        "amplitude": 1.25,
+        "minUp": 0.9637951796292146,
+        "maxForward": 0.1943194167266579,
+        "minHandClearanceByWidth": 0.23038643292657435,
+        "lateralSweepByForearmLength": 0.42662415015536115,
+        "elbowToHandTravel": 2.8858870201745986e-06
+      },
+      {
+        "recipe": "tall-thin",
+        "amplitude": 1,
+        "minUp": 0.9692979272493292,
+        "maxForward": 0.18384307513604042,
+        "minHandClearanceByWidth": 0.3194509169458528,
+        "lateralSweepByForearmLength": 0.397737546599915,
+        "elbowToHandTravel": 4.873348121802439e-06
+      },
+      {
+        "recipe": "tall-thin",
+        "amplitude": 1.25,
+        "minUp": 0.9640849244460398,
+        "maxForward": 0.19185750376781177,
+        "minHandClearanceByWidth": 0.31861677120120296,
+        "lateralSweepByForearmLength": 0.4286371409182013,
+        "elbowToHandTravel": 4.153033032811358e-06
+      },
+      {
+        "recipe": "short-thick-arms",
+        "amplitude": 1,
+        "minUp": 0.9687377172634043,
+        "maxForward": 0.18856832362705334,
+        "minHandClearanceByWidth": 0.1322864371206926,
+        "lateralSweepByForearmLength": 0.39358287551733895,
+        "elbowToHandTravel": 4.926113899208311e-06
+      },
+      {
+        "recipe": "short-thick-arms",
+        "amplitude": 1.25,
+        "minUp": 0.9634457854219386,
+        "maxForward": 0.19727168012735,
+        "minHandClearanceByWidth": 0.1318274532030113,
+        "lateralSweepByForearmLength": 0.42412846602584353,
+        "elbowToHandTravel": 5.337304062228934e-06
+      },
+      {
+        "recipe": "long-wide-spread",
+        "amplitude": 1,
+        "minUp": 0.9696734716823816,
+        "maxForward": 0.1806517845307583,
+        "minHandClearanceByWidth": 0.4491339211992697,
+        "lateralSweepByForearmLength": 0.4003901152898545,
+        "elbowToHandTravel": 2.3757874669852173e-06
+      },
+      {
+        "recipe": "long-wide-spread",
+        "amplitude": 1.25,
+        "minUp": 0.96451259602817,
+        "maxForward": 0.18820077668602023,
+        "minHandClearanceByWidth": 0.4482862443600066,
+        "lateralSweepByForearmLength": 0.4315179348980365,
+        "elbowToHandTravel": 2.096452584179388e-06
+      },
+      {
+        "recipe": "short-wide-short-arms",
+        "amplitude": 1,
+        "minUp": 0.969392579000363,
+        "maxForward": 0.22281696076322377,
+        "minHandClearanceByWidth": 0.13700138460850425,
+        "lateralSweepByForearmLength": 0.2802736888314391,
+        "elbowToHandTravel": 9.438566133620364e-06
+      },
+      {
+        "recipe": "short-wide-short-arms",
+        "amplitude": 1.25,
+        "minUp": 0.9647968896466736,
+        "maxForward": 0.23666402242012297,
+        "minHandClearanceByWidth": 0.13685818755287915,
+        "lateralSweepByForearmLength": 0.3017749476872861,
+        "elbowToHandTravel": 8.908914845044324e-06
+      },
+      {
+        "recipe": "tall-thin-long-arms",
+        "amplitude": 1,
+        "minUp": 0.9770593135051808,
+        "maxForward": 0.1314743392581942,
+        "minHandClearanceByWidth": 0.6386148949685054,
+        "lateralSweepByForearmLength": 0.18824394639097747,
+        "elbowToHandTravel": 5.1561708806203425e-06
+      },
+      {
+        "recipe": "tall-thin-long-arms",
+        "amplitude": 1.25,
+        "minUp": 0.9761562521111353,
+        "maxForward": 0.13183121704350467,
+        "minHandClearanceByWidth": 0.6377231941852429,
+        "lateralSweepByForearmLength": 0.20312215542336126,
+        "elbowToHandTravel": 4.494820738678968e-06
+      },
+      {
+        "recipe": "all-minimum-dimensions",
+        "amplitude": 1,
+        "minUp": 0.9874940723508177,
+        "maxForward": 0.1413439475696748,
+        "minHandClearanceByWidth": 0.12121641753774766,
+        "lateralSweepByForearmLength": 0.18087786877644882,
+        "elbowToHandTravel": 9.308679727002255e-06
+      },
+      {
+        "recipe": "all-minimum-dimensions",
+        "amplitude": 1.25,
+        "minUp": 0.9869394865520311,
+        "maxForward": 0.14298135248678243,
+        "minHandClearanceByWidth": 0.12092647485275539,
+        "lateralSweepByForearmLength": 0.19506844382385333,
+        "elbowToHandTravel": 7.411205536769589e-06
+      }
+    ]
+  },
+  "releaseSourceHashes": {
+    "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c",
+    "app.js": "d0a7050b37e321259edb07cdce09b3b1622dad3466c62a16fe87e80c43b2fc05",
+    "collision-shapes.js": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+    "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+    "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+    "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+    "physics.js": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16",
+    "renderer.js": "eff6ac44eaf0f2ebe4d68190fa6dee09076c72d5a916bc426f725bde3fa9bd48",
+    "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+    "ui.js": "3b1337539cd996cbcbbd21599521ea42d922f776232c2349c5dfaf38892b71c2",
+    "vendor-cannon.js": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26"
+  },
+  "testScriptSHA256": "21dcac0b860b79bfc38863c646b0073b42c9be1ccf649a4546cf0b1abadc29e6"
+}

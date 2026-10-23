@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="dark"><meta name="description" content="Duder Lab V3.1.1: offline parametric beans, smooth welded geometry, closed wearable meshes, SDF shell outlines, rigid-body ragdolls, sumo, bean piles, procedural animation, and posed GLB export.">
-<meta name="theme-color" content="#14171a"><title>Duder Lab V3.1.1 — Smooth Duders</title>
+<meta name="color-scheme" content="dark"><meta name="description" content="Duder Lab V3.2: offline parametric beans, smooth welded geometry, closed wearable meshes, SDF shell outlines, rigid-body ragdolls, sumo, bean piles, friendly procedural waves, and posed GLB export.">
+<meta name="theme-color" content="#14171a"><title>Duder Lab V3.2 — Friendly Waves</title>
 <style>*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#14171a}#duder{width:100%;height:100%;display:block;touch-action:none;outline:none}#fallback{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#161c20;color:#eef1dc;padding:24px;max-width:580px;border:1px solid #55613f;border-radius:12px;font:16px/1.5 system-ui,sans-serif}#fallback[hidden]{display:none}</style>
-</head><body><canvas id="duder" tabindex="0" role="application" aria-label="Duder Lab V3.1.1 interactive 3D bean generator and physics playground. B starts a bean pile, M opens animation, S starts sumo, P releases to ragdoll, Space pauses motion, left drag grabs, right drag orbits, X shows the rig, O toggles shell outlines. G gallery, F frame, R reroll, question mark help."></canvas><div id="fallback">Preparing the duder workshop…</div>
+</head><body><canvas id="duder" tabindex="0" role="application" aria-label="Duder Lab V3.2 interactive 3D bean generator and physics playground. B starts a bean pile, M opens animation, S starts sumo, P releases to ragdoll, Space pauses motion, left drag grabs, right drag orbits, X shows the rig, O toggles shell outlines. G gallery, F frame, R reroll, question mark help."></canvas><div id="fallback">Preparing the duder workshop…</div>
 <!-- This file is completely self-contained: no imports, CDNs, fetches, or external assets.
 Original rendering/character UI: Duder Lab, made for Trent Sterling.
 SDF blend-shell projection adapted from https://github.com/TrentSterling/critters .
@@ -13222,17 +13222,19 @@ root.CANNON={ AABB, ArrayCollisionMatrix, BODY_SLEEP_STATES, BODY_TYPES, Body, B
     const radiusAt=y=>{const ly=y-aY;if(ly<slope*ra)return Math.sqrt(Math.max(0,ra*ra-ly*ly));if(ly>length+slope*rb){const t=ly-length;return Math.sqrt(Math.max(0,rb*rb-t*t));}return Math.max(0,(ra-slope*ly)/side);};
     const thick=(r.armThickness===undefined?1:r.armThickness),gap=(r.armGap===undefined?.10:r.armGap),armR=.112*w*thick;
     for(const sign of [-1,1]) {
-      const shoulderY=lift+1.15*h,elbowY=shoulderY-.22*h*r.armLength,wristY=elbowY-.27*h*r.armLength;
+      // Let the upper arm hang down as well as out. Clearance belongs to the
+      // silhouette calculation, not a sharp sideways kink at the elbow.
+      const shoulderY=lift+1.15*h,elbowY=shoulderY-.30*h*r.armLength,wristY=elbowY-.255*h*r.armLength;
       const shoulderX=Math.max(.25*w,radiusAt(shoulderY)-armR*.43);
       const widest=Math.max(radiusAt(elbowY),radiusAt(wristY),(aY>=wristY&&aY<=elbowY)?ra:0);
-      const clearanceX=widest+armR*1.05+gap*w+.045;
+      const clearanceX=widest+armR*1.20+gap*w+.018;
       const elbowX=Math.max(shoulderX+.23*w*r.armLength+r.armSpread*.35,clearanceX);
       const wave=animate?Math.sin(time*1.9+sign*.72)*.035:0;
       const shoulder=[sign*shoulderX,shoulderY,0];
       const elbow=[sign*elbowX,elbowY+wave*.3,.012];
       const wrist=[sign*Math.max(clearanceX,elbowX+.035*w+r.armSpread*.35),wristY+wave,.040+wave*.4];
-      out.push({a:shoulder,b:elbow,ra:armR,rb:armR*.92});
-      out.push({a:elbow.slice(),b:wrist,ra:armR*.92,rb:armR*1.05});
+      out.push({a:shoulder,b:elbow,ra:armR,rb:armR*.98});
+      out.push({a:elbow.slice(),b:wrist,ra:armR*.98,rb:armR*1.20});
     }
     const footR=.16*r.feet,footY=footR*.75;
     for(const sign of [-1,1]) {
@@ -13247,7 +13249,15 @@ root.CANNON={ AABB, ArrayCollisionMatrix, BODY_SLEEP_STATES, BODY_TYPES, Body, B
     const joints=[];
     for(const [upper,lower,sign]of [[1,2,-1],[3,4,1]]){
       joints.push({parent:0,child:upper,point:parts[upper].a.slice(),type:'cone',angle:1.05,twist:.70});
-      joints.push({parent:upper,child:lower,point:parts[lower].a.slice(),type:'hinge',axis:norm(cross(sub(parts[lower].b,parts[lower].a),[0,0,1])),lower:-.12,upper:2.15});
+      const upperDirection=sub(parts[upper].b,parts[upper].a),forearm=sub(parts[lower].b,parts[lower].a);
+      let frontal=norm(cross(upperDirection,forearm));
+      if(frontal[2]*sign<0)frontal=frontal.map(v=>-v);
+      const forward=norm(cross(forearm,[0,0,1]));
+      // One stable elbow frame is shared by animation and physics. This partly
+      // outward bend needs only a modest shoulder roll to present the mitten
+      // to the camera, while retaining forward bend in walk/idle poses.
+      const axis=norm(frontal.map((v,k)=>v*.80+forward[k]*.60));
+      joints.push({parent:upper,child:lower,point:parts[lower].a.slice(),type:'hinge',axis,lower:-.12,upper:2.15});
     }
     for(const leg of [5,6])joints.push({parent:0,child:leg,point:parts[leg].a.slice(),type:'cone',angle:.70,twist:.42});
     return {parts,joints,names:boneNames.slice(),depth:r.depth};
@@ -13380,10 +13390,34 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const v=[m[0],m[4],m[8],0,m[1],m[5],m[9],0,m[2],m[6],m[10],0,0,0,0,1],t=transformVector(v,[m[12],m[13],m[14]]);
     v[12]=-t[0];v[13]=-t[1];v[14]=-t[2];return v;
   }
+  function dualQuaternion(m){
+    // xyzw real quaternion followed by .5 * translationQuaternion * real.
+    // Store these beside the existing matrices, once per bone, not per vertex.
+    const trace=m[0]+m[5]+m[10];let x,y,z,w,s;
+    if(trace>0){s=Math.sqrt(trace+1)*2;x=(m[6]-m[9])/s;y=(m[8]-m[2])/s;z=(m[1]-m[4])/s;w=s*.25;}
+    else if(m[0]>m[5]&&m[0]>m[10]){s=Math.sqrt(1+m[0]-m[5]-m[10])*2;x=s*.25;y=(m[4]+m[1])/s;z=(m[8]+m[2])/s;w=(m[6]-m[9])/s;}
+    else if(m[5]>m[10]){s=Math.sqrt(1+m[5]-m[0]-m[10])*2;x=(m[4]+m[1])/s;y=s*.25;z=(m[9]+m[6])/s;w=(m[8]-m[2])/s;}
+    else{s=Math.sqrt(1+m[10]-m[0]-m[5])*2;x=(m[8]+m[2])/s;y=(m[9]+m[6])/s;z=s*.25;w=(m[1]-m[4])/s;}
+    const length=Math.hypot(x,y,z,w);x/=length;y/=length;z/=length;w/=length;
+    const a=m[12],b=m[13],c=m[14];
+    return [x,y,z,w,.5*(a*w+b*z-c*y),.5*(b*w+c*x-a*z),.5*(c*w+a*y-b*x),-.5*(a*x+b*y+c*z)];
+  }
+  function skinDualQuaternion(p,n,skin,palette){
+    const reference=palette[skin.indices[0]],q=Array(8).fill(0);
+    for(let i=0;i<4;i++)if(skin.weights[i]>0){
+      const d=palette[skin.indices[i]],sign=d.slice(0,4).reduce((s,v,k)=>s+v*reference[k],0)<0?-1:1;
+      for(let k=0;k<8;k++)q[k]+=d[k]*skin.weights[i]*sign;
+    }
+    const length=Math.max(1e-8,Math.hypot(...q.slice(0,4)));for(let k=0;k<8;k++)q[k]/=length;
+    const parallel=q.slice(0,4).reduce((s,v,k)=>s+v*q[k+4],0);for(let k=0;k<4;k++)q[k+4]-=q[k]*parallel;
+    const r=q.slice(0,3),d=q.slice(4,7),translation=cross(r,d).map((v,k)=>2*(v+q[3]*d[k]-q[7]*r[k]));
+    const rotate=v=>{const c=cross(r,v),d=cross(r,c.map((x,k)=>x+q[3]*v[k]));return v.map((x,k)=>x+2*d[k]);};
+    return{p:rotate(p).map((v,k)=>v+translation[k]),n:rotate(n)};
+  }
   function bake(geometry,recipe,smoothNormals=true,pose=null) {
     const r=sanitizeRecipe(recipe),parts=primitives(r),src=geometry.positions,ns=geometry.normals,cs=geometry.colors,meta=geometry.meta;
     if(!src||src.length%9!==0||!meta||meta.length!==src.length/3*4)throw new Error('Expected non-indexed DuderGeometry positions and vec4 meta.');
-    const transforms=pose&&pose.transforms,posed=Array.isArray(transforms)&&transforms.length>=7,inv=posed?transforms.map(rigidInverse):null;
+    const transforms=pose&&pose.transforms,posed=Array.isArray(transforms)&&transforms.length>=7,inv=posed?transforms.map(rigidInverse):null,palette=posed?transforms.map(dualQuaternion):null;
     const strength=clamp(pose?.projectionStrength===undefined?.55:pose.projectionStrength,0,1),distanceScale=Math.min(1,r.depth);
     function posedField(p){
       let d=1e9;
@@ -13419,9 +13453,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
           const skin=geometry.skinWeights?{indices:Array.from(geometry.skinIndices.slice(i*4,i*4+4)),weights:Array.from(geometry.skinWeights.slice(i*4,i*4+4))}:skinWeightsForPoint(p,parts,r.blend);
           joint=clamp((1-Math.max(...skin.weights))*4,0,1);
           if(posed){
-            p=[0,0,0];const restN=norm([n[0],n[1],n[2]/r.depth]);n=[0,0,0];
-            for(let q=0;q<4;q++)if(skin.weights[q]>0){const w=skin.weights[q],m=transforms[Math.round(skin.indices[q])],v=transformPoint(m,rest),N=transformVector(m,restN);for(let j=0;j<3;j++){p[j]+=v[j]*w;n[j]+=N[j]*w;}}
-            n=norm(n);
+            const skinned=skinDualQuaternion(rest,norm([n[0],n[1],n[2]/r.depth]),skin,palette);p=skinned.p;n=norm(skinned.n);
             if(joint>0){for(let q=0;q<2;q++){const g=posedGradient(p),step=clamp(posedField(p),-.035*strength*joint,.035*strength*joint);for(let j=0;j<3;j++)p[j]-=g[j]*step;}}
             const g=posedGradient(p);n=norm(n.map((v,j)=>mix(v,g[j],joint*.8)));
           }else{
@@ -13457,14 +13489,14 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
     for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 3.1.1'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.2'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'3.1.1',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.2',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
@@ -13574,7 +13606,10 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       return [...counts.values()].every(v=>v[0]===2&&v[1]===0);
     }
     function refine(reason){
-      if(attempt>=4)throw Error('Cannot build a regular closed shell: '+reason);
+      // Very short, thin arms at minimum blend leave an underarm gap smaller
+      // than the coarse lattice. Allow two extra retries for that rare shape;
+      // ordinary recipes keep their original resolution and cached mesh.
+      if(attempt>=6)throw Error('Cannot build a regular closed shell: '+reason);
       return build(recipe,attempt+1);
     }
     if(!topologyValid())return refine('ambiguous lattice cell');
@@ -13954,7 +13989,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     out.counts.parts=7;out.counts.hat=r.hat||'none';out.counts.glasses=r.glasses||'none';
     out.indexed=indexedGeometry(out);return out;
   }
-  global.DuderGeometry={build,metrics,version:'3.1.1',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
+  global.DuderGeometry={build,metrics,version:'3.2',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
@@ -14290,7 +14325,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
 
 </script>
 <script>
-/* Duder Lab V3 — deterministic, looping seven-bone motion clips.
+/* Duder Lab V3.2 — deterministic, looping seven-bone motion clips.
  * Every matrix maps the immutable rest mesh into the current pose. The same
  * matrices can initialize the rigid bodies when a clip is released to physics.
  */
@@ -14311,14 +14346,37 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   const clips=Object.freeze([
     Object.freeze({id:'idle',label:'Idle',duration:3.2}),
     Object.freeze({id:'walk',label:'Walk',duration:1.1}),
-    Object.freeze({id:'wave',label:'Wave',duration:2.6}),
+    Object.freeze({id:'wave',label:'Wave',duration:4.0}),
     Object.freeze({id:'dance',label:'Dance',duration:1.8})
   ]);
   const shapeKeys=['height','width','depth','belly','armLength','armSpread','armThickness','armGap','feet'];
   const cache=new Map();
+  function greetingFrame(rig){
+    // Aim the forearm upward for this recipe, with a little forward presentation.
+    // The shoulder first rolls around the upper arm, then swings outward. The
+    // elbow uses exactly the same rest axis as the ragdoll; no per-pose hinge
+    // changes, stretching, extra wrist, or disconnected hand are needed.
+    const upper=rig.parts[1],lower=rig.parts[2],hinge=rig.joints.find(j=>j.child===2);
+    const direction=upper.b.map((v,k)=>v-upper.a[k]),n=Math.hypot(...direction),axis=direction.map(v=>v/n);
+    const forearm=lower.b.map((v,k)=>v-lower.a[k]),length=Math.hypot(...forearm);
+    let flex=1.90,roll=0,swing=0;
+    for(let attempt=0;attempt<3;attempt++){
+      const v=C.transformVector(around([0,0,0],hinge.axis,flex),forearm);
+      const dot=axis.reduce((s,x,k)=>s+x*v[k],0),a=v[2]-axis[2]*dot,b=axis[0]*v[1]-axis[1]*v[0],c=axis[2]*dot;
+      const phase=Math.atan2(b,a),offset=Math.acos(clamp((length*.12-c)/Math.max(1e-8,Math.hypot(a,b)),-1,1));
+      const wrap=x=>Math.atan2(Math.sin(x),Math.cos(x));
+      const candidates=[wrap(phase+offset),wrap(phase-offset)].sort((x,y)=>Math.abs(x)-Math.abs(y));
+      roll=clamp(candidates[0],-.60,.60);
+      const upright=C.transformVector(around([0,0,0],axis,roll),v);
+      swing=Math.atan2(upright[0],upright[1]);
+      if(Math.abs(swing)<=.97)break;
+      flex=Math.min(2.02,flex+Math.abs(swing)-.97);
+    }
+    return{axis,roll,swing:clamp(swing,-.99,.99),flex,stroke:Math.min(.22,2.12-flex)};
+  }
   function definition(recipe){
     const key=shapeKeys.map(k=>recipe[k]).join('/');let cached=cache.get(key);
-    if(!cached){const rig=C.rigDefinition(recipe),hips=rig.parts.slice(5).map(p=>p.a);cached={rig,hips,root:hips[0].map((v,k)=>(v+hips[1][k])*.5)};if(cache.size>=128)cache.delete(cache.keys().next().value);cache.set(key,cached);}
+    if(!cached){const rig=C.rigDefinition(recipe),hips=rig.parts.slice(5).map(p=>p.a);cached={rig,hips,root:hips[0].map((v,k)=>(v+hips[1][k])*.5),greeting:greetingFrame(rig)};if(cache.size>=128)cache.delete(cache.keys().next().value);cache.set(key,cached);}
     return cached;
   }
   // Minimum posed Y of the flattened, flat-soled rest capsule. Restricting the
@@ -14343,9 +14401,9 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   function sample(recipe,clipId='idle',time=0,options={}){
     const clip=clips.find(c=>c.id===clipId)||clips[0],amplitude=clamp(Number.isFinite(options.amplitude)?options.amplitude:1,0,1.25);
     const t=Number.isFinite(time)?time:0,u=((t/clip.duration)%1+1)%1,p=u*TAU,s=Math.sin(p),c=Math.cos(p);
-    const {rig,root:rootPoint}=definition(recipe);
+    const {rig,root:rootPoint,greeting}=definition(recipe);
     const rotations=Array.from({length:7},()=>[0,0,0]);let lean=[0,0,0],shift=[0,0,0],bounce=0;
-    const elbows=[0,0];
+    const elbows=[0,0];let waveShoulder=null;
     if(clip.id==='idle'){
       lean=[.012*s,.022*s,.015*c];
       rotations[1]=[.028*s,0,-.035-.025*s];rotations[3]=[-.028*s,0,.035+.025*s];
@@ -14360,11 +14418,17 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       elbows[0]=.20+.16*Math.max(0,-s);elbows[1]=.20+.16*Math.max(0,s);
       bounce=.006*(1-Math.cos(p*2));
     }else if(clip.id==='wave'){
-      const lift=smooth(.02,.20,u)*(1-smooth(.80,.98,u)),wave=Math.sin(p*3);
-      lean=[-.025*lift,-.035*lift,-.055*lift];
-      rotations[1]=[.025*s,0,-.06*lift];elbows[0]=.12*lift;
-      rotations[3]=[-.055*lift,.12*lift*wave,(.89+.07*wave)*lift];
-      elbows[1]=(1.76+.25*Math.sin(p*3+.45))*lift;
+      const lift=smooth(.10,.29,u)*(1-smooth(.83,.98,u));
+      const ready=smooth(.02,.08,u)*(1-smooth(.10,.22,u));
+      const q=clamp((u-.32)/.44,0,1),wave=Math.sin(q*TAU*2)*smooth(0,.10,q)*(1-smooth(.90,1,q));
+      const reach=Math.min(1,amplitude),follow=smooth(.14,.34,u)*(1-smooth(.83,.99,u));
+      lean=[-.018*follow,.015*follow,-.035*follow];
+      rotations[3]=[.015*s*lift,0,.035*lift];elbows[1]=.08*lift;
+      // The greeting is on the viewer's left, as in the concept sheet. Hold
+      // its elbow still through both sweeps; only the forearm makes the wave.
+      // Amplitude above one adds sweep energy, without over-raising the arm.
+      waveShoulder={swing:greeting.swing*lift*reach+.035*ready*reach,roll:greeting.roll*lift*reach};
+      elbows[0]=(greeting.flex*lift+.12*ready)*reach-greeting.stroke*wave*lift*Math.min(amplitude,1.15);
       rotations[5]=[-lean[0],0,-lean[2]];rotations[6]=[-lean[0],0,-lean[2]];
     }else{
       const beat=Math.sin(p*2),left=Math.max(0,s),right=Math.max(0,-s);
@@ -14381,7 +14445,10 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     transforms[0]=localRotation(rootPoint,lean,.36);
     transforms[0][12]+=shift[0]*amplitude;transforms[0][14]+=shift[2]*amplitude;
     for(const j of rig.joints){
-      const local=j.type==='hinge'?around(j.point,j.axis,clamp(elbows[j.child===2?0:1]*amplitude,0,2.05)):localRotation(j.point,rotations[j.child],j.child>=5?.64:.99);
+      let local;
+      if(j.type==='hinge')local=around(j.point,j.axis,clamp(elbows[j.child===2?0:1]*(waveShoulder&&j.child===2?1:amplitude),0,Math.min(j.upper-.025,waveShoulder&&j.child===2?2.12:2.05)));
+      else if(waveShoulder&&j.child===1)local=multiply(around(j.point,[0,0,1],waveShoulder.swing),around(j.point,greeting.axis,waveShoulder.roll));
+      else local=localRotation(j.point,rotations[j.child],j.child>=5?.64:.99);
       transforms[j.child]=multiply(transforms[j.parent],local);
     }
     const lowest=Math.min(footMinimum(rig.parts[5],transforms[5],rig.depth),footMinimum(rig.parts[6],transforms[6],rig.depth));
@@ -14403,7 +14470,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
 
 </script>
 <script>
-/* Duder Lab V3.1.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.2 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -14432,7 +14499,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   layout(location=0) in vec3 aPosition;layout(location=1) in vec3 aNormal;
   layout(location=2) in vec3 aColor;layout(location=3) in vec4 aMeta;
   layout(location=4) in vec3 aBary;layout(location=5) in vec4 aSkinIndices;layout(location=6) in vec4 aSkinWeights;layout(location=7) in vec4 aOutline;
-  uniform sampler2D uData;uniform mat4 uVP;uniform vec2 uGrid;uniform int uFocus;
+  uniform highp sampler2D uData;uniform mat4 uVP;uniform vec2 uGrid;uniform int uFocus;
   uniform bool uOutline;uniform float uOutlineWidth;uniform vec2 uViewport;uniform vec3 uViewDir;
   uniform float uProjection;
   out vec3 vWorld;out vec3 vNormal;out vec3 vLocal;out vec3 vColor;out vec3 vBary;
@@ -14460,6 +14527,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   }
   vec3 grad(vec3 p){vec2 e=vec2(.006,-.006);vec3 g=e.xyy*field(p+e.xyy)+e.yyx*field(p+e.yyx)+e.yxy*field(p+e.yxy)+e.xxx*field(p+e.xxx);return g/max(length(g),1e-8);}
   mat4 matrixAt(int x,int id){return mat4(texelFetch(uData,ivec2(x,id),0),texelFetch(uData,ivec2(x+1,id),0),texelFetch(uData,ivec2(x+2,id),0),texelFetch(uData,ivec2(x+3,id),0));}
+  vec3 rotateQuaternion(vec4 q,vec3 p){return p+2.*cross(q.xyz,cross(q.xyz,p)+q.w*p);}
   void main(){
     int id=int(aMeta.x+.5);vec4 parms=texelFetch(uData,ivec2(0,id),0);Depth=parms.x;K=max(.001,parms.y)*min(1.,Depth);Physics=texelFetch(uData,ivec2(3,id),0).x>.5;
     for(int i=0;i<7;i++){T[i]=matrixAt(20+i*4,id);IT[i]=matrixAt(48+i*4,id);A[i]=texelFetch(uData,ivec2(4+i*2,id),0);B[i]=texelFetch(uData,ivec2(5+i*2,id),0);}
@@ -14467,7 +14535,22 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     vec3 sourceN=uOutline?aOutline.xyz:aNormal;
     vec3 restN=body?normalize(sourceN/vec3(1,1,Depth)):sourceN;
     vec3 p=vec3(0),n=vec3(0);float maxWeight=0.;
-    for(int i=0;i<4;i++){float w=aSkinWeights[i];int j=int(aSkinIndices[i]+.5);p+=(T[j]*vec4(rest,1.)).xyz*w;n+=mat3(T[j])*restN*w;maxWeight=max(maxWeight,w);}
+    if(body){
+      // Blending rigid transforms as dual quaternions keeps the soft elbow's
+      // cross-section from collapsing at a deep bend. Fixed rest weights and
+      // the same palette drive fill and shell; accessory matrices are unchanged.
+      vec4 qr=vec4(0),qd=vec4(0),reference=texelFetch(uData,ivec2(76+int(aSkinIndices.x+.5)*2,id),0);
+      for(int i=0;i<4;i++){
+        float w=aSkinWeights[i];int j=int(aSkinIndices[i]+.5);maxWeight=max(maxWeight,w);
+        if(w>0.){vec4 r=texelFetch(uData,ivec2(76+j*2,id),0),d=texelFetch(uData,ivec2(77+j*2,id),0);float s=dot(r,reference)<0.?-1.:1.;qr+=r*w*s;qd+=d*w*s;}
+      }
+      float qlength=max(length(qr),1e-8);qr/=qlength;qd/=qlength;
+      qd-=qr*dot(qr,qd);
+      p=rotateQuaternion(qr,rest)+2.*(qr.w*qd.xyz-qd.w*qr.xyz+cross(qr.xyz,qd.xyz));
+      n=rotateQuaternion(qr,restN);
+    }else{
+      for(int i=0;i<4;i++){float w=aSkinWeights[i];int j=int(aSkinIndices[i]+.5);p+=(T[j]*vec4(rest,1.)).xyz*w;n+=mat3(T[j])*restN*w;maxWeight=max(maxWeight,w);}
+    }
     n=normalize(n);vJoint=body?clamp((1.-maxWeight)*4.,0.,1.):0.;
     // Bone-driven positions never accumulate projection: each frame starts from
     // rest coordinates. Rigid regions stay exactly attached; only joint vertices
@@ -14496,7 +14579,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   }`;
   function fragment(){return `#version 300 es
   precision highp float;precision highp int;
-  uniform sampler2D uData;uniform vec3 uCamera;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;
+  uniform highp sampler2D uData;uniform vec3 uCamera;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;
   in vec3 vWorld;in vec3 vNormal;in vec3 vLocal;in vec3 vColor;in vec3 vBary;in float vJoint;
   flat in int vId;flat in float vKind;flat in float vRough;in float vOutlineScale;
   out vec4 outColor;
@@ -14638,6 +14721,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
         const prim=DuderCore.primitives(r,0,false);for(let i=0;i<7;i++){
           tex.set([...prim[i].a,prim[i].ra],o+(4+i*2)*4);tex.set([...prim[i].b,prim[i].rb],o+(5+i*2)*4);
           tex.set(transforms[i],o+(20+i*4)*4);tex.set(M.rigidInverse(transforms[i]),o+(48+i*4)*4);
+          tex.set(DuderCore.dualQuaternion(transforms[i]),o+(76+i*2)*4);
         }
         this.poses[id]=pose||{transforms,parts:DuderCore.rigDefinition(r).parts.map((p,i)=>({...p,a:M.point(transforms[i],p.a).slice(0,3),b:M.point(transforms[i],p.b).slice(0,3)}))};
       }
@@ -14816,7 +14900,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     _header(s,w,l){
       this.rect(0,0,w,l.header,C.panel);this.rect(0,l.header-1,w,1,C.border);
       this._hit(0,0,w,l.header,{type:'block',key:'header'});
-      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.1.1',32,48,9,C.muted);
+      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.2',32,48,9,C.muted);
       if(l.mobile){
         this.button(s.panelOpen?'Close':'Edit',w-121,20,65,30,'togglePanel',undefined,s.panelOpen,false,'togglePanel');
         this.button('?',w-48,20,30,30,'help',undefined,s.helpOpen,false,'help');
@@ -14925,7 +15009,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     _footer(s,w,h,l){
       const y=h-l.footer;this.rect(0,y,w,l.footer,C.panel);this.rect(0,y,w,1,C.border);
       this._hit(0,y,w,l.footer,{type:'block',key:'footer'});
-      if(l.left&&!l.mobile)this.text('V3.1.1   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
+      if(l.left&&!l.mobile)this.text('V3.2   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
       const x=(l.mobile?0:l.left)+18,st=s.stats||{},tris=st.triangles>=1000?(st.triangles/1000).toFixed(1)+'K':String(st.triangles||0);
       const text=(st.count||16)+((st.count||16)===1?' DUDER   ':' DUDERS   ')+(st.drawCalls??3)+' DRAWS   '+tris+' TRIS'+(w>650?(st.offlineCapture?'   OFFLINE REPLAY':'   '+Math.round(st.fps||0)+' FPS'):'');
       this.text(text,x,y+(l.footer-10)/2,10,C.lime);
@@ -15134,7 +15218,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     else if(name==='exportRecipe')exportRecipe();
     else if(name==='importRecipe')importRecipe();
     else if(name==='reset'){stopPhysics();state.motionEnabled=false;recipes=DuderCore.presets();state.selected=0;dirty=true;renderer.frame(state);persist();toast('Original 16 restored');}
-    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-1-1.png');});}
+    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-2.png');});}
     state.recipe=recipes[state.selected];
   }
   try{
@@ -15205,7 +15289,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       frames++;
       if(frames%30===0){
         const err=renderer.gl.getError();if(err!==0){errors.push('WebGL error '+err);console.error('WebGL error',err);}
-        canvas.dataset.diagnostics=JSON.stringify({version:'3.1.1',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
+        canvas.dataset.diagnostics=JSON.stringify({version:'3.2',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
       }
       requestAnimationFrame(tick);
     }catch(e){errors.push(e.message);console.error(e);canvas.dataset.error=e.message;fallback.hidden=false;fallback.textContent=e.message;}

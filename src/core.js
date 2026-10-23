@@ -95,17 +95,19 @@
     const radiusAt=y=>{const ly=y-aY;if(ly<slope*ra)return Math.sqrt(Math.max(0,ra*ra-ly*ly));if(ly>length+slope*rb){const t=ly-length;return Math.sqrt(Math.max(0,rb*rb-t*t));}return Math.max(0,(ra-slope*ly)/side);};
     const thick=(r.armThickness===undefined?1:r.armThickness),gap=(r.armGap===undefined?.10:r.armGap),armR=.112*w*thick;
     for(const sign of [-1,1]) {
-      const shoulderY=lift+1.15*h,elbowY=shoulderY-.22*h*r.armLength,wristY=elbowY-.27*h*r.armLength;
+      // Let the upper arm hang down as well as out. Clearance belongs to the
+      // silhouette calculation, not a sharp sideways kink at the elbow.
+      const shoulderY=lift+1.15*h,elbowY=shoulderY-.30*h*r.armLength,wristY=elbowY-.255*h*r.armLength;
       const shoulderX=Math.max(.25*w,radiusAt(shoulderY)-armR*.43);
       const widest=Math.max(radiusAt(elbowY),radiusAt(wristY),(aY>=wristY&&aY<=elbowY)?ra:0);
-      const clearanceX=widest+armR*1.05+gap*w+.045;
+      const clearanceX=widest+armR*1.20+gap*w+.018;
       const elbowX=Math.max(shoulderX+.23*w*r.armLength+r.armSpread*.35,clearanceX);
       const wave=animate?Math.sin(time*1.9+sign*.72)*.035:0;
       const shoulder=[sign*shoulderX,shoulderY,0];
       const elbow=[sign*elbowX,elbowY+wave*.3,.012];
       const wrist=[sign*Math.max(clearanceX,elbowX+.035*w+r.armSpread*.35),wristY+wave,.040+wave*.4];
-      out.push({a:shoulder,b:elbow,ra:armR,rb:armR*.92});
-      out.push({a:elbow.slice(),b:wrist,ra:armR*.92,rb:armR*1.05});
+      out.push({a:shoulder,b:elbow,ra:armR,rb:armR*.98});
+      out.push({a:elbow.slice(),b:wrist,ra:armR*.98,rb:armR*1.20});
     }
     const footR=.16*r.feet,footY=footR*.75;
     for(const sign of [-1,1]) {
@@ -120,7 +122,15 @@
     const joints=[];
     for(const [upper,lower,sign]of [[1,2,-1],[3,4,1]]){
       joints.push({parent:0,child:upper,point:parts[upper].a.slice(),type:'cone',angle:1.05,twist:.70});
-      joints.push({parent:upper,child:lower,point:parts[lower].a.slice(),type:'hinge',axis:norm(cross(sub(parts[lower].b,parts[lower].a),[0,0,1])),lower:-.12,upper:2.15});
+      const upperDirection=sub(parts[upper].b,parts[upper].a),forearm=sub(parts[lower].b,parts[lower].a);
+      let frontal=norm(cross(upperDirection,forearm));
+      if(frontal[2]*sign<0)frontal=frontal.map(v=>-v);
+      const forward=norm(cross(forearm,[0,0,1]));
+      // One stable elbow frame is shared by animation and physics. This partly
+      // outward bend needs only a modest shoulder roll to present the mitten
+      // to the camera, while retaining forward bend in walk/idle poses.
+      const axis=norm(frontal.map((v,k)=>v*.80+forward[k]*.60));
+      joints.push({parent:upper,child:lower,point:parts[lower].a.slice(),type:'hinge',axis,lower:-.12,upper:2.15});
     }
     for(const leg of [5,6])joints.push({parent:0,child:leg,point:parts[leg].a.slice(),type:'cone',angle:.70,twist:.42});
     return {parts,joints,names:boneNames.slice(),depth:r.depth};
@@ -253,10 +263,34 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const v=[m[0],m[4],m[8],0,m[1],m[5],m[9],0,m[2],m[6],m[10],0,0,0,0,1],t=transformVector(v,[m[12],m[13],m[14]]);
     v[12]=-t[0];v[13]=-t[1];v[14]=-t[2];return v;
   }
+  function dualQuaternion(m){
+    // xyzw real quaternion followed by .5 * translationQuaternion * real.
+    // Store these beside the existing matrices, once per bone, not per vertex.
+    const trace=m[0]+m[5]+m[10];let x,y,z,w,s;
+    if(trace>0){s=Math.sqrt(trace+1)*2;x=(m[6]-m[9])/s;y=(m[8]-m[2])/s;z=(m[1]-m[4])/s;w=s*.25;}
+    else if(m[0]>m[5]&&m[0]>m[10]){s=Math.sqrt(1+m[0]-m[5]-m[10])*2;x=s*.25;y=(m[4]+m[1])/s;z=(m[8]+m[2])/s;w=(m[6]-m[9])/s;}
+    else if(m[5]>m[10]){s=Math.sqrt(1+m[5]-m[0]-m[10])*2;x=(m[4]+m[1])/s;y=s*.25;z=(m[9]+m[6])/s;w=(m[8]-m[2])/s;}
+    else{s=Math.sqrt(1+m[10]-m[0]-m[5])*2;x=(m[8]+m[2])/s;y=(m[9]+m[6])/s;z=s*.25;w=(m[1]-m[4])/s;}
+    const length=Math.hypot(x,y,z,w);x/=length;y/=length;z/=length;w/=length;
+    const a=m[12],b=m[13],c=m[14];
+    return [x,y,z,w,.5*(a*w+b*z-c*y),.5*(b*w+c*x-a*z),.5*(c*w+a*y-b*x),-.5*(a*x+b*y+c*z)];
+  }
+  function skinDualQuaternion(p,n,skin,palette){
+    const reference=palette[skin.indices[0]],q=Array(8).fill(0);
+    for(let i=0;i<4;i++)if(skin.weights[i]>0){
+      const d=palette[skin.indices[i]],sign=d.slice(0,4).reduce((s,v,k)=>s+v*reference[k],0)<0?-1:1;
+      for(let k=0;k<8;k++)q[k]+=d[k]*skin.weights[i]*sign;
+    }
+    const length=Math.max(1e-8,Math.hypot(...q.slice(0,4)));for(let k=0;k<8;k++)q[k]/=length;
+    const parallel=q.slice(0,4).reduce((s,v,k)=>s+v*q[k+4],0);for(let k=0;k<4;k++)q[k+4]-=q[k]*parallel;
+    const r=q.slice(0,3),d=q.slice(4,7),translation=cross(r,d).map((v,k)=>2*(v+q[3]*d[k]-q[7]*r[k]));
+    const rotate=v=>{const c=cross(r,v),d=cross(r,c.map((x,k)=>x+q[3]*v[k]));return v.map((x,k)=>x+2*d[k]);};
+    return{p:rotate(p).map((v,k)=>v+translation[k]),n:rotate(n)};
+  }
   function bake(geometry,recipe,smoothNormals=true,pose=null) {
     const r=sanitizeRecipe(recipe),parts=primitives(r),src=geometry.positions,ns=geometry.normals,cs=geometry.colors,meta=geometry.meta;
     if(!src||src.length%9!==0||!meta||meta.length!==src.length/3*4)throw new Error('Expected non-indexed DuderGeometry positions and vec4 meta.');
-    const transforms=pose&&pose.transforms,posed=Array.isArray(transforms)&&transforms.length>=7,inv=posed?transforms.map(rigidInverse):null;
+    const transforms=pose&&pose.transforms,posed=Array.isArray(transforms)&&transforms.length>=7,inv=posed?transforms.map(rigidInverse):null,palette=posed?transforms.map(dualQuaternion):null;
     const strength=clamp(pose?.projectionStrength===undefined?.55:pose.projectionStrength,0,1),distanceScale=Math.min(1,r.depth);
     function posedField(p){
       let d=1e9;
@@ -292,9 +326,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
           const skin=geometry.skinWeights?{indices:Array.from(geometry.skinIndices.slice(i*4,i*4+4)),weights:Array.from(geometry.skinWeights.slice(i*4,i*4+4))}:skinWeightsForPoint(p,parts,r.blend);
           joint=clamp((1-Math.max(...skin.weights))*4,0,1);
           if(posed){
-            p=[0,0,0];const restN=norm([n[0],n[1],n[2]/r.depth]);n=[0,0,0];
-            for(let q=0;q<4;q++)if(skin.weights[q]>0){const w=skin.weights[q],m=transforms[Math.round(skin.indices[q])],v=transformPoint(m,rest),N=transformVector(m,restN);for(let j=0;j<3;j++){p[j]+=v[j]*w;n[j]+=N[j]*w;}}
-            n=norm(n);
+            const skinned=skinDualQuaternion(rest,norm([n[0],n[1],n[2]/r.depth]),skin,palette);p=skinned.p;n=norm(skinned.n);
             if(joint>0){for(let q=0;q<2;q++){const g=posedGradient(p),step=clamp(posedField(p),-.035*strength*joint,.035*strength*joint);for(let j=0;j<3;j++)p[j]-=g[j]*step;}}
             const g=posedGradient(p);n=norm(n.map((v,j)=>mix(v,g[j],joint*.8)));
           }else{
@@ -330,12 +362,12 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
     for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 3.1.1'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.2'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'3.1.1',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.2',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);

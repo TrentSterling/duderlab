@@ -1,0 +1,124 @@
+{
+  "passed": true,
+  "verificationScope": "Actual application draw commands, glyph UI and GLSL replayed with Mesa GLES; not browser interaction or hardware performance.",
+  "cases": [
+    {
+      "name": "gallery",
+      "image": "v3-2-gallery-ui.png",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+        "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+        "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+        "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c",
+        "renderer.js": "eff6ac44eaf0f2ebe4d68190fa6dee09076c72d5a916bc426f725bde3fa9bd48",
+        "ui.js": "3b1337539cd996cbcbbd21599521ea42d922f776232c2349c5dfaf38892b71c2"
+      },
+      "stats": {
+        "count": 16,
+        "totalCount": 16,
+        "drawCalls": 4,
+        "triangles": 28392,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 14598,
+        "expandedVertices": 85176,
+        "indices": 85176,
+        "geometryBytes": 1800504
+      },
+      "drawCalls": 4,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": [
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        },
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        },
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        }
+      ],
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      }
+    },
+    {
+      "name": "motion",
+      "image": "v3-2-motion-ui.png",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+        "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+        "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+        "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c",
+        "renderer.js": "eff6ac44eaf0f2ebe4d68190fa6dee09076c72d5a916bc426f725bde3fa9bd48",
+        "ui.js": "3b1337539cd996cbcbbd21599521ea42d922f776232c2349c5dfaf38892b71c2"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 4,
+        "triangles": 1652,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 862,
+        "expandedVertices": 4956,
+        "indices": 4956,
+        "geometryBytes": 106024
+      },
+      "drawCalls": 4,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": [],
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      }
+    }
+  ]
+}

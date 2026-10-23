@@ -1,8 +1,10 @@
 # Duder Lab
 
-An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.1.1 — Connected Hat Outlines**.
+An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.2 — Friendly Waves**.
 
-![The reported beanie outline before and after the V3.1.1 repair](docs/media/v3-1-1-hat-outline-comparison.png)
+![The actual V3.2 greeting turntable and eight wave keyframes](docs/media/v3-2-wave-study.png)
+
+[Watch the wave from three angles](docs/media/v3-2-wave.mp4) · [Compare V3.1.1 with V3.2](docs/media/v3-2-wave-before-after.png)
 
 ## Run
 
@@ -35,7 +37,26 @@ Python 3 is the only build dependency:
 python3 build.py
 ```
 
-On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-1-1.html`, and `dist/index.html`. UTF-8 is explicit, and the output directory is created automatically.
+On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-2.html`, and `dist/index.html`. UTF-8 is explicit, and the output directory is created automatically.
+
+## V3.2: softer arms and a readable greeting
+
+The old wave curled the forearm toward the camera, making it appear short and sharply bent from the front. V3.2 follows the approved concept: the hand rises beside the face on the viewer's left, the elbow stays outside the torso, and the forearm makes two small side-to-side sweeps.
+
+- **Softer rest shape.** The upper arm slopes farther downward, the elbow keeps a fuller cross-section, and the rounded hand end is wider. Clearance includes that larger hand, preserving the underarm gap.
+- **A shared elbow frame.** A stable blend of outward and forward bend axes is defined once in the rig and used by both animation and ragdoll constraints. The waving shoulder rolls and swings independently within its existing limits.
+- **A greeting fitted to each recipe.** At recipe setup, the shoulder orientation is solved so the forearm points upward with a small forward component. The arm keeps its original lengths; no moving hinge axis, extra wrist, or new rigid body is needed.
+- **A four-second loop.** A small preparation leads into the lift, two forearm sweeps, a held greeting, and a gentle settle. The shoulder remains quiet during the sweeps, with a small delayed body lean. Motion amount above one increases the sweep without lifting the shoulder beyond its safe pose.
+- **Volume-preserving skinning.** Body vertices now blend dual quaternions instead of linearly blending matrices, reducing elbow collapse at large bends. Fixed rest-space weights and the existing two bounded SDF corrections remain. The GPU and posed GLB bake use the same deformation. Rigid accessories keep their original matrix transforms.
+- **Accurate pose data.** The shared pose sampler now explicitly uses high precision in both shader stages. The actual GPU pose and CPU export agree to less than one millionth of a world unit in the verified cases.
+- **Closed geometry at the smallest settings.** Very short, thin arms with minimum spacing and blend can need a finer SDF lattice to resolve the underarm gap. Two extra refinement retries handle that corner without changing ordinary recipes or loosening the closed-mesh checks.
+- **The same batches.** Bodies, eyes, and gear still share one indexed fill draw and one indexed outline draw. Stage and GPU glyph UI make four total draws; the rig overlay adds one. Quaternion data fits in unused columns of the existing pose texture. No material, render pass, texture allocation, or rigid body was added.
+
+Press **M**, select **Wave**, and use the timeline to inspect a pose. **X** shows the bones; **P** releases the current pose and momentum into a ragdoll. [This recipe](docs/examples/wave-study.json) recreates the pink duder with a green beanie used in the proof images; import it with the JSON import control.
+
+The [current gallery](docs/media/v3-2-gallery-ui.png) uses 28,392 triangles, 14,598 indexed vertices, and 1,800,504 bytes of geometry buffers. These are storage counts, not a hardware performance measurement.
+
+The [actual rig views](docs/media/v3-2-wave-rig.png) show the same seven-bone hierarchy used for physics. The V3.1.1 wearable geometry and hat-outline rules are retained.
 
 ## V3.1.1: connected hat outlines
 
@@ -73,7 +94,7 @@ The [cap comparison](docs/media/v3-1-cap-comparison.png) and [bucket-hat compari
 
 ## Implementation
 
-- A connected Surface Nets body follows seven bones. Bounded SDF correction repairs blended joint regions without accumulating projection drift.
+- A connected Surface Nets body follows seven bones using dual-quaternion skinning. Bounded SDF correction repairs blended joint regions without accumulating projection drift.
 - Procedural skin patterns sample rest-space coordinates.
 - Each ragdoll has seven bodies and six joints. Cannon-es runs at a fixed 120 Hz simulation step.
 - Pile mode uses smaller collision proxies and staggered spawns; its optional 16-bean setting has 112 rigid bodies and 96 joints.
@@ -89,6 +110,8 @@ The JavaScript checks use Node's built-in modules, with no npm dependencies:
 node qa/check-app-events.mjs
 node qa/check-shell.mjs
 node qa/check-animation.mjs
+node qa/check-wave-handoff.mjs
+node qa/check-dual-quaternion.mjs --cpu-only
 node qa/check-physics.mjs
 node qa/check-pile.mjs
 node qa/check-outline-weld.mjs
@@ -98,11 +121,24 @@ node qa/check-welded-mesh.mjs
 node qa/check-ui-v3.mjs
 ```
 
-Current repair results are in `docs/verification/v3-1-1/`, with earlier results retained in `docs/verification/v3-1/` and `docs/verification/v3/`. V3.1.1 verification includes 43 application interactions, 46 hat-contact geometry cases, 45 hat topology variants, 102 gear/dimension combinations and indexed GLB reconstruction, and 53 actual GLES renders covering the reported outline defect, every hat style, and the complete gallery. Earlier animation, physics, and responsive UI reports remain available. The interaction harness mocks DOM/WebGL transport; it does not replace a browser test. Software GLES rendering separately validates the actual shaders, element buffers, and visible outline behavior.
+Current wave, skinning, interaction, build, and render results are in `docs/verification/v3-2/`. The new wave checks cover held forearm direction, hand/body clearance, fixed bone lengths, quiet elbow, loop continuity, actual joint limits, and 70 releases across seven body shapes. Dual-quaternion checks compare the CPU export with the actual shipped vertex shader using GLES transform feedback. The wave study and video replay the actual shaders from fixed cameras.
+
+Earlier results are retained in `docs/verification/v3-1-1/`, `docs/verification/v3-1/`, and `docs/verification/v3/`. V3.1.1 verification includes 43 application interactions, 46 hat-contact geometry cases, 45 hat topology variants, 102 gear/dimension combinations and indexed GLB reconstruction, and 53 actual GLES renders covering the reported outline defect, every hat style, and the complete gallery. Earlier animation, physics, and responsive UI reports remain available. The interaction harness mocks DOM/WebGL transport; it does not replace a browser test. Software GLES rendering separately validates the actual shaders, element buffers, and visible outline behavior.
 
 [Watch or download the V3 motion proof](docs/media/duder-v3-motion.mp4). It replays actual application shaders and simulation using software GLES. It is not a hardware FPS benchmark.
 
 ### Optional software rendering
+
+The wave study and three-camera video use the same software renderer:
+
+```sh
+python3 qa/render-wave-study.py
+python3 qa/render-wave-motion.py output/wave.mp4 --fps 24 --loops 2
+node qa/check-dual-quaternion.mjs
+```
+
+Pass `--baseline /path/to/v3.1.1/checkout` to `render-wave-study.py` for a before/after sheet. The GPU parity check uses transform feedback from the shipped vertex shader, not a hand-written substitute.
+
 
 The still-image regression uses Node, Python with Pillow, and Linux/WSL Mesa EGL/GLES (`libEGL.so.1`). It renders the actual shaders and checks the reported hat-outline defect without a physical GPU:
 

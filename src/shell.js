@@ -103,7 +103,10 @@
       return [...counts.values()].every(v=>v[0]===2&&v[1]===0);
     }
     function refine(reason){
-      if(attempt>=4)throw Error('Cannot build a regular closed shell: '+reason);
+      // Very short, thin arms at minimum blend leave an underarm gap smaller
+      // than the coarse lattice. Allow two extra retries for that rare shape;
+      // ordinary recipes keep their original resolution and cached mesh.
+      if(attempt>=6)throw Error('Cannot build a regular closed shell: '+reason);
       return build(recipe,attempt+1);
     }
     if(!topologyValid())return refine('ambiguous lattice cell');

@@ -1,0 +1,8 @@
+{
+  "shapes": 90,
+  "sharedAccessoryVertices": 108192,
+  "preservedHardLightingSeams": 0,
+  "maxWeldDelta": 0,
+  "suppressedEyeAndLensVertices": 51840,
+  "verificationNote": "Run after the V3.2 arm/hinge changes. Later additions to body dual-quaternion skinning/export and explicit sampler precision do not alter the physics or rest weights exercised here. The final welded-mesh regression separately covers the expanded refinement retry limit."
+}

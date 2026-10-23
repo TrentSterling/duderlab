@@ -1,0 +1,182 @@
+{
+  "passed": 18,
+  "routedActions": 274,
+  "checks": [
+    {
+      "width": 320,
+      "height": 844,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 6,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 6,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 700,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 700,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 850,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 850,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 960,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 960,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 1100,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 1100,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "tab": "motion",
+      "panelOpen": false,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "tab": "physics",
+      "panelOpen": false,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    }
+  ],
+  "releaseSourceHashes": {
+    "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c",
+    "app.js": "d0a7050b37e321259edb07cdce09b3b1622dad3466c62a16fe87e80c43b2fc05",
+    "collision-shapes.js": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+    "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+    "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+    "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+    "physics.js": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16",
+    "renderer.js": "eff6ac44eaf0f2ebe4d68190fa6dee09076c72d5a916bc426f725bde3fa9bd48",
+    "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+    "ui.js": "3b1337539cd996cbcbbd21599521ea42d922f776232c2349c5dfaf38892b71c2",
+    "vendor-cannon.js": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26"
+  },
+  "testScriptSHA256": "7f474b8d137c1a56a5c09a7f47b078dfd2f67c80b6ba97333d93587484828491"
+}

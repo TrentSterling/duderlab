@@ -1,0 +1,222 @@
+{
+  "shapes": 35,
+  "totalTriangles": 71488,
+  "maxRefinements": 3,
+  "maxMs": 1816.79,
+  "defaultUnderarmSignedDistance": 0.04492997126951792,
+  "neutralGlbBytes": 54596,
+  "checks": [
+    {
+      "index": 0,
+      "triangles": 824,
+      "refinements": 0,
+      "ms": 321.6
+    },
+    {
+      "index": 1,
+      "triangles": 1300,
+      "refinements": 0,
+      "ms": 293.07
+    },
+    {
+      "index": 2,
+      "triangles": 2376,
+      "refinements": 0,
+      "ms": 447.47
+    },
+    {
+      "index": 3,
+      "triangles": 4412,
+      "refinements": 1,
+      "ms": 918.82
+    },
+    {
+      "index": 4,
+      "triangles": 2632,
+      "refinements": 1,
+      "ms": 456.81
+    },
+    {
+      "index": 5,
+      "triangles": 1072,
+      "refinements": 0,
+      "ms": 226.58
+    },
+    {
+      "index": 6,
+      "triangles": 1016,
+      "refinements": 0,
+      "ms": 120.5
+    },
+    {
+      "index": 7,
+      "triangles": 2132,
+      "refinements": 0,
+      "ms": 250.34
+    },
+    {
+      "index": 8,
+      "triangles": 1688,
+      "refinements": 0,
+      "ms": 193.71
+    },
+    {
+      "index": 9,
+      "triangles": 1240,
+      "refinements": 0,
+      "ms": 159.44
+    },
+    {
+      "index": 10,
+      "triangles": 696,
+      "refinements": 0,
+      "ms": 72.58
+    },
+    {
+      "index": 11,
+      "triangles": 2012,
+      "refinements": 0,
+      "ms": 281.58
+    },
+    {
+      "index": 12,
+      "triangles": 2348,
+      "refinements": 0,
+      "ms": 274.97
+    },
+    {
+      "index": 13,
+      "triangles": 2340,
+      "refinements": 0,
+      "ms": 546.54
+    },
+    {
+      "index": 14,
+      "triangles": 1596,
+      "refinements": 0,
+      "ms": 202.16
+    },
+    {
+      "index": 15,
+      "triangles": 2668,
+      "refinements": 0,
+      "ms": 328.37
+    },
+    {
+      "index": 16,
+      "triangles": 1444,
+      "refinements": 0,
+      "ms": 150.54
+    },
+    {
+      "index": 17,
+      "triangles": 2180,
+      "refinements": 0,
+      "ms": 255.99
+    },
+    {
+      "index": 18,
+      "triangles": 2192,
+      "refinements": 0,
+      "ms": 244.08
+    },
+    {
+      "index": 19,
+      "triangles": 2212,
+      "refinements": 0,
+      "ms": 271.34
+    },
+    {
+      "index": 20,
+      "triangles": 1676,
+      "refinements": 0,
+      "ms": 198.56
+    },
+    {
+      "index": 21,
+      "triangles": 4284,
+      "refinements": 3,
+      "ms": 720.92
+    },
+    {
+      "index": 22,
+      "triangles": 720,
+      "refinements": 0,
+      "ms": 85.04
+    },
+    {
+      "index": 23,
+      "triangles": 1952,
+      "refinements": 0,
+      "ms": 205.93
+    },
+    {
+      "index": 24,
+      "triangles": 3384,
+      "refinements": 1,
+      "ms": 1550.36
+    },
+    {
+      "index": 25,
+      "triangles": 904,
+      "refinements": 0,
+      "ms": 124.06
+    },
+    {
+      "index": 26,
+      "triangles": 624,
+      "refinements": 0,
+      "ms": 102.14
+    },
+    {
+      "index": 27,
+      "triangles": 2668,
+      "refinements": 0,
+      "ms": 396.31
+    },
+    {
+      "index": 28,
+      "triangles": 1500,
+      "refinements": 0,
+      "ms": 306.94
+    },
+    {
+      "index": 29,
+      "triangles": 2344,
+      "refinements": 0,
+      "ms": 450.83
+    },
+    {
+      "index": 30,
+      "triangles": 2236,
+      "refinements": 0,
+      "ms": 336.57
+    },
+    {
+      "index": 31,
+      "triangles": 1812,
+      "refinements": 0,
+      "ms": 287.04
+    },
+    {
+      "index": 32,
+      "triangles": 1372,
+      "refinements": 0,
+      "ms": 167.21
+    },
+    {
+      "index": 33,
+      "triangles": 6188,
+      "refinements": 2,
+      "ms": 1816.79
+    },
+    {
+      "index": 34,
+      "triangles": 1444,
+      "refinements": 0,
+      "ms": 258.36
+    }
+  ],
+  "failed": [],
+  "verificationNote": "Run after the V3.2 arm/hinge changes. Later additions to body dual-quaternion skinning/export and explicit sampler precision do not alter the physics or rest weights exercised here. The final welded-mesh regression separately covers the expanded refinement retry limit."
+}

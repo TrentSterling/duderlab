@@ -1,0 +1,112 @@
+{
+  "passed": true,
+  "cases": 102,
+  "closedGearChecks": 102,
+  "expandedVertices": 895020,
+  "indexedVertices": 152080,
+  "vertexReduction": 0.8300820093405734,
+  "sharedSmoothVertices": 744028,
+  "maxNormalDelta": 0,
+  "examples": [
+    {
+      "hat": "none",
+      "expandedVertices": 5184,
+      "indexedVertices": 880,
+      "triangles": 1728,
+      "uniquePositions": 880
+    },
+    {
+      "hat": "cap",
+      "expandedVertices": 6060,
+      "indexedVertices": 1072,
+      "triangles": 2020,
+      "uniquePositions": 1032
+    },
+    {
+      "hat": "bucket",
+      "expandedVertices": 5976,
+      "indexedVertices": 1014,
+      "triangles": 1992,
+      "uniquePositions": 1014
+    },
+    {
+      "hat": "beanie",
+      "expandedVertices": 6120,
+      "indexedVertices": 1062,
+      "triangles": 2040,
+      "uniquePositions": 1038
+    },
+    {
+      "hat": "bowler",
+      "expandedVertices": 6336,
+      "indexedVertices": 1074,
+      "triangles": 2112,
+      "uniquePositions": 1074
+    },
+    {
+      "hat": "sunhat",
+      "expandedVertices": 6192,
+      "indexedVertices": 1050,
+      "triangles": 2064,
+      "uniquePositions": 1050
+    }
+  ],
+  "exports": [
+    {
+      "pattern": 0,
+      "hat": "cap",
+      "glasses": "square",
+      "posed": false,
+      "triangles": 2020,
+      "expandedVertices": 6060,
+      "indexedVertices": 1052,
+      "bytes": 64292
+    },
+    {
+      "pattern": 3,
+      "hat": "bucket",
+      "glasses": "round",
+      "posed": false,
+      "triangles": 21540,
+      "expandedVertices": 64620,
+      "indexedVertices": 10788,
+      "bytes": 649040
+    },
+    {
+      "pattern": 7,
+      "hat": "beanie",
+      "glasses": "catEye",
+      "posed": false,
+      "triangles": 21540,
+      "expandedVertices": 64620,
+      "indexedVertices": 10812,
+      "bytes": 649908
+    },
+    {
+      "pattern": 6,
+      "hat": "sunhat",
+      "glasses": "aviator",
+      "posed": true,
+      "triangles": 21684,
+      "expandedVertices": 65052,
+      "indexedVertices": 10862,
+      "bytes": 653452
+    }
+  ],
+  "flatGearTrianglesChecked": 528,
+  "smoothEyeLensVerticesChecked": 576,
+  "releaseSourceHashes": {
+    "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c",
+    "app.js": "d0a7050b37e321259edb07cdce09b3b1622dad3466c62a16fe87e80c43b2fc05",
+    "collision-shapes.js": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+    "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+    "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+    "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+    "physics.js": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16",
+    "renderer.js": "eff6ac44eaf0f2ebe4d68190fa6dee09076c72d5a916bc426f725bde3fa9bd48",
+    "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+    "ui.js": "3b1337539cd996cbcbbd21599521ea42d922f776232c2349c5dfaf38892b71c2",
+    "vendor-cannon.js": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26"
+  },
+  "testScriptSHA256": "64643dadc8020d884d058aa39645de2bb5a14d23d891ac783beafca8a5900491"
+}

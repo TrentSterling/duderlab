@@ -1,4 +1,4 @@
-/* Duder Lab V3 — deterministic, looping seven-bone motion clips.
+/* Duder Lab V3.2 — deterministic, looping seven-bone motion clips.
  * Every matrix maps the immutable rest mesh into the current pose. The same
  * matrices can initialize the rigid bodies when a clip is released to physics.
  */
@@ -19,14 +19,37 @@
   const clips=Object.freeze([
     Object.freeze({id:'idle',label:'Idle',duration:3.2}),
     Object.freeze({id:'walk',label:'Walk',duration:1.1}),
-    Object.freeze({id:'wave',label:'Wave',duration:2.6}),
+    Object.freeze({id:'wave',label:'Wave',duration:4.0}),
     Object.freeze({id:'dance',label:'Dance',duration:1.8})
   ]);
   const shapeKeys=['height','width','depth','belly','armLength','armSpread','armThickness','armGap','feet'];
   const cache=new Map();
+  function greetingFrame(rig){
+    // Aim the forearm upward for this recipe, with a little forward presentation.
+    // The shoulder first rolls around the upper arm, then swings outward. The
+    // elbow uses exactly the same rest axis as the ragdoll; no per-pose hinge
+    // changes, stretching, extra wrist, or disconnected hand are needed.
+    const upper=rig.parts[1],lower=rig.parts[2],hinge=rig.joints.find(j=>j.child===2);
+    const direction=upper.b.map((v,k)=>v-upper.a[k]),n=Math.hypot(...direction),axis=direction.map(v=>v/n);
+    const forearm=lower.b.map((v,k)=>v-lower.a[k]),length=Math.hypot(...forearm);
+    let flex=1.90,roll=0,swing=0;
+    for(let attempt=0;attempt<3;attempt++){
+      const v=C.transformVector(around([0,0,0],hinge.axis,flex),forearm);
+      const dot=axis.reduce((s,x,k)=>s+x*v[k],0),a=v[2]-axis[2]*dot,b=axis[0]*v[1]-axis[1]*v[0],c=axis[2]*dot;
+      const phase=Math.atan2(b,a),offset=Math.acos(clamp((length*.12-c)/Math.max(1e-8,Math.hypot(a,b)),-1,1));
+      const wrap=x=>Math.atan2(Math.sin(x),Math.cos(x));
+      const candidates=[wrap(phase+offset),wrap(phase-offset)].sort((x,y)=>Math.abs(x)-Math.abs(y));
+      roll=clamp(candidates[0],-.60,.60);
+      const upright=C.transformVector(around([0,0,0],axis,roll),v);
+      swing=Math.atan2(upright[0],upright[1]);
+      if(Math.abs(swing)<=.97)break;
+      flex=Math.min(2.02,flex+Math.abs(swing)-.97);
+    }
+    return{axis,roll,swing:clamp(swing,-.99,.99),flex,stroke:Math.min(.22,2.12-flex)};
+  }
   function definition(recipe){
     const key=shapeKeys.map(k=>recipe[k]).join('/');let cached=cache.get(key);
-    if(!cached){const rig=C.rigDefinition(recipe),hips=rig.parts.slice(5).map(p=>p.a);cached={rig,hips,root:hips[0].map((v,k)=>(v+hips[1][k])*.5)};if(cache.size>=128)cache.delete(cache.keys().next().value);cache.set(key,cached);}
+    if(!cached){const rig=C.rigDefinition(recipe),hips=rig.parts.slice(5).map(p=>p.a);cached={rig,hips,root:hips[0].map((v,k)=>(v+hips[1][k])*.5),greeting:greetingFrame(rig)};if(cache.size>=128)cache.delete(cache.keys().next().value);cache.set(key,cached);}
     return cached;
   }
   // Minimum posed Y of the flattened, flat-soled rest capsule. Restricting the
@@ -51,9 +74,9 @@
   function sample(recipe,clipId='idle',time=0,options={}){
     const clip=clips.find(c=>c.id===clipId)||clips[0],amplitude=clamp(Number.isFinite(options.amplitude)?options.amplitude:1,0,1.25);
     const t=Number.isFinite(time)?time:0,u=((t/clip.duration)%1+1)%1,p=u*TAU,s=Math.sin(p),c=Math.cos(p);
-    const {rig,root:rootPoint}=definition(recipe);
+    const {rig,root:rootPoint,greeting}=definition(recipe);
     const rotations=Array.from({length:7},()=>[0,0,0]);let lean=[0,0,0],shift=[0,0,0],bounce=0;
-    const elbows=[0,0];
+    const elbows=[0,0];let waveShoulder=null;
     if(clip.id==='idle'){
       lean=[.012*s,.022*s,.015*c];
       rotations[1]=[.028*s,0,-.035-.025*s];rotations[3]=[-.028*s,0,.035+.025*s];
@@ -68,11 +91,17 @@
       elbows[0]=.20+.16*Math.max(0,-s);elbows[1]=.20+.16*Math.max(0,s);
       bounce=.006*(1-Math.cos(p*2));
     }else if(clip.id==='wave'){
-      const lift=smooth(.02,.20,u)*(1-smooth(.80,.98,u)),wave=Math.sin(p*3);
-      lean=[-.025*lift,-.035*lift,-.055*lift];
-      rotations[1]=[.025*s,0,-.06*lift];elbows[0]=.12*lift;
-      rotations[3]=[-.055*lift,.12*lift*wave,(.89+.07*wave)*lift];
-      elbows[1]=(1.76+.25*Math.sin(p*3+.45))*lift;
+      const lift=smooth(.10,.29,u)*(1-smooth(.83,.98,u));
+      const ready=smooth(.02,.08,u)*(1-smooth(.10,.22,u));
+      const q=clamp((u-.32)/.44,0,1),wave=Math.sin(q*TAU*2)*smooth(0,.10,q)*(1-smooth(.90,1,q));
+      const reach=Math.min(1,amplitude),follow=smooth(.14,.34,u)*(1-smooth(.83,.99,u));
+      lean=[-.018*follow,.015*follow,-.035*follow];
+      rotations[3]=[.015*s*lift,0,.035*lift];elbows[1]=.08*lift;
+      // The greeting is on the viewer's left, as in the concept sheet. Hold
+      // its elbow still through both sweeps; only the forearm makes the wave.
+      // Amplitude above one adds sweep energy, without over-raising the arm.
+      waveShoulder={swing:greeting.swing*lift*reach+.035*ready*reach,roll:greeting.roll*lift*reach};
+      elbows[0]=(greeting.flex*lift+.12*ready)*reach-greeting.stroke*wave*lift*Math.min(amplitude,1.15);
       rotations[5]=[-lean[0],0,-lean[2]];rotations[6]=[-lean[0],0,-lean[2]];
     }else{
       const beat=Math.sin(p*2),left=Math.max(0,s),right=Math.max(0,-s);
@@ -89,7 +118,10 @@
     transforms[0]=localRotation(rootPoint,lean,.36);
     transforms[0][12]+=shift[0]*amplitude;transforms[0][14]+=shift[2]*amplitude;
     for(const j of rig.joints){
-      const local=j.type==='hinge'?around(j.point,j.axis,clamp(elbows[j.child===2?0:1]*amplitude,0,2.05)):localRotation(j.point,rotations[j.child],j.child>=5?.64:.99);
+      let local;
+      if(j.type==='hinge')local=around(j.point,j.axis,clamp(elbows[j.child===2?0:1]*(waveShoulder&&j.child===2?1:amplitude),0,Math.min(j.upper-.025,waveShoulder&&j.child===2?2.12:2.05)));
+      else if(waveShoulder&&j.child===1)local=multiply(around(j.point,[0,0,1],waveShoulder.swing),around(j.point,greeting.axis,waveShoulder.roll));
+      else local=localRotation(j.point,rotations[j.child],j.child>=5?.64:.99);
       transforms[j.child]=multiply(transforms[j.parent],local);
     }
     const lowest=Math.min(footMinimum(rig.parts[5],transforms[5],rig.depth),footMinimum(rig.parts[6],transforms[6],rig.depth));

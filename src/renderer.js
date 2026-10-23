@@ -1,4 +1,4 @@
-/* Duder Lab V3.1.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.2 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -27,7 +27,7 @@
   layout(location=0) in vec3 aPosition;layout(location=1) in vec3 aNormal;
   layout(location=2) in vec3 aColor;layout(location=3) in vec4 aMeta;
   layout(location=4) in vec3 aBary;layout(location=5) in vec4 aSkinIndices;layout(location=6) in vec4 aSkinWeights;layout(location=7) in vec4 aOutline;
-  uniform sampler2D uData;uniform mat4 uVP;uniform vec2 uGrid;uniform int uFocus;
+  uniform highp sampler2D uData;uniform mat4 uVP;uniform vec2 uGrid;uniform int uFocus;
   uniform bool uOutline;uniform float uOutlineWidth;uniform vec2 uViewport;uniform vec3 uViewDir;
   uniform float uProjection;
   out vec3 vWorld;out vec3 vNormal;out vec3 vLocal;out vec3 vColor;out vec3 vBary;
@@ -55,6 +55,7 @@
   }
   vec3 grad(vec3 p){vec2 e=vec2(.006,-.006);vec3 g=e.xyy*field(p+e.xyy)+e.yyx*field(p+e.yyx)+e.yxy*field(p+e.yxy)+e.xxx*field(p+e.xxx);return g/max(length(g),1e-8);}
   mat4 matrixAt(int x,int id){return mat4(texelFetch(uData,ivec2(x,id),0),texelFetch(uData,ivec2(x+1,id),0),texelFetch(uData,ivec2(x+2,id),0),texelFetch(uData,ivec2(x+3,id),0));}
+  vec3 rotateQuaternion(vec4 q,vec3 p){return p+2.*cross(q.xyz,cross(q.xyz,p)+q.w*p);}
   void main(){
     int id=int(aMeta.x+.5);vec4 parms=texelFetch(uData,ivec2(0,id),0);Depth=parms.x;K=max(.001,parms.y)*min(1.,Depth);Physics=texelFetch(uData,ivec2(3,id),0).x>.5;
     for(int i=0;i<7;i++){T[i]=matrixAt(20+i*4,id);IT[i]=matrixAt(48+i*4,id);A[i]=texelFetch(uData,ivec2(4+i*2,id),0);B[i]=texelFetch(uData,ivec2(5+i*2,id),0);}
@@ -62,7 +63,22 @@
     vec3 sourceN=uOutline?aOutline.xyz:aNormal;
     vec3 restN=body?normalize(sourceN/vec3(1,1,Depth)):sourceN;
     vec3 p=vec3(0),n=vec3(0);float maxWeight=0.;
-    for(int i=0;i<4;i++){float w=aSkinWeights[i];int j=int(aSkinIndices[i]+.5);p+=(T[j]*vec4(rest,1.)).xyz*w;n+=mat3(T[j])*restN*w;maxWeight=max(maxWeight,w);}
+    if(body){
+      // Blending rigid transforms as dual quaternions keeps the soft elbow's
+      // cross-section from collapsing at a deep bend. Fixed rest weights and
+      // the same palette drive fill and shell; accessory matrices are unchanged.
+      vec4 qr=vec4(0),qd=vec4(0),reference=texelFetch(uData,ivec2(76+int(aSkinIndices.x+.5)*2,id),0);
+      for(int i=0;i<4;i++){
+        float w=aSkinWeights[i];int j=int(aSkinIndices[i]+.5);maxWeight=max(maxWeight,w);
+        if(w>0.){vec4 r=texelFetch(uData,ivec2(76+j*2,id),0),d=texelFetch(uData,ivec2(77+j*2,id),0);float s=dot(r,reference)<0.?-1.:1.;qr+=r*w*s;qd+=d*w*s;}
+      }
+      float qlength=max(length(qr),1e-8);qr/=qlength;qd/=qlength;
+      qd-=qr*dot(qr,qd);
+      p=rotateQuaternion(qr,rest)+2.*(qr.w*qd.xyz-qd.w*qr.xyz+cross(qr.xyz,qd.xyz));
+      n=rotateQuaternion(qr,restN);
+    }else{
+      for(int i=0;i<4;i++){float w=aSkinWeights[i];int j=int(aSkinIndices[i]+.5);p+=(T[j]*vec4(rest,1.)).xyz*w;n+=mat3(T[j])*restN*w;maxWeight=max(maxWeight,w);}
+    }
     n=normalize(n);vJoint=body?clamp((1.-maxWeight)*4.,0.,1.):0.;
     // Bone-driven positions never accumulate projection: each frame starts from
     // rest coordinates. Rigid regions stay exactly attached; only joint vertices
@@ -91,7 +107,7 @@
   }`;
   function fragment(){return `#version 300 es
   precision highp float;precision highp int;
-  uniform sampler2D uData;uniform vec3 uCamera;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;
+  uniform highp sampler2D uData;uniform vec3 uCamera;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;
   in vec3 vWorld;in vec3 vNormal;in vec3 vLocal;in vec3 vColor;in vec3 vBary;in float vJoint;
   flat in int vId;flat in float vKind;flat in float vRough;in float vOutlineScale;
   out vec4 outColor;
@@ -233,6 +249,7 @@
         const prim=DuderCore.primitives(r,0,false);for(let i=0;i<7;i++){
           tex.set([...prim[i].a,prim[i].ra],o+(4+i*2)*4);tex.set([...prim[i].b,prim[i].rb],o+(5+i*2)*4);
           tex.set(transforms[i],o+(20+i*4)*4);tex.set(M.rigidInverse(transforms[i]),o+(48+i*4)*4);
+          tex.set(DuderCore.dualQuaternion(transforms[i]),o+(76+i*2)*4);
         }
         this.poses[id]=pose||{transforms,parts:DuderCore.rigDefinition(r).parts.map((p,i)=>({...p,a:M.point(transforms[i],p.a).slice(0,3),b:M.point(transforms[i],p.b).slice(0,3)}))};
       }

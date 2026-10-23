@@ -1,0 +1,319 @@
+{
+  "passed": true,
+  "failures": [],
+  "results": [
+    {
+      "name": "pile-8",
+      "seconds": 8,
+      "wallMs": 20099.737709999998,
+      "interRigFrames": 731,
+      "maxTop": 4.387178964535229,
+      "maxSpeed": 7.174310980799073,
+      "maxGap": 0.010351936017310836,
+      "minFloor": -0.04025093277866407,
+      "final": {
+        "bodies": 56,
+        "joints": 48,
+        "rigCount": 8,
+        "spawnCount": 8,
+        "pending": 0,
+        "bounds": {
+          "min": [
+            -2.4053872788821957,
+            -0.002681391444122397,
+            -2.33326547263056
+          ],
+          "max": [
+            1.6367762456527357,
+            1.7442666361332457,
+            1.8723366552318563
+          ],
+          "center": [
+            -0.38430551661473,
+            0.8707926223445617,
+            -0.2304644086993518
+          ]
+        },
+        "maxJointError": 0.0007440785454384836,
+        "peakJointError": 0.010351936017310836,
+        "sleeping": 5,
+        "maxSpeed": 0.7082940244706074,
+        "elapsed": 8.000000000000187,
+        "round": 1,
+        "winner": -1,
+        "status": "Bean pile",
+        "mode": "pile",
+        "grabbed": false
+      }
+    },
+    {
+      "name": "pile-grab-release-kick",
+      "seconds": 1,
+      "wallMs": 1664.5132190000004,
+      "interRigFrames": 120,
+      "maxTop": 1.866697884895276,
+      "maxSpeed": 2.597290985540678,
+      "maxGap": 0.003081266017786453,
+      "minFloor": -0.005270564710979461,
+      "final": {
+        "bodies": 56,
+        "joints": 48,
+        "rigCount": 8,
+        "spawnCount": 8,
+        "pending": 0,
+        "bounds": {
+          "min": [
+            -2.405306588587065,
+            -0.00326119151993369,
+            -2.3353664949496724
+          ],
+          "max": [
+            1.921726954928824,
+            1.6903217203459917,
+            1.931288668630502
+          ],
+          "center": [
+            -0.24178981682912037,
+            0.843530264413029,
+            -0.20203891315958522
+          ]
+        },
+        "maxJointError": 0.0005775766092552023,
+        "peakJointError": 0.01407636846542937,
+        "sleeping": 4,
+        "maxSpeed": 1.1003887994115373,
+        "elapsed": 9.500000000000101,
+        "round": 1,
+        "winner": -1,
+        "status": "Bean pile",
+        "mode": "pile",
+        "grabbed": false
+      }
+    },
+    {
+      "name": "pile-16",
+      "seconds": 12,
+      "wallMs": 40299.296236,
+      "interRigFrames": 1211,
+      "maxTop": 4.971367420292389,
+      "maxSpeed": 7.174310980799073,
+      "maxGap": 0.01337073531845078,
+      "minFloor": -0.04025093277866407,
+      "final": {
+        "bodies": 112,
+        "joints": 96,
+        "rigCount": 16,
+        "spawnCount": 16,
+        "pending": 0,
+        "bounds": {
+          "min": [
+            -3.3063589036009757,
+            -0.011060310622222402,
+            -2.3538788206899075
+          ],
+          "max": [
+            2.7395338939175904,
+            2.031090163007682,
+            3.3017136805973486
+          ],
+          "center": [
+            -0.28341250484169267,
+            1.0100149261927298,
+            0.47391742995372055
+          ]
+        },
+        "maxJointError": 0.002556989485655974,
+        "peakJointError": 0.01337073531845078,
+        "sleeping": 0,
+        "maxSpeed": 1.7454739038985592,
+        "elapsed": 11.99999999999996,
+        "round": 1,
+        "winner": -1,
+        "status": "Bean pile",
+        "mode": "pile",
+        "grabbed": false
+      }
+    },
+    {
+      "name": "handoff-idle",
+      "matrixError": 1.1920928955078125e-07,
+      "seconds": 2,
+      "wallMs": 563.38796,
+      "interRigFrames": 0,
+      "maxTop": 1.7652822409845887,
+      "maxSpeed": 2.8923585999946027,
+      "maxGap": 0.0017012261137568576,
+      "minFloor": -0.011547591423253234,
+      "final": {
+        "bodies": 7,
+        "joints": 6,
+        "rigCount": 1,
+        "spawnCount": 1,
+        "pending": 0,
+        "bounds": {
+          "min": [
+            -0.9347551580482163,
+            -0.00010160511248816229,
+            -1.7215674947843258
+          ],
+          "max": [
+            0.5953386026707868,
+            0.8550242243908097,
+            0.0398739236052123
+          ],
+          "center": [
+            -0.16970827768871477,
+            0.4274613096391608,
+            -0.8408467855895567
+          ]
+        },
+        "maxJointError": 0.00034529813282285716,
+        "peakJointError": 0.0017012261137568576,
+        "sleeping": 0,
+        "maxSpeed": 0.550672914221544,
+        "elapsed": 1.9999999999999953,
+        "round": 1,
+        "winner": -1,
+        "status": "Ragdoll",
+        "mode": "ragdoll",
+        "grabbed": false
+      }
+    },
+    {
+      "name": "handoff-walk",
+      "matrixError": 5.960464477539063e-08,
+      "seconds": 2,
+      "wallMs": 638.6505800000014,
+      "interRigFrames": 0,
+      "maxTop": 1.7948606175588266,
+      "maxSpeed": 2.266203356833527,
+      "maxGap": 0.0017722279238440827,
+      "minFloor": -0.010344530428619075,
+      "final": {
+        "bodies": 7,
+        "joints": 6,
+        "rigCount": 1,
+        "spawnCount": 1,
+        "pending": 0,
+        "bounds": {
+          "min": [
+            -0.6490608693892032,
+            -4.517405332855884e-05,
+            -1.774094151403276
+          ],
+          "max": [
+            0.7714890701388124,
+            0.8216051385947143,
+            -0.009558548250538701
+          ],
+          "center": [
+            0.061214100374804625,
+            0.41077998227069284,
+            -0.8918263498269073
+          ]
+        },
+        "maxJointError": 0.000513127491321454,
+        "peakJointError": 0.0017722279238440827,
+        "sleeping": 0,
+        "maxSpeed": 0.7168279287964299,
+        "elapsed": 1.9999999999999953,
+        "round": 1,
+        "winner": -1,
+        "status": "Ragdoll",
+        "mode": "ragdoll",
+        "grabbed": false
+      }
+    },
+    {
+      "name": "handoff-wave",
+      "matrixError": 1.1920928955078125e-07,
+      "seconds": 2,
+      "wallMs": 598.6059160000004,
+      "interRigFrames": 0,
+      "maxTop": 1.770154091974518,
+      "maxSpeed": 3.463489652096623,
+      "maxGap": 0.00244562842996393,
+      "minFloor": -0.014641450845709586,
+      "final": {
+        "bodies": 7,
+        "joints": 6,
+        "rigCount": 1,
+        "spawnCount": 1,
+        "pending": 0,
+        "bounds": {
+          "min": [
+            -0.8427908178562433,
+            -0.000469411585494961,
+            -1.6597957731696087
+          ],
+          "max": [
+            1.0744499302359851,
+            0.837392562025226,
+            0.03784618735689327
+          ],
+          "center": [
+            0.1158295561898709,
+            0.41846157521986554,
+            -0.8109747929063578
+          ]
+        },
+        "maxJointError": 0.0002980452788339902,
+        "peakJointError": 0.00244562842996393,
+        "sleeping": 0,
+        "maxSpeed": 0.4197498753619807,
+        "elapsed": 1.9999999999999953,
+        "round": 1,
+        "winner": -1,
+        "status": "Ragdoll",
+        "mode": "ragdoll",
+        "grabbed": false
+      }
+    },
+    {
+      "name": "handoff-dance",
+      "matrixError": 8.568167686462402e-08,
+      "seconds": 2,
+      "wallMs": 247.34272000000055,
+      "interRigFrames": 0,
+      "maxTop": 1.813600835749204,
+      "maxSpeed": 3.222802545667303,
+      "maxGap": 0.001856138120915088,
+      "minFloor": -0.014878387126670833,
+      "final": {
+        "bodies": 7,
+        "joints": 6,
+        "rigCount": 1,
+        "spawnCount": 1,
+        "pending": 0,
+        "bounds": {
+          "min": [
+            -0.7207788484497017,
+            -7.40942953163376e-05,
+            -1.7545624373030357
+          ],
+          "max": [
+            0.781221310233821,
+            0.8576465347856315,
+            -0.013407989011040844
+          ],
+          "center": [
+            0.030221230892059636,
+            0.42878622024515756,
+            -0.8839852131570383
+          ]
+        },
+        "maxJointError": 0.00023016227089475613,
+        "peakJointError": 0.001856138120915088,
+        "sleeping": 0,
+        "maxSpeed": 0.3547942025778079,
+        "elapsed": 1.9999999999999953,
+        "round": 1,
+        "winner": -1,
+        "status": "Ragdoll",
+        "mode": "ragdoll",
+        "grabbed": false
+      }
+    }
+  ],
+  "verificationNote": "Run after the V3.2 arm/hinge changes. Later additions to body dual-quaternion skinning/export and explicit sampler precision do not alter the physics or rest weights exercised here. The final welded-mesh regression separately covers the expanded refinement retry limit."
+}
