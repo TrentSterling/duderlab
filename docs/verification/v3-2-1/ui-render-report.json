@@ -1,0 +1,153 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "name": "gallery",
+      "stats": {
+        "count": 16,
+        "totalCount": 16,
+        "drawCalls": 4,
+        "triangles": 46248,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 23526,
+        "expandedVertices": 138744,
+        "indices": 138744,
+        "geometryBytes": 2907576
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+        "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+        "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+        "ui.js": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6"
+      },
+      "drawCalls": 4,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": [
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        },
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        },
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "wave",
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 4,
+        "triangles": 2664,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1368,
+        "expandedVertices": 7992,
+        "indices": 7992,
+        "geometryBytes": 168768
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+        "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+        "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+        "ui.js": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6"
+      },
+      "drawCalls": 4,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": [
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        },
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        },
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        }
+      ]
+    }
+  ]
+}

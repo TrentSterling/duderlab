@@ -1,10 +1,16 @@
 import fs from 'node:fs';
 import vm from 'node:vm';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 globalThis.window=globalThis;
-for(const name of ['vendor-cannon.js','core.js','collision-shapes.js','physics.js'])vm.runInThisContext(fs.readFileSync(path.join(root,'src',name),'utf8'),{filename:name});
+const sourceHashes={};
+for(const name of ['vendor-cannon.js','core.js','collision-shapes.js','physics.js']){
+  const source=fs.readFileSync(path.join(root,'src',name),'utf8');
+  sourceHashes[name]=crypto.createHash('sha256').update(source).digest('hex');
+  vm.runInThisContext(source,{filename:name});
+}
 const results=[],failures=[];
 function check(ok,message){if(!ok)failures.push(message);}
 function finite(physics){return physics.rigs.every(r=>r.bodies.every(b=>[...Object.values(b.position),...Object.values(b.quaternion),...Object.values(b.velocity),...Object.values(b.angularVelocity)].every(Number.isFinite)));}
@@ -24,4 +30,4 @@ const sumo=new DuderPhysics();sumo.startSumo(presets[0],presets[1]);let contactF
 for(let i=0;i<720;i++){sumo.step(1/120);check(finite(sumo),'Sumo nonfinite');if(sumo.world.contacts.some(c=>c.bi._duderRig!==undefined&&c.bj._duderRig!==undefined&&c.bi._duderRig!==c.bj._duderRig))contactFrames++;roundResolved ||= sumo.winner!==-1;roundSeen=Math.max(roundSeen,sumo.round);maxError=Math.max(maxError,sumo.stats.maxJointError);maxTravel=Math.max(maxTravel,Math.abs(sumo.rigs[0].bodies[0].position.x+.94));}
 check(contactFrames>50,'Sumo did not make sustained contact');sumo.elapsed=18.01;sumo.winner=-1;sumo.step(1/120);check(sumo.winner===-2&&sumo.status==='Draw','Standing time limit did not draw');roundResolved=true;step(sumo,2.5);roundSeen=Math.max(roundSeen,sumo.round);check(roundSeen>1,'Sumo did not restart after draw');check(maxError<.08,'Sumo joint separation exceeded8cm');
 results.push({name:'sumo6s+timeoutTransition',contactFrames,roundResolved,roundSeen,maxError,maxTravel,final:sumo.stats});
-const report={passed:failures.length===0,failures:[...new Set(failures)],results};fs.writeFileSync(path.join(root,'qa/physics-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));if(failures.length)process.exitCode=1;
+const report={passed:failures.length===0,sourceHashes,failures:[...new Set(failures)],results};fs.writeFileSync(path.join(root,'qa/physics-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));if(failures.length)process.exitCode=1;

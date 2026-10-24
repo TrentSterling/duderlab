@@ -30,7 +30,7 @@ def main():
                 for j,patch in enumerate(packet['patches']):
                     for i,changes in enumerate(patch.pop('draws')):traces[j]['draws'][i].update(changes)
                     traces[j].update(patch)
-            canvas=Image.new('RGB',(width,height),'#f4f1e9');draw=ImageDraw.Draw(canvas);draw.text((16,12),'DUDER V3.2 — WAVE / ACTUAL CODE',font=font(24),fill='#172129')
+            canvas=Image.new('RGB',(width,height),'#f4f1e9');draw=ImageDraw.Draw(canvas);draw.text((16,12),'DUDER V3.2.1 — WAVE / ACTUAL CODE',font=font(24),fill='#172129')
             draw.text((1100,17),f"{packet['frame']/args.fps:.2f}s",font=font(18),fill='#56636b')
             frame_errors=[];draws=[]
             for j,trace in enumerate(traces):

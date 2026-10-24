@@ -1,0 +1,326 @@
+{
+  "source": "/workspace/scratch/b025ef671811/duder-lab-v3-2-1",
+  "sourceHashes": {
+    "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+    "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+    "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+    "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df"
+  },
+  "testSha256": "6bd34699d30192bab343b43de17b4af273505dc496f7aabf2849b3440128b855",
+  "coreVersion": "3.2.1",
+  "cacheCases": 70,
+  "maxCachePointError": 0,
+  "scope": "Clear legs in neutral and mild idle; arbitrary collision poses may touch.",
+  "recipes": 288,
+  "fieldSamples": 72576,
+  "minFieldDistance": 0.011749488898744782,
+  "meshRecipes": 48,
+  "posedBakes": 240,
+  "meshSlices": 960,
+  "minMeshGap": 0.125392227579307,
+  "maxRefinements": 1,
+  "worst": {
+    "field": {
+      "recipe": "proportion-corner-11",
+      "distance": 0.011749488898744782
+    },
+    "mesh": {
+      "recipe": "proportion-corner-26",
+      "clip": "idle",
+      "phase": 0,
+      "height": 0.14,
+      "gap": 0.125392227579307
+    }
+  },
+  "checks": [
+    {
+      "recipe": "proportion-corner-0",
+      "meshGap": 0.2374494996887887,
+      "triangles": 3192,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-1",
+      "meshGap": 0.23455751853000556,
+      "triangles": 4204,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-2",
+      "meshGap": 0.20899712379424842,
+      "triangles": 5896,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-3",
+      "meshGap": 0.13839568671520622,
+      "triangles": 1640,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-4",
+      "meshGap": 0.2980140022668773,
+      "triangles": 3600,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-5",
+      "meshGap": 0.2406168291142356,
+      "triangles": 4836,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-6",
+      "meshGap": 0.21138917941029306,
+      "triangles": 2768,
+      "refinements": 1
+    },
+    {
+      "recipe": "proportion-corner-7",
+      "meshGap": 0.18753965426634395,
+      "triangles": 1912,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-8",
+      "meshGap": 0.3256492113052163,
+      "triangles": 8096,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-9",
+      "meshGap": 0.33572500994091065,
+      "triangles": 2696,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-10",
+      "meshGap": 0.2069128376880759,
+      "triangles": 2928,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-11",
+      "meshGap": 0.13625280413820806,
+      "triangles": 3944,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-12",
+      "meshGap": 0.4069261689374549,
+      "triangles": 2240,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-13",
+      "meshGap": 0.33554082538527885,
+      "triangles": 2696,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-14",
+      "meshGap": 0.20719567472930422,
+      "triangles": 4176,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-15",
+      "meshGap": 0.18630523257344006,
+      "triangles": 1096,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-16",
+      "meshGap": 0.2137373214851005,
+      "triangles": 4828,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-17",
+      "meshGap": 0.21137191724860488,
+      "triangles": 7084,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-18",
+      "meshGap": 0.13559030065095717,
+      "triangles": 2172,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-19",
+      "meshGap": 0.1325191627251966,
+      "triangles": 2384,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-20",
+      "meshGap": 0.21437494826286127,
+      "triangles": 6052,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-21",
+      "meshGap": 0.2101002662888044,
+      "triangles": 1792,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-22",
+      "meshGap": 0.13340155525004388,
+      "triangles": 2800,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-23",
+      "meshGap": 0.12875454098612554,
+      "triangles": 3380,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-24",
+      "meshGap": 0.41009336176503086,
+      "triangles": 3076,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-25",
+      "meshGap": 0.3756673466475864,
+      "triangles": 4104,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-26",
+      "meshGap": 0.125392227579307,
+      "triangles": 5184,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-27",
+      "meshGap": 0.13388607505174233,
+      "triangles": 1464,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-28",
+      "meshGap": 0.3787609491942945,
+      "triangles": 3404,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-29",
+      "meshGap": 0.37408776380149467,
+      "triangles": 4516,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-30",
+      "meshGap": 0.13269255161545285,
+      "triangles": 1500,
+      "refinements": 0
+    },
+    {
+      "recipe": "proportion-corner-31",
+      "meshGap": 0.12631245153952853,
+      "triangles": 1568,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-0",
+      "meshGap": 0.17754337069616838,
+      "triangles": 1976,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-10789",
+      "meshGap": 0.20661534898929645,
+      "triangles": 2352,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-21578",
+      "meshGap": 0.18492197197606702,
+      "triangles": 2132,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-32367",
+      "meshGap": 0.1738645541442801,
+      "triangles": 2144,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-43156",
+      "meshGap": 0.23050892801256057,
+      "triangles": 2592,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-53945",
+      "meshGap": 0.22510292340702737,
+      "triangles": 2676,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-64734",
+      "meshGap": 0.24904168249221065,
+      "triangles": 3220,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-75523",
+      "meshGap": 0.20941190921706032,
+      "triangles": 3196,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-86312",
+      "meshGap": 0.19491361640518556,
+      "triangles": 2244,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-97101",
+      "meshGap": 0.20608826571128364,
+      "triangles": 2136,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-107890",
+      "meshGap": 0.2015443754902873,
+      "triangles": 2340,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-118679",
+      "meshGap": 0.2061033556462684,
+      "triangles": 2404,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-129468",
+      "meshGap": 0.20521265695397362,
+      "triangles": 2664,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-140257",
+      "meshGap": 0.20379623985678585,
+      "triangles": 2500,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-151046",
+      "meshGap": 0.1981861513040351,
+      "triangles": 2208,
+      "refinements": 0
+    },
+    {
+      "recipe": "seed-161835",
+      "meshGap": 0.2173833939141569,
+      "triangles": 2240,
+      "refinements": 0
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "cases": 102,
+  "closedGearChecks": 102,
+  "expandedVertices": 1150548,
+  "indexedVertices": 194668,
+  "vertexReduction": 0.8308041037835884,
+  "sharedSmoothVertices": 956968,
+  "maxNormalDelta": 0,
+  "examples": [
+    {
+      "hat": "none",
+      "expandedVertices": 8532,
+      "indexedVertices": 1438,
+      "triangles": 2844,
+      "uniquePositions": 1438
+    },
+    {
+      "hat": "cap",
+      "expandedVertices": 9408,
+      "indexedVertices": 1630,
+      "triangles": 3136,
+      "uniquePositions": 1590
+    },
+    {
+      "hat": "bucket",
+      "expandedVertices": 9324,
+      "indexedVertices": 1572,
+      "triangles": 3108,
+      "uniquePositions": 1572
+    },
+    {
+      "hat": "beanie",
+      "expandedVertices": 9468,
+      "indexedVertices": 1620,
+      "triangles": 3156,
+      "uniquePositions": 1596
+    },
+    {
+      "hat": "bowler",
+      "expandedVertices": 9684,
+      "indexedVertices": 1632,
+      "triangles": 3228,
+      "uniquePositions": 1632
+    },
+    {
+      "hat": "sunhat",
+      "expandedVertices": 9540,
+      "indexedVertices": 1608,
+      "triangles": 3180,
+      "uniquePositions": 1608
+    }
+  ],
+  "exports": [
+    {
+      "pattern": 0,
+      "hat": "cap",
+      "glasses": "square",
+      "posed": false,
+      "triangles": 3136,
+      "expandedVertices": 9408,
+      "indexedVertices": 1610,
+      "bytes": 97772
+    },
+    {
+      "pattern": 3,
+      "hat": "bucket",
+      "glasses": "round",
+      "posed": false,
+      "triangles": 39396,
+      "expandedVertices": 118188,
+      "indexedVertices": 19716,
+      "bytes": 1184724
+    },
+    {
+      "pattern": 7,
+      "hat": "beanie",
+      "glasses": "catEye",
+      "posed": false,
+      "triangles": 39396,
+      "expandedVertices": 118188,
+      "indexedVertices": 19740,
+      "bytes": 1185592
+    },
+    {
+      "pattern": 6,
+      "hat": "sunhat",
+      "glasses": "aviator",
+      "posed": true,
+      "triangles": 39540,
+      "expandedVertices": 118620,
+      "indexedVertices": 19790,
+      "bytes": 1189136
+    }
+  ],
+  "flatGearTrianglesChecked": 528,
+  "smoothEyeLensVerticesChecked": 576,
+  "sourceHashes": {
+    "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+    "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+    "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a"
+  },
+  "testSha256": "64643dadc8020d884d058aa39645de2bb5a14d23d891ac783beafca8a5900491",
+  "sourceStableDuringRun": true
+}

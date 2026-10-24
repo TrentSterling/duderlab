@@ -17,7 +17,9 @@
     const C=root.DuderCore;if(!C)throw Error('DuderCore must load before DuderShell.');
     const r=C.sanitizeRecipe(recipe),key=shapeKeys.map(k=>r[k]).join('|');
     if(cache.has(key)){const hit=cache.get(key);cache.delete(key);cache.set(key,hit);return hit;}
-    const parts=C.primitives(r),step=(r.facets<=8?.145:r.facets>=16?.085:.115)*Math.min(1,Math.max(.62,r.width*r.armThickness/.88))*Math.pow(.82,attempt),margin=r.blend+.11;
+    // A few more samples keep posed underarm triangles from spanning an entire
+    // occlusion fold. This improves the smooth shell without another draw pass.
+    const parts=C.primitives(r),step=(r.facets<=8?.105:r.facets>=16?.065:.085)*Math.min(1,Math.max(.62,r.width*r.armThickness/.88))*Math.pow(.82,attempt),margin=r.blend+.11;
     const lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];
     for(const p of parts)for(const [point,radius]of [[p.a,p.ra],[p.b,p.rb]])for(let k=0;k<3;k++){
       lo[k]=Math.min(lo[k],point[k]-radius-margin);hi[k]=Math.max(hi[k],point[k]+radius+margin);

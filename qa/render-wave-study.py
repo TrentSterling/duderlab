@@ -62,15 +62,15 @@ def main():
         renderer_info=renderer.info
     finally:renderer.close()
     after=[c for c in results if c['version']=='after' and not c['showRig']]
-    sheet(output,after,'v3-2-wave-study.png','DUDER — WAVE STUDY / ACTUAL CODE','Held greeting turntable + fixed-camera wave keyframes. Smooth seven-bone mesh; existing shell outlines.')
+    sheet(output,after,'v3-2-1-wave-study.png','DUDER — WAVE STUDY / ACTUAL CODE','Held greeting turntable + fixed-camera wave keyframes. Smooth seven-bone mesh; existing shell outlines.')
     beforeafter=[]
     for version in ['before','after']:
         for view in ['front','threequarter','side']:
             case=next((c for c in results if c['name']==f'{version}-held-{view}'),None)
-            if case:beforeafter.append({**case,'label':('V3.1.1' if version=='before' else 'V3.2')+' / '+case['label']})
-    sheet(output,beforeafter,'v3-2-wave-before-after.png','WAVE / BEFORE & AFTER','Same recipe, camera, scale, and normalized held phase. Actual application shader replay.',3)
+            if case:beforeafter.append({**case,'label':('V3.2' if version=='before' else 'V3.2.1')+' / '+case['label']})
+    sheet(output,beforeafter,'v3-2-1-wave-before-after.png','WAVE / BEFORE & AFTER','Same recipe, camera, scale, and normalized held phase. Actual application shader replay.',3)
     rigs=[c for c in results if c['showRig']]
-    sheet(output,rigs,'v3-2-wave-rig.png','WAVE / RIG VIEW','The same seven bones drive the surface and initialize the ragdoll bodies.',3)
+    sheet(output,rigs,'v3-2-1-wave-rig.png','WAVE / RIG VIEW','The same seven bones drive the surface and initialize the ragdoll bodies.',3)
     report={'passed':not failures,'failures':failures,'verificationScope':__doc__.strip(),'renderer':renderer_info,'seed':manifest['seed'],'recipe':manifest['recipe'],'heldPhase':manifest['heldPhase'],'phases':manifest['phases'],'cases':results}
     (output/'wave-study-report.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({'passed':not failures,'cases':len(results),'output':str(output)}))

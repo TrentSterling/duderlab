@@ -1,0 +1,168 @@
+{
+  "passed": 18,
+  "routedActions": 274,
+  "checks": [
+    {
+      "width": 320,
+      "height": 844,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 6,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 6,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 700,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 700,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 850,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 850,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 960,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 960,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 1100,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 1100,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "height": 800,
+      "tab": "motion",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "height": 800,
+      "tab": "physics",
+      "panelOpen": true,
+      "headerButtons": 8,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "tab": "motion",
+      "panelOpen": false,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "tab": "physics",
+      "panelOpen": false,
+      "headerButtons": 7,
+      "drawCalls": 1,
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,533 @@
+{
+  "scope": "Actual application GLSL capture; equal before/after camera framing per recipe.",
+  "cases": [
+    {
+      "case": "default-before",
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 1476,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 748,
+        "expandedVertices": 4428,
+        "indices": 4428,
+        "geometryBytes": 92512
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+        "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+        "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+        "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c",
+        "renderer.js": "eff6ac44eaf0f2ebe4d68190fa6dee09076c72d5a916bc426f725bde3fa9bd48",
+        "ui.js": "3b1337539cd996cbcbbd21599521ea42d922f776232c2349c5dfaf38892b71c2"
+      },
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      },
+      "draws": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "unique_vertices": 3,
+          "indices": 0,
+          "submitted_vertices": 3,
+          "mode": 4,
+          "elapsed_ms": 306.61,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 748,
+          "unique_vertices": 748,
+          "indices": 4428,
+          "submitted_vertices": 4428,
+          "mode": 4,
+          "elapsed_ms": 1241.85,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 748,
+          "unique_vertices": 748,
+          "indices": 4428,
+          "submitted_vertices": 4428,
+          "mode": 4,
+          "elapsed_ms": 3.11,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "case": "default-after",
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 2592,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1306,
+        "expandedVertices": 7776,
+        "indices": 7776,
+        "geometryBytes": 161704
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+        "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+        "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+        "ui.js": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6"
+      },
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      },
+      "draws": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "unique_vertices": 3,
+          "indices": 0,
+          "submitted_vertices": 3,
+          "mode": 4,
+          "elapsed_ms": 1.65,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 1306,
+          "unique_vertices": 1306,
+          "indices": 7776,
+          "submitted_vertices": 7776,
+          "mode": 4,
+          "elapsed_ms": 2.87,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 1306,
+          "unique_vertices": 1306,
+          "indices": 7776,
+          "submitted_vertices": 7776,
+          "mode": 4,
+          "elapsed_ms": 7.36,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "case": "narrow-large-before",
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 1448,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 734,
+        "expandedVertices": 4344,
+        "indices": 4344,
+        "geometryBytes": 90776
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+        "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+        "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+        "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c",
+        "renderer.js": "eff6ac44eaf0f2ebe4d68190fa6dee09076c72d5a916bc426f725bde3fa9bd48",
+        "ui.js": "3b1337539cd996cbcbbd21599521ea42d922f776232c2349c5dfaf38892b71c2"
+      },
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      },
+      "draws": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "unique_vertices": 3,
+          "indices": 0,
+          "submitted_vertices": 3,
+          "mode": 4,
+          "elapsed_ms": 1.08,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 734,
+          "unique_vertices": 734,
+          "indices": 4344,
+          "submitted_vertices": 4344,
+          "mode": 4,
+          "elapsed_ms": 2.11,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 734,
+          "unique_vertices": 734,
+          "indices": 4344,
+          "submitted_vertices": 4344,
+          "mode": 4,
+          "elapsed_ms": 2.98,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "case": "narrow-large-after",
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 2616,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1318,
+        "expandedVertices": 7848,
+        "indices": 7848,
+        "geometryBytes": 163192
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+        "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+        "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+        "ui.js": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6"
+      },
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      },
+      "draws": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "unique_vertices": 3,
+          "indices": 0,
+          "submitted_vertices": 3,
+          "mode": 4,
+          "elapsed_ms": 1.37,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 1318,
+          "unique_vertices": 1318,
+          "indices": 7848,
+          "submitted_vertices": 7848,
+          "mode": 4,
+          "elapsed_ms": 7.26,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 1318,
+          "unique_vertices": 1318,
+          "indices": 7848,
+          "submitted_vertices": 7848,
+          "mode": 4,
+          "elapsed_ms": 5.49,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "case": "short-wide-before",
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 2428,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1224,
+        "expandedVertices": 7284,
+        "indices": 7284,
+        "geometryBytes": 151536
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+        "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+        "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+        "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c",
+        "renderer.js": "eff6ac44eaf0f2ebe4d68190fa6dee09076c72d5a916bc426f725bde3fa9bd48",
+        "ui.js": "3b1337539cd996cbcbbd21599521ea42d922f776232c2349c5dfaf38892b71c2"
+      },
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      },
+      "draws": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "unique_vertices": 3,
+          "indices": 0,
+          "submitted_vertices": 3,
+          "mode": 4,
+          "elapsed_ms": 2.23,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 1224,
+          "unique_vertices": 1224,
+          "indices": 7284,
+          "submitted_vertices": 7284,
+          "mode": 4,
+          "elapsed_ms": 7.2,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 1224,
+          "unique_vertices": 1224,
+          "indices": 7284,
+          "submitted_vertices": 7284,
+          "mode": 4,
+          "elapsed_ms": 5.31,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "case": "short-wide-after",
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 4380,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 2200,
+        "expandedVertices": 13140,
+        "indices": 13140,
+        "geometryBytes": 272560
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+        "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+        "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+        "ui.js": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6"
+      },
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      },
+      "draws": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "unique_vertices": 3,
+          "indices": 0,
+          "submitted_vertices": 3,
+          "mode": 4,
+          "elapsed_ms": 1.37,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 2200,
+          "unique_vertices": 2200,
+          "indices": 13140,
+          "submitted_vertices": 13140,
+          "mode": 4,
+          "elapsed_ms": 10.57,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 2200,
+          "unique_vertices": 2200,
+          "indices": 13140,
+          "submitted_vertices": 13140,
+          "mode": 4,
+          "elapsed_ms": 6.15,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "case": "small-feet-before",
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 1412,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 716,
+        "expandedVertices": 4236,
+        "indices": 4236,
+        "geometryBytes": 88544
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+        "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+        "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+        "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c",
+        "renderer.js": "eff6ac44eaf0f2ebe4d68190fa6dee09076c72d5a916bc426f725bde3fa9bd48",
+        "ui.js": "3b1337539cd996cbcbbd21599521ea42d922f776232c2349c5dfaf38892b71c2"
+      },
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      },
+      "draws": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "unique_vertices": 3,
+          "indices": 0,
+          "submitted_vertices": 3,
+          "mode": 4,
+          "elapsed_ms": 1.02,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 716,
+          "unique_vertices": 716,
+          "indices": 4236,
+          "submitted_vertices": 4236,
+          "mode": 4,
+          "elapsed_ms": 2.78,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 716,
+          "unique_vertices": 716,
+          "indices": 4236,
+          "submitted_vertices": 4236,
+          "mode": 4,
+          "elapsed_ms": 2.74,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "case": "small-feet-after",
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 2408,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1214,
+        "expandedVertices": 7224,
+        "indices": 7224,
+        "geometryBytes": 150296
+      },
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+        "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+        "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+        "ui.js": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6"
+      },
+      "renderer": {
+        "vendor": "Mesa",
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+        "shading_language": "OpenGL ES GLSL ES 3.20",
+        "egl_version": "1.5"
+      },
+      "draws": [
+        {
+          "index": 0,
+          "method": "drawArrays",
+          "vertices": 3,
+          "unique_vertices": 3,
+          "indices": 0,
+          "submitted_vertices": 3,
+          "mode": 4,
+          "elapsed_ms": 1.01,
+          "errors": []
+        },
+        {
+          "index": 1,
+          "method": "drawElements",
+          "vertices": 1214,
+          "unique_vertices": 1214,
+          "indices": 7224,
+          "submitted_vertices": 7224,
+          "mode": 4,
+          "elapsed_ms": 4.73,
+          "errors": []
+        },
+        {
+          "index": 2,
+          "method": "drawElements",
+          "vertices": 1214,
+          "unique_vertices": 1214,
+          "indices": 7224,
+          "submitted_vertices": 7224,
+          "mode": 4,
+          "elapsed_ms": 4.22,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

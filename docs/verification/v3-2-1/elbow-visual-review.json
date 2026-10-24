@@ -1,0 +1,106 @@
+{
+  "passedForRequestedElbowFix": true,
+  "scope": "Independent manual review of actual application GLSL replay, plus local triangle orientation regression. Software EGL/GLES evidence; not browser or hardware FPS verification.",
+  "sourceHashes": {
+    "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+    "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+    "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+    "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+    "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd"
+  },
+  "exactScreenshotSeed": 1702468274,
+  "numeric": {
+    "passed": true,
+    "cases": 27,
+    "faceReversals": 0,
+    "minimumOutwardNormalAlignment": 0.221363016022606,
+    "minimumIndependentFieldAlignment": 0.18496900520217877,
+    "baselineFailingCases": 12,
+    "baselineCases": 27
+  },
+  "actualShaderReplay": {
+    "cases": 14,
+    "passed": true,
+    "glErrors": [],
+    "heldViews": [
+      "front",
+      "threequarter",
+      "side",
+      "back"
+    ],
+    "wavePhases": [
+      0.29,
+      0.375,
+      0.485,
+      0.595,
+      0.705,
+      0.8
+    ]
+  },
+  "lowFacetHeldViews": [
+    {
+      "view": "front",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+        "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+        "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+        "ui.js": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 1796,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 926,
+        "expandedVertices": 5388,
+        "indices": 5388,
+        "geometryBytes": 114152
+      },
+      "glErrors": []
+    },
+    {
+      "view": "side",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+        "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+        "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+        "ui.js": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 1796,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 926,
+        "expandedVertices": 5388,
+        "indices": 5388,
+        "geometryBytes": 114152
+      },
+      "glErrors": []
+    }
+  ],
+  "visualFindings": [
+    "The deep V-shaped elbow notch in the user screenshot is removed in the front and back held views.",
+    "Both outward sweeps, both inward sweeps, lift completion, and hold retain a continuous readable elbow silhouette.",
+    "The long isolated downward underarm whisker from the earlier A-pose prototype is removed at the default facet setting by the denser body lattice.",
+    "The low-facet setting also removes the pictured V-shaped notch.",
+    "Short thin occlusion-contour endpoints remain in some very large underarm/shoulder close-ups, especially at low detail. This review does not claim that every inverted-hull contour artifact has been eliminated.",
+    "No experimental outline facing discard or fragment-depth workaround is included in the reviewed renderer."
+  ],
+  "evidence": {
+    "frontComparison": "elbow-front-before-after.png",
+    "fourAngleComparison": "elbow-before-after.png",
+    "waveFrames": "elbow-wave-frames.png",
+    "optionalFacets8": "elbow-final-facets8.png"
+  }
+}

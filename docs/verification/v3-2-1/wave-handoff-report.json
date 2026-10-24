@@ -1,0 +1,591 @@
+{
+  "passed": true,
+  "scope": "Actual cannon-es constraint frames and one-second wave-to-ragdoll releases; not a browser or hardware performance benchmark.",
+  "sourceHashes": {
+    "vendor-cannon.js": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26",
+    "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+    "collision-shapes.js": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+    "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+    "physics.js": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16"
+  },
+  "failures": [],
+  "metrics": {
+    "poseSamples": 672,
+    "releaseSamples": 70,
+    "maxTransformError": 2.384185791015625e-7,
+    "maxInitialJointGap": 2.818821486974031e-7,
+    "maxShoulderSwing": 0.9693968030659708,
+    "maxShoulderTwist": 0.5069766351124622,
+    "minHingeAngle": -1.1102230246251568e-16,
+    "maxHingeAngle": 2.069448454625845,
+    "maxSeamPositionGap": 0,
+    "maxSeamVelocityJump": 0,
+    "maxReleaseJointGap": 0.0034270550789644912,
+    "maxReleaseSpeed": 4.873214653427717,
+    "maxFirstStepCenterTravel": 0.02107791494681789,
+    "initialForearmTorsoContacts": 0,
+    "maxInitialForearmTorsoPenetration": 0
+  },
+  "releases": [
+    {
+      "recipe": "default",
+      "amplitude": 1,
+      "phase": 0.125,
+      "maxJointGap": 0.0007388939870770045,
+      "maxSpeed": 1.7744844113180633,
+      "firstStepTravel": 0.0046524381960424
+    },
+    {
+      "recipe": "default",
+      "amplitude": 1,
+      "phase": 0.3125,
+      "maxJointGap": 0.0020381542385894008,
+      "maxSpeed": 3.006754134385073,
+      "firstStepTravel": 0.0008620608024223886
+    },
+    {
+      "recipe": "default",
+      "amplitude": 1,
+      "phase": 0.5,
+      "maxJointGap": 0.0021363755307922568,
+      "maxSpeed": 3.002262991841851,
+      "firstStepTravel": 0.0008363120300497519
+    },
+    {
+      "recipe": "default",
+      "amplitude": 1,
+      "phase": 0.6875,
+      "maxJointGap": 0.0021274168430458523,
+      "maxSpeed": 2.9396595425806784,
+      "firstStepTravel": 0.001220595940248267
+    },
+    {
+      "recipe": "default",
+      "amplitude": 1,
+      "phase": 0.875,
+      "maxJointGap": 0.002566690274733576,
+      "maxSpeed": 3.7172404491912254,
+      "firstStepTravel": 0.012310205237837313
+    },
+    {
+      "recipe": "default",
+      "amplitude": 1.25,
+      "phase": 0.125,
+      "maxJointGap": 0.0008397921972073398,
+      "maxSpeed": 1.774640172972252,
+      "firstStepTravel": 0.004652438215930139
+    },
+    {
+      "recipe": "default",
+      "amplitude": 1.25,
+      "phase": 0.3125,
+      "maxJointGap": 0.0021290597051545337,
+      "maxSpeed": 3.001467114726818,
+      "firstStepTravel": 0.0009133214208880118
+    },
+    {
+      "recipe": "default",
+      "amplitude": 1.25,
+      "phase": 0.5,
+      "maxJointGap": 0.002132866518130704,
+      "maxSpeed": 2.9810557232217674,
+      "firstStepTravel": 0.0008789900435824973
+    },
+    {
+      "recipe": "default",
+      "amplitude": 1.25,
+      "phase": 0.6875,
+      "maxJointGap": 0.002150957531490475,
+      "maxSpeed": 2.9492804902284195,
+      "firstStepTravel": 0.001350682774010102
+    },
+    {
+      "recipe": "default",
+      "amplitude": 1.25,
+      "phase": 0.875,
+      "maxJointGap": 0.0025537195165027055,
+      "maxSpeed": 3.7341694658822915,
+      "firstStepTravel": 0.012504835226174574
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1,
+      "phase": 0.125,
+      "maxJointGap": 0.000544796809302508,
+      "maxSpeed": 2.1648731487176196,
+      "firstStepTravel": 0.004995855575808314
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1,
+      "phase": 0.3125,
+      "maxJointGap": 0.0016413977043186676,
+      "maxSpeed": 3.1564395546122275,
+      "firstStepTravel": 0.0009574889195664761
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1,
+      "phase": 0.5,
+      "maxJointGap": 0.0016590689076251654,
+      "maxSpeed": 3.1979448396450816,
+      "firstStepTravel": 0.0008870329655834182
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1,
+      "phase": 0.6875,
+      "maxJointGap": 0.0017437289164604424,
+      "maxSpeed": 3.1243121510870466,
+      "firstStepTravel": 0.0013098430249807017
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1,
+      "phase": 0.875,
+      "maxJointGap": 0.00243926280259433,
+      "maxSpeed": 4.11511604570416,
+      "firstStepTravel": 0.013317665202044431
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1.25,
+      "phase": 0.125,
+      "maxJointGap": 0.0005525452257406215,
+      "maxSpeed": 2.161775673399939,
+      "firstStepTravel": 0.004995855399668489
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1.25,
+      "phase": 0.3125,
+      "maxJointGap": 0.0016241431569743192,
+      "maxSpeed": 3.164347205500017,
+      "firstStepTravel": 0.0010342856480995025
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1.25,
+      "phase": 0.5,
+      "maxJointGap": 0.0017274401757077578,
+      "maxSpeed": 3.203118860259179,
+      "firstStepTravel": 0.0009422469006409128
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1.25,
+      "phase": 0.6875,
+      "maxJointGap": 0.001857368538926061,
+      "maxSpeed": 3.1473607253005973,
+      "firstStepTravel": 0.0014570252230846716
+    },
+    {
+      "recipe": "short-wide",
+      "amplitude": 1.25,
+      "phase": 0.875,
+      "maxJointGap": 0.0024899617139461476,
+      "maxSpeed": 4.100846635444871,
+      "firstStepTravel": 0.013571398182966224
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1,
+      "phase": 0.125,
+      "maxJointGap": 0.0009028892082032443,
+      "maxSpeed": 1.8752448819722416,
+      "firstStepTravel": 0.0041927084595971675
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1,
+      "phase": 0.3125,
+      "maxJointGap": 0.00264196713849135,
+      "maxSpeed": 2.9347773244675475,
+      "firstStepTravel": 0.0008243467146083256
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1,
+      "phase": 0.5,
+      "maxJointGap": 0.002654219267163619,
+      "maxSpeed": 2.932341025761007,
+      "firstStepTravel": 0.0007924714789641326
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1,
+      "phase": 0.6875,
+      "maxJointGap": 0.0025769617003752097,
+      "maxSpeed": 2.8937168127600823,
+      "firstStepTravel": 0.0011370972039982195
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1,
+      "phase": 0.875,
+      "maxJointGap": 0.00270777540710316,
+      "maxSpeed": 3.4908270351469692,
+      "firstStepTravel": 0.011150801173426147
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1.25,
+      "phase": 0.125,
+      "maxJointGap": 0.000900432526316326,
+      "maxSpeed": 1.8749026283227832,
+      "firstStepTravel": 0.004192708463326404
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1.25,
+      "phase": 0.3125,
+      "maxJointGap": 0.002676450027813801,
+      "maxSpeed": 2.926229180779272,
+      "firstStepTravel": 0.0008661554756862017
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1.25,
+      "phase": 0.5,
+      "maxJointGap": 0.002680389183746595,
+      "maxSpeed": 2.926981295531889,
+      "firstStepTravel": 0.0008234680809814788
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1.25,
+      "phase": 0.6875,
+      "maxJointGap": 0.0026103597638482195,
+      "maxSpeed": 2.8921652450852258,
+      "firstStepTravel": 0.0012504126664329282
+    },
+    {
+      "recipe": "tall-thin",
+      "amplitude": 1.25,
+      "phase": 0.875,
+      "maxJointGap": 0.002741472622340554,
+      "maxSpeed": 3.4681321925442252,
+      "firstStepTravel": 0.011311804821516894
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1,
+      "phase": 0.125,
+      "maxJointGap": 0.0007054911869479993,
+      "maxSpeed": 1.5410144005129582,
+      "firstStepTravel": 0.004180809293212874
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1,
+      "phase": 0.3125,
+      "maxJointGap": 0.0014861118828541466,
+      "maxSpeed": 2.372081443773097,
+      "firstStepTravel": 0.0008416372056022458
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1,
+      "phase": 0.5,
+      "maxJointGap": 0.0013959485136951244,
+      "maxSpeed": 2.3778416953433594,
+      "firstStepTravel": 0.0007924540336557247
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1,
+      "phase": 0.6875,
+      "maxJointGap": 0.001472557975682556,
+      "maxSpeed": 2.308943372646554,
+      "firstStepTravel": 0.0011370446589855
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1,
+      "phase": 0.875,
+      "maxJointGap": 0.002427547606209377,
+      "maxSpeed": 3.1147396548745836,
+      "firstStepTravel": 0.011170400020192308
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1.25,
+      "phase": 0.125,
+      "maxJointGap": 0.0006998516833529797,
+      "maxSpeed": 1.3636685288400696,
+      "firstStepTravel": 0.00418080922551594
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1.25,
+      "phase": 0.3125,
+      "maxJointGap": 0.001436842304812119,
+      "maxSpeed": 2.380896087739936,
+      "firstStepTravel": 0.0008893801031601335
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1.25,
+      "phase": 0.5,
+      "maxJointGap": 0.0014255633853036127,
+      "maxSpeed": 2.379791749209711,
+      "firstStepTravel": 0.0008234695627234443
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1.25,
+      "phase": 0.6875,
+      "maxJointGap": 0.0013760409986262783,
+      "maxSpeed": 2.3174632141081424,
+      "firstStepTravel": 0.0012505440368816975
+    },
+    {
+      "recipe": "short-thick-tight",
+      "amplitude": 1.25,
+      "phase": 0.875,
+      "maxJointGap": 0.0024170889576830474,
+      "maxSpeed": 3.113109762408193,
+      "firstStepTravel": 0.011341446599577806
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1,
+      "phase": 0.125,
+      "maxJointGap": 0.001182511677043602,
+      "maxSpeed": 2.5472095960286554,
+      "firstStepTravel": 0.008708901492351023
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1,
+      "phase": 0.3125,
+      "maxJointGap": 0.003362204153986532,
+      "maxSpeed": 4.098380944504453,
+      "firstStepTravel": 0.0009246799717160023
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1,
+      "phase": 0.5,
+      "maxJointGap": 0.003301526214761122,
+      "maxSpeed": 4.161618139791925,
+      "firstStepTravel": 0.0012497745972060378
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1,
+      "phase": 0.6875,
+      "maxJointGap": 0.0031870492767505487,
+      "maxSpeed": 4.075150959464473,
+      "firstStepTravel": 0.0018616163789966149
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1,
+      "phase": 0.875,
+      "maxJointGap": 0.0029754095508337133,
+      "maxSpeed": 4.873214653427717,
+      "firstStepTravel": 0.020818034471227098
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1.25,
+      "phase": 0.125,
+      "maxJointGap": 0.0011781337979986197,
+      "maxSpeed": 2.5389948852353377,
+      "firstStepTravel": 0.008708901617447092
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1.25,
+      "phase": 0.3125,
+      "maxJointGap": 0.003425430102836813,
+      "maxSpeed": 4.026346042710613,
+      "firstStepTravel": 0.0009908636423127286
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1.25,
+      "phase": 0.5,
+      "maxJointGap": 0.0034270550789644912,
+      "maxSpeed": 4.008947833452796,
+      "firstStepTravel": 0.0013824729195971537
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1.25,
+      "phase": 0.6875,
+      "maxJointGap": 0.0032910351573131724,
+      "maxSpeed": 3.962620934320418,
+      "firstStepTravel": 0.002107195359461418
+    },
+    {
+      "recipe": "long-thin-wide",
+      "amplitude": 1.25,
+      "phase": 0.875,
+      "maxJointGap": 0.002991923785822945,
+      "maxSpeed": 4.856448808676607,
+      "firstStepTravel": 0.02107791494681789
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1,
+      "phase": 0.125,
+      "maxJointGap": 0.0006867586699062609,
+      "maxSpeed": 1.9853228283169964,
+      "firstStepTravel": 0.00224816897329318
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1,
+      "phase": 0.3125,
+      "maxJointGap": 0.0012776765473139693,
+      "maxSpeed": 2.6398540650100895,
+      "firstStepTravel": 0.0009323686922934218
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1,
+      "phase": 0.5,
+      "maxJointGap": 0.0013049790863734875,
+      "maxSpeed": 2.6196521315344716,
+      "firstStepTravel": 0.000688765505840832
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1,
+      "phase": 0.6875,
+      "maxJointGap": 0.001225560475239737,
+      "maxSpeed": 2.5608200953932054,
+      "firstStepTravel": 0.0008971725884467753
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1,
+      "phase": 0.875,
+      "maxJointGap": 0.0015660349441002444,
+      "maxSpeed": 2.9870957336279673,
+      "firstStepTravel": 0.007390615434599118
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1.25,
+      "phase": 0.125,
+      "maxJointGap": 0.0006823646438768898,
+      "maxSpeed": 1.982950859750333,
+      "firstStepTravel": 0.0022481689136421446
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1.25,
+      "phase": 0.3125,
+      "maxJointGap": 0.0013204739916194076,
+      "maxSpeed": 2.673770220965234,
+      "firstStepTravel": 0.001005453226028368
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1.25,
+      "phase": 0.5,
+      "maxJointGap": 0.0014220316085807058,
+      "maxSpeed": 2.704186297860915,
+      "firstStepTravel": 0.0006901932876252987
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1.25,
+      "phase": 0.6875,
+      "maxJointGap": 0.001325406643150658,
+      "maxSpeed": 2.6409776410553114,
+      "firstStepTravel": 0.0009575156285139717
+    },
+    {
+      "recipe": "short-wide-tight",
+      "amplitude": 1.25,
+      "phase": 0.875,
+      "maxJointGap": 0.0015582625914502906,
+      "maxSpeed": 2.981101903456487,
+      "firstStepTravel": 0.007615072035911161
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1,
+      "phase": 0.125,
+      "maxJointGap": 0.0004715435864379651,
+      "maxSpeed": 1.4443227903405604,
+      "firstStepTravel": 0.008192175009061673
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1,
+      "phase": 0.3125,
+      "maxJointGap": 0.002741253029060901,
+      "maxSpeed": 3.0824917940305463,
+      "firstStepTravel": 0.0007827770564435177
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1,
+      "phase": 0.5,
+      "maxJointGap": 0.0026799258143103554,
+      "maxSpeed": 3.0380920205481825,
+      "firstStepTravel": 0.0012212255401928707
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1,
+      "phase": 0.6875,
+      "maxJointGap": 0.002639451740692604,
+      "maxSpeed": 3.068410805481053,
+      "firstStepTravel": 0.0018117760090439843
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1,
+      "phase": 0.875,
+      "maxJointGap": 0.002693823164601802,
+      "maxSpeed": 3.6791032351787227,
+      "firstStepTravel": 0.017312641935955
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1.25,
+      "phase": 0.125,
+      "maxJointGap": 0.000464135057526441,
+      "maxSpeed": 1.4473437285847135,
+      "firstStepTravel": 0.008192175118024076
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1.25,
+      "phase": 0.3125,
+      "maxJointGap": 0.0027714770793024605,
+      "maxSpeed": 3.030724697985197,
+      "firstStepTravel": 0.0008113442126117371
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1.25,
+      "phase": 0.5,
+      "maxJointGap": 0.002683856630036037,
+      "maxSpeed": 3.0429129134857975,
+      "firstStepTravel": 0.0013475647614669493
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1.25,
+      "phase": 0.6875,
+      "maxJointGap": 0.0026243834266126056,
+      "maxSpeed": 3.0605247587935134,
+      "firstStepTravel": 0.002049318363091754
+    },
+    {
+      "recipe": "long-slim-tight",
+      "amplitude": 1.25,
+      "phase": 0.875,
+      "maxJointGap": 0.0027541507692535093,
+      "maxSpeed": 3.6661897923595026,
+      "firstStepTravel": 0.017484832404689486
+    }
+  ]
+}

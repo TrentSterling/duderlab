@@ -1,10 +1,16 @@
 import fs from 'node:fs';
 import vm from 'node:vm';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 globalThis.window=globalThis;
-for(const name of ['vendor-cannon.js','core.js','collision-shapes.js','animation.js','physics.js'])vm.runInThisContext(fs.readFileSync(path.join(root,'src',name),'utf8'),{filename:name});
+const sourceHashes={};
+for(const name of ['vendor-cannon.js','core.js','collision-shapes.js','animation.js','physics.js']){
+  const source=fs.readFileSync(path.join(root,'src',name),'utf8');
+  sourceHashes[name]=crypto.createHash('sha256').update(source).digest('hex');
+  vm.runInThisContext(source,{filename:name});
+}
 const failures=[],results=[],presets=DuderCore.presets(),H=1/120;
 function check(condition,message){if(!condition&&!failures.includes(message))failures.push(message);}
 function finite(p){return p.rigs.every(r=>r.bodies.every(b=>[...b.position.toArray(),...b.quaternion.toArray(),...b.velocity.toArray(),...b.angularVelocity.toArray()].every(Number.isFinite)));}
@@ -55,6 +61,6 @@ for(const clip of DuderAnimation.clips){
   check(metrics.maxGap<.05,`${clip.id} handoff unstable after release`);
   results.push({name:`handoff-${clip.id}`,matrixError,...metrics});
 }
-const report={passed:failures.length===0,failures,results};
+const report={passed:failures.length===0,sourceHashes,failures,results};
 fs.writeFileSync(path.join(root,'qa/pile-report.json'),JSON.stringify(report,null,2));
 console.log(JSON.stringify(report,null,2));if(failures.length)process.exitCode=1;

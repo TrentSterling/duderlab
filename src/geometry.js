@@ -315,5 +315,5 @@
     out.counts.parts=7;out.counts.hat=r.hat||'none';out.counts.glasses=r.glasses||'none';
     out.indexed=indexedGeometry(out);return out;
   }
-  global.DuderGeometry={build,metrics,version:'3.2',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
+  global.DuderGeometry={build,metrics,version:'3.2.1',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
 })(typeof window!=='undefined'?window:globalThis);

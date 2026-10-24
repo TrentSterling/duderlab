@@ -95,8 +95,9 @@
     const radiusAt=y=>{const ly=y-aY;if(ly<slope*ra)return Math.sqrt(Math.max(0,ra*ra-ly*ly));if(ly>length+slope*rb){const t=ly-length;return Math.sqrt(Math.max(0,rb*rb-t*t));}return Math.max(0,(ra-slope*ly)/side);};
     const thick=(r.armThickness===undefined?1:r.armThickness),gap=(r.armGap===undefined?.10:r.armGap),armR=.112*w*thick;
     for(const sign of [-1,1]) {
-      // Let the upper arm hang down as well as out. Clearance belongs to the
-      // silhouette calculation, not a sharp sideways kink at the elbow.
+      // Bind in an open A-pose, with the forearm on the upper arm's axis.
+      // Building a bent elbow into the shell makes its inner crease fold when
+      // the greeting bends the other way. Keep the same arm lengths/clearance.
       const shoulderY=lift+1.15*h,elbowY=shoulderY-.30*h*r.armLength,wristY=elbowY-.255*h*r.armLength;
       const shoulderX=Math.max(.25*w,radiusAt(shoulderY)-armR*.43);
       const widest=Math.max(radiusAt(elbowY),radiusAt(wristY),(aY>=wristY&&aY<=elbowY)?ra:0);
@@ -105,14 +106,19 @@
       const wave=animate?Math.sin(time*1.9+sign*.72)*.035:0;
       const shoulder=[sign*shoulderX,shoulderY,0];
       const elbow=[sign*elbowX,elbowY+wave*.3,.012];
-      const wrist=[sign*Math.max(clearanceX,elbowX+.035*w+r.armSpread*.35),wristY+wave,.040+wave*.4];
+      const upper=norm(sub(elbow,shoulder));
+      const forearmLength=Math.hypot(Math.max(clearanceX,elbowX+.035*w+r.armSpread*.35)-elbowX,wristY-elbowY,.028);
+      const wrist=elbow.map((v,k)=>v+upper[k]*forearmLength);
+
       out.push({a:shoulder,b:elbow,ra:armR,rb:armR*.98});
       out.push({a:elbow.slice(),b:wrist,ra:armR*.98,rb:armR*1.20});
     }
-    const footR=.16*r.feet,footY=footR*.75;
+    // Keep a real lower-leg air gap even for narrow beans with large feet.
+    // Two equally distant leg fields grow by k/4 under the smooth union.
+    const footR=.16*r.feet,footY=footR*.75,footX=Math.max(.23*w,footR+.075*w+.25*r.blend*.85);
     for(const sign of [-1,1]) {
       const sway=animate?Math.sin(time*1.9+sign*.8)*.025:0;
-      out.push({a:[sign*.23*w,Math.max(footY+.035,lift+.72*h-ra*.65),.035],b:[sign*.23*w,footY,.08+sway],ra:footR,rb:footR});
+      out.push({a:[sign*footX,Math.max(footY+.035,lift+.72*h-ra*.65),.035],b:[sign*footX,footY,.08+sway],ra:footR,rb:footR});
     }
     return out;
   }
@@ -123,7 +129,10 @@
     for(const [upper,lower,sign]of [[1,2,-1],[3,4,1]]){
       joints.push({parent:0,child:upper,point:parts[upper].a.slice(),type:'cone',angle:1.05,twist:.70});
       const upperDirection=sub(parts[upper].b,parts[upper].a),forearm=sub(parts[lower].b,parts[lower].a);
-      let frontal=norm(cross(upperDirection,forearm));
+      // A straight bind elbow has no reliable upper/forearm cross product.
+      // Build its hinge plane from the upper arm and the lateral reference.
+      const up=norm(upperDirection);
+      let frontal=norm([0,-up[2],up[1]]);
       if(frontal[2]*sign<0)frontal=frontal.map(v=>-v);
       const forward=norm(cross(forearm,[0,0,1]));
       // One stable elbow frame is shared by animation and physics. This partly
@@ -135,21 +144,33 @@
     for(const leg of [5,6])joints.push({parent:0,child:leg,point:parts[leg].a.slice(),type:'cone',angle:.70,twist:.42});
     return {parts,joints,names:boneNames.slice(),depth:r.depth};
   }
-  // Influences are fixed in the rest mesh. Only immediate anatomical neighbors
-  // blend near a joint, keeping wrists and forearms rigid during large motion.
+  // Capsule distance selects the limb/torso region; longitudinal elbow planes
+  // then share each arm's influence smoothly along its axis. Surface-distance
+  // weights alone jump around overlapping capsule ends and fold the inner bend.
+  // Cache these immutable bind frames once per generated set of primitives.
+  const elbowWeightFrames=new WeakMap();
   function skinWeightsForPoint(p,parts,blend=.16) {
     const distances=parts.map(part=>sdRC(p,part));let nearest=0;
     for(let i=1;i<distances.length;i++)if(distances[i]<distances[nearest])nearest=i;
     const candidates=[nearest,...adjacency[nearest]].sort((a,b)=>distances[a]-distances[b]);
-    const span=Math.max(.065,blend*.72),ids=[],weights=[];
+    const span=Math.max(.065,blend*.72),weights=Array(7).fill(0);
     for(const i of candidates.slice(0,4)){
-      const t=clamp(1-(distances[i]-distances[nearest])/span,0,1),v=t*t*(3-2*t);
-      if(v>1e-5){ids.push(i);weights.push(v);}
+      const t=clamp(1-(distances[i]-distances[nearest])/span,0,1);weights[i]=t*t*(3-2*t);
     }
-    const sum=weights.reduce((a,b)=>a+b,0)||1;
-    for(let i=0;i<weights.length;i++)weights[i]/=sum;
-    while(ids.length<4){ids.push(0);weights.push(0);}
-    return {indices:ids,weights};
+    let frames=elbowWeightFrames.get(parts);
+    if(!frames){
+      frames=[[1,2],[3,4]].map(([upper,lower])=>{
+        const a=norm(sub(parts[upper].b,parts[upper].a)),b=norm(sub(parts[lower].b,parts[lower].a));
+        return{upper,lower,point:parts[lower].a,axis:norm(a.map((v,k)=>v+b[k])),halfWidth:parts[lower].ra*2.05};
+      });elbowWeightFrames.set(parts,frames);
+    }
+    for(const {upper,lower,point,axis,halfWidth}of frames){
+      const total=weights[upper]+weights[lower];if(total===0)continue;
+      const f=smooth(-halfWidth,halfWidth,dot(sub(p,point),axis));
+      weights[upper]=total*(1-f);weights[lower]=total*f;
+    }
+    const ids=weights.map((v,i)=>i).sort((a,b)=>weights[b]-weights[a]).slice(0,4),sum=ids.reduce((s,i)=>s+weights[i],0)||1;
+    return {indices:ids,weights:ids.map(i=>weights[i]/sum)};
   }
   function sdRC(p,part) {
     const {a,b,ra:r1,rb:r2}=part,ba=sub(b,a),l2=dot(ba,ba),pa=sub(p,a);
@@ -362,12 +383,12 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
     for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 3.2'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.2.1'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'3.2',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.2.1',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);

@@ -1,4 +1,4 @@
-/* Duder Lab V3.2 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.2.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.

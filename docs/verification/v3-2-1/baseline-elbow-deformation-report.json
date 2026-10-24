@@ -1,0 +1,1226 @@
+{
+  "passed": false,
+  "scope": "Exact screenshot seed across all three facet levels and wave extremes. Flag local triangle winding that opposes the smoothed outward normals by more than 0.1. Independent posed SDF-gradient alignment and area ratios are recorded as diagnostics. Visual close-ups are also required.",
+  "sourceHashes": {
+    "core.js": "ce38cd4df0129e810e6be03206c2ee661a0419851e65de0d164cefb6d9a9f3f2",
+    "shell.js": "9ccbc727fe1b1e80e4e6658b97fc3e7abd775c5b55adc4857415789cb248848b",
+    "geometry.js": "4a91fd5f263c5d089170813853084b41c68fa9e51392709fc116f18e4e08059b",
+    "animation.js": "cf9394011eaf8c7dd4000956fdf9ec899efe0449f32aab197c4b234b8d13477c"
+  },
+  "seed": 1702468274,
+  "phases": [
+    0,
+    0.2,
+    0.29,
+    0.375,
+    0.485,
+    0.595,
+    0.705,
+    0.8,
+    0.94
+  ],
+  "failures": [
+    "facets=8 phase=0.485: 1 local face reversal(s)",
+    "facets=8 phase=0.705: 1 local face reversal(s)",
+    "facets=12 phase=0.29: 1 local face reversal(s)",
+    "facets=12 phase=0.485: 2 local face reversal(s)",
+    "facets=12 phase=0.705: 2 local face reversal(s)",
+    "facets=12 phase=0.8: 1 local face reversal(s)",
+    "facets=16 phase=0.29: 1 local face reversal(s)",
+    "facets=16 phase=0.375: 1 local face reversal(s)",
+    "facets=16 phase=0.485: 2 local face reversal(s)",
+    "facets=16 phase=0.595: 1 local face reversal(s)",
+    "facets=16 phase=0.705: 2 local face reversal(s)",
+    "facets=16 phase=0.8: 1 local face reversal(s)"
+  ],
+  "cases": [
+    {
+      "facets": 8,
+      "phase": 0,
+      "triangles": 61,
+      "reversals": 0,
+      "minimumAlignment": 0.8293418001602085,
+      "minimumFieldAlignment": 0.8890783882349077,
+      "minimumAreaRatio": 0.9993705726656043,
+      "worst": [
+        {
+          "triangle": 336,
+          "alignment": 0.8293418001602085,
+          "fieldAlignment": 0.9622069989619423,
+          "areaRatio": 1.0001781309550548,
+          "center": [
+            -0.49185578028361004,
+            0.8920641342798868,
+            -0.05717496946454048
+          ]
+        },
+        {
+          "triangle": 385,
+          "alignment": 0.8661131577609608,
+          "fieldAlignment": 0.9163355077322549,
+          "areaRatio": 1.0000549989639078,
+          "center": [
+            -0.481956551472346,
+            0.8953534762064616,
+            0.10150087003906567
+          ]
+        },
+        {
+          "triangle": 117,
+          "alignment": 0.8975923795116623,
+          "fieldAlignment": 0.8890783882349077,
+          "areaRatio": 1.0002134577174708,
+          "center": [
+            -0.457839697599411,
+            0.8540171384811401,
+            -0.059290402879317604
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 8,
+      "phase": 0.2,
+      "triangles": 61,
+      "reversals": 0,
+      "minimumAlignment": 0.8367289555854434,
+      "minimumFieldAlignment": 0.8652576664698381,
+      "minimumAreaRatio": 0.671258215438868,
+      "worst": [
+        {
+          "triangle": 117,
+          "alignment": 0.8367289555854434,
+          "fieldAlignment": 0.9459470458014664,
+          "areaRatio": 1.1352323394358994,
+          "center": [
+            -0.4710177977879842,
+            0.890427847703298,
+            -0.04949395855267843
+          ]
+        },
+        {
+          "triangle": 121,
+          "alignment": 0.8879525166560841,
+          "fieldAlignment": 0.907815054061979,
+          "areaRatio": 1.1536169643412104,
+          "center": [
+            -0.6595180233319601,
+            1.0739498535792034,
+            -0.0875760018825531
+          ]
+        },
+        {
+          "triangle": 382,
+          "alignment": 0.9000165884233824,
+          "fieldAlignment": 0.9477064278923825,
+          "areaRatio": 0.9357868701615931,
+          "center": [
+            -0.6787848273913065,
+            1.1148815949757893,
+            0.04937450463573138
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 8,
+      "phase": 0.29,
+      "triangles": 61,
+      "reversals": 0,
+      "minimumAlignment": 0.5628608763243638,
+      "minimumFieldAlignment": 0.3791472249560135,
+      "minimumAreaRatio": 0.13652407775302308,
+      "worst": [
+        {
+          "triangle": 382,
+          "alignment": 0.5628608763243638,
+          "fieldAlignment": 0.7080992785974533,
+          "areaRatio": 1.0996162536377891,
+          "center": [
+            -0.6209456920623779,
+            1.2217539151509602,
+            0.025090059886376064
+          ]
+        },
+        {
+          "triangle": 602,
+          "alignment": 0.5760848325329343,
+          "fieldAlignment": 0.6784807485164155,
+          "areaRatio": 0.865085351275701,
+          "center": [
+            -0.601873536904653,
+            1.2171653906504314,
+            -0.03837132081389427
+          ]
+        },
+        {
+          "triangle": 639,
+          "alignment": 0.6124480311271338,
+          "fieldAlignment": 0.5707635264501199,
+          "areaRatio": 0.4618593586407364,
+          "center": [
+            -0.7117973764737447,
+            1.3217060565948486,
+            0.12164495140314102
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 8,
+      "phase": 0.375,
+      "triangles": 61,
+      "reversals": 0,
+      "minimumAlignment": 0.7073166045328891,
+      "minimumFieldAlignment": 0.5352043521218686,
+      "minimumAreaRatio": 0.3626482078750369,
+      "worst": [
+        {
+          "triangle": 382,
+          "alignment": 0.7073166045328891,
+          "fieldAlignment": 0.8157167625786094,
+          "areaRatio": 1.0140580317840961,
+          "center": [
+            -0.6157633860905966,
+            1.238068699836731,
+            0.024366839478413265
+          ]
+        },
+        {
+          "triangle": 180,
+          "alignment": 0.7357627184200607,
+          "fieldAlignment": 0.5352043521218686,
+          "areaRatio": 1.156131414339566,
+          "center": [
+            -0.717956523100535,
+            1.3412237564722698,
+            0.02493157610297203
+          ]
+        },
+        {
+          "triangle": 602,
+          "alignment": 0.7775383456702408,
+          "fieldAlignment": 0.8393944357613797,
+          "areaRatio": 0.7221872172270581,
+          "center": [
+            -0.5958011150360107,
+            1.2318742672602336,
+            -0.03757542744278908
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 8,
+      "phase": 0.485,
+      "triangles": 61,
+      "reversals": 1,
+      "minimumAlignment": -0.9806068708733285,
+      "minimumFieldAlignment": -0.9828355776429987,
+      "minimumAreaRatio": 0.0898449287221489,
+      "worst": [
+        {
+          "triangle": 120,
+          "alignment": -0.9806068708733285,
+          "fieldAlignment": -0.9828355776429987,
+          "areaRatio": 0.12512079680866267,
+          "center": [
+            -0.6566546956698099,
+            1.167366902033488,
+            -0.08547141154607137
+          ]
+        },
+        {
+          "triangle": 639,
+          "alignment": 0.28824450188100315,
+          "fieldAlignment": 0.2338328138218188,
+          "areaRatio": 0.4071387002634771,
+          "center": [
+            -0.688326915105184,
+            1.3234067757924397,
+            0.11231065541505814
+          ]
+        },
+        {
+          "triangle": 382,
+          "alignment": 0.34791000411231826,
+          "fieldAlignment": 0.557807352249457,
+          "areaRatio": 1.21477994329932,
+          "center": [
+            -0.6183770696322123,
+            1.2134045759836833,
+            0.024675602714220684
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 8,
+      "phase": 0.595,
+      "triangles": 61,
+      "reversals": 0,
+      "minimumAlignment": 0.7073166045328891,
+      "minimumFieldAlignment": 0.5352043521218686,
+      "minimumAreaRatio": 0.3626482078750369,
+      "worst": [
+        {
+          "triangle": 382,
+          "alignment": 0.7073166045328891,
+          "fieldAlignment": 0.8157167625785431,
+          "areaRatio": 1.0140580317840961,
+          "center": [
+            -0.6157633860905966,
+            1.238068699836731,
+            0.024366839478413265
+          ]
+        },
+        {
+          "triangle": 180,
+          "alignment": 0.7357627184200607,
+          "fieldAlignment": 0.5352043521218686,
+          "areaRatio": 1.156131414339566,
+          "center": [
+            -0.717956523100535,
+            1.3412237564722698,
+            0.02493157610297203
+          ]
+        },
+        {
+          "triangle": 602,
+          "alignment": 0.7775383456702408,
+          "fieldAlignment": 0.8393944357613797,
+          "areaRatio": 0.7221872172270581,
+          "center": [
+            -0.5958011150360107,
+            1.2318742672602336,
+            -0.03757542744278908
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 8,
+      "phase": 0.705,
+      "triangles": 61,
+      "reversals": 1,
+      "minimumAlignment": -0.9806068708733285,
+      "minimumFieldAlignment": -0.9828355776430013,
+      "minimumAreaRatio": 0.0898449287221489,
+      "worst": [
+        {
+          "triangle": 120,
+          "alignment": -0.9806068708733285,
+          "fieldAlignment": -0.9828355776430013,
+          "areaRatio": 0.12512079680866267,
+          "center": [
+            -0.6566546956698099,
+            1.167366902033488,
+            -0.08547141154607137
+          ]
+        },
+        {
+          "triangle": 639,
+          "alignment": 0.28824450188100315,
+          "fieldAlignment": 0.2338328138218188,
+          "areaRatio": 0.4071387002634771,
+          "center": [
+            -0.688326915105184,
+            1.3234067757924397,
+            0.11231065541505814
+          ]
+        },
+        {
+          "triangle": 382,
+          "alignment": 0.34791000411231826,
+          "fieldAlignment": 0.5578073522494366,
+          "areaRatio": 1.21477994329932,
+          "center": [
+            -0.6183770696322123,
+            1.2134045759836833,
+            0.024675602714220684
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 8,
+      "phase": 0.8,
+      "triangles": 61,
+      "reversals": 0,
+      "minimumAlignment": 0.5627597601640724,
+      "minimumFieldAlignment": 0.37920113504667136,
+      "minimumAreaRatio": 0.13661589524308965,
+      "worst": [
+        {
+          "triangle": 382,
+          "alignment": 0.5627597601640724,
+          "fieldAlignment": 0.7080598717249581,
+          "areaRatio": 1.0998620979987561,
+          "center": [
+            -0.6164033611615499,
+            1.2263575394948323,
+            0.024190208564201992
+          ]
+        },
+        {
+          "triangle": 602,
+          "alignment": 0.5761608381614827,
+          "fieldAlignment": 0.6784741940532341,
+          "areaRatio": 0.8652162839322494,
+          "center": [
+            -0.5975048144658407,
+            1.2214950323104858,
+            -0.03930415088931719
+          ]
+        },
+        {
+          "triangle": 639,
+          "alignment": 0.61303741570349,
+          "fieldAlignment": 0.5711937171153177,
+          "areaRatio": 0.46212448811374734,
+          "center": [
+            -0.7064645091692606,
+            1.3270810445149739,
+            0.1206615964571635
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 8,
+      "phase": 0.94,
+      "triangles": 61,
+      "reversals": 0,
+      "minimumAlignment": 0.8535690990392951,
+      "minimumFieldAlignment": 0.9008269552374505,
+      "minimumAreaRatio": 0.8896476579058709,
+      "worst": [
+        {
+          "triangle": 385,
+          "alignment": 0.8535690990392951,
+          "fieldAlignment": 0.9008269552374505,
+          "areaRatio": 1.1659804454109335,
+          "center": [
+            -0.49013498425483704,
+            0.9256043831507365,
+            0.09805516650279363
+          ]
+        },
+        {
+          "triangle": 117,
+          "alignment": 0.8618188683885254,
+          "fieldAlignment": 0.9445284836336577,
+          "areaRatio": 0.9838079450265546,
+          "center": [
+            -0.4593214193979899,
+            0.8727033138275146,
+            -0.05810648947954178
+          ]
+        },
+        {
+          "triangle": 336,
+          "alignment": 0.8944792411310926,
+          "fieldAlignment": 0.9664565398179531,
+          "areaRatio": 1.006089050003514,
+          "center": [
+            -0.5006767213344574,
+            0.9177426695823669,
+            -0.054557934403419495
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 12,
+      "phase": 0,
+      "triangles": 83,
+      "reversals": 0,
+      "minimumAlignment": 0.7804048406931642,
+      "minimumFieldAlignment": 0.8332469274418711,
+      "minimumAreaRatio": 0.9992368747750967,
+      "worst": [
+        {
+          "triangle": 579,
+          "alignment": 0.7804048406931642,
+          "fieldAlignment": 0.8332469274418711,
+          "areaRatio": 1.0000758295953671,
+          "center": [
+            -0.492782990137736,
+            0.8501739899317423,
+            0.0723253491645058
+          ]
+        },
+        {
+          "triangle": 516,
+          "alignment": 0.8641211592073341,
+          "fieldAlignment": 0.879501983911561,
+          "areaRatio": 0.9994613282374094,
+          "center": [
+            -0.490151584148407,
+            0.8471939365069071,
+            -0.04760110595573982
+          ]
+        },
+        {
+          "triangle": 177,
+          "alignment": 0.8742683448403696,
+          "fieldAlignment": 0.9799832064054688,
+          "areaRatio": 0.9992368747750967,
+          "center": [
+            -0.459671010573705,
+            0.8073113958040873,
+            -0.05568515229970217
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 12,
+      "phase": 0.2,
+      "triangles": 83,
+      "reversals": 0,
+      "minimumAlignment": 0.6343634615084957,
+      "minimumFieldAlignment": 0.6947793685044544,
+      "minimumAreaRatio": 0.5545979297090092,
+      "worst": [
+        {
+          "triangle": 177,
+          "alignment": 0.6343634615084957,
+          "fieldAlignment": 0.7510242164034013,
+          "areaRatio": 1.1942861830964013,
+          "center": [
+            -0.46904929478963214,
+            0.8374761939048767,
+            -0.04655156626055638
+          ]
+        },
+        {
+          "triangle": 575,
+          "alignment": 0.7613190209879774,
+          "fieldAlignment": 0.7981906691455426,
+          "areaRatio": 1.1354166275232738,
+          "center": [
+            -0.8944663802782694,
+            1.141763726870219,
+            0.07462618282685678
+          ]
+        },
+        {
+          "triangle": 579,
+          "alignment": 0.7823077625071776,
+          "fieldAlignment": 0.8442202939273984,
+          "areaRatio": 1.7347506226643095,
+          "center": [
+            -0.5319896241029104,
+            0.9188037713368734,
+            0.07546410368134578
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 12,
+      "phase": 0.29,
+      "triangles": 83,
+      "reversals": 1,
+      "minimumAlignment": -0.3364041882363002,
+      "minimumFieldAlignment": -0.2120716431193731,
+      "minimumAreaRatio": 0.05850409057253684,
+      "worst": [
+        {
+          "triangle": 886,
+          "alignment": -0.3364041882363002,
+          "fieldAlignment": -0.2120716431193731,
+          "areaRatio": 0.06627785187347392,
+          "center": [
+            -0.6921197970708212,
+            1.12100088596344,
+            -0.08764731759826343
+          ]
+        },
+        {
+          "triangle": 584,
+          "alignment": 0.35303536127410184,
+          "fieldAlignment": 0.47610988773132046,
+          "areaRatio": 1.9452824341843202,
+          "center": [
+            -0.5965739885965983,
+            1.2156767845153809,
+            0.005113305523991585
+          ]
+        },
+        {
+          "triangle": 575,
+          "alignment": 0.388017723204943,
+          "fieldAlignment": 0.4412223266501838,
+          "areaRatio": 2.191932576952155,
+          "center": [
+            -0.7132636308670044,
+            1.3586306969324748,
+            -0.002799518406391144
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 12,
+      "phase": 0.375,
+      "triangles": 83,
+      "reversals": 0,
+      "minimumAlignment": 0.44970530373401457,
+      "minimumFieldAlignment": 0.4338114406613668,
+      "minimumAreaRatio": 0.13440338174652994,
+      "worst": [
+        {
+          "triangle": 575,
+          "alignment": 0.44970530373401457,
+          "fieldAlignment": 0.5016847193890361,
+          "areaRatio": 1.862201328921696,
+          "center": [
+            -0.7300105690956116,
+            1.374341646830241,
+            0.007466059488554795
+          ]
+        },
+        {
+          "triangle": 584,
+          "alignment": 0.490554771352288,
+          "fieldAlignment": 0.5787373382966792,
+          "areaRatio": 1.5992716611273226,
+          "center": [
+            -0.5901288191477457,
+            1.231712023417155,
+            0.004281381766001384
+          ]
+        },
+        {
+          "triangle": 918,
+          "alignment": 0.6410402306127243,
+          "fieldAlignment": 0.672677694124584,
+          "areaRatio": 0.9520063708889664,
+          "center": [
+            -0.5698477228482565,
+            1.2414708534876506,
+            -0.04058553402622541
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 12,
+      "phase": 0.485,
+      "triangles": 83,
+      "reversals": 2,
+      "minimumAlignment": -0.9901755548631105,
+      "minimumFieldAlignment": -0.9974613908563029,
+      "minimumAreaRatio": 0.19445885939023697,
+      "worst": [
+        {
+          "triangle": 188,
+          "alignment": -0.9901755548631105,
+          "fieldAlignment": -0.9974613908563029,
+          "areaRatio": 0.2042529788081463,
+          "center": [
+            -0.6206924517949423,
+            1.1719730297724407,
+            -0.08855900665124257
+          ]
+        },
+        {
+          "triangle": 886,
+          "alignment": -0.8799595086111938,
+          "fieldAlignment": -0.8008578105719251,
+          "areaRatio": 0.19445885939023697,
+          "center": [
+            -0.6937185724576315,
+            1.1237921714782715,
+            -0.08489883194367091
+          ]
+        },
+        {
+          "triangle": 513,
+          "alignment": 0.14936435809013618,
+          "fieldAlignment": 0.15124799006146641,
+          "areaRatio": 0.25387190377503654,
+          "center": [
+            -0.7969806591669718,
+            1.3422095775604248,
+            -0.08315668006738026
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 12,
+      "phase": 0.595,
+      "triangles": 83,
+      "reversals": 0,
+      "minimumAlignment": 0.44970530373401457,
+      "minimumFieldAlignment": 0.4338114406613874,
+      "minimumAreaRatio": 0.13440338174652994,
+      "worst": [
+        {
+          "triangle": 575,
+          "alignment": 0.44970530373401457,
+          "fieldAlignment": 0.5016847193890361,
+          "areaRatio": 1.862201328921696,
+          "center": [
+            -0.7300105690956116,
+            1.374341646830241,
+            0.007466059488554795
+          ]
+        },
+        {
+          "triangle": 584,
+          "alignment": 0.490554771352288,
+          "fieldAlignment": 0.5787373382966691,
+          "areaRatio": 1.5992716611273226,
+          "center": [
+            -0.5901288191477457,
+            1.231712023417155,
+            0.004281381766001384
+          ]
+        },
+        {
+          "triangle": 918,
+          "alignment": 0.6410402306127243,
+          "fieldAlignment": 0.6726776941245072,
+          "areaRatio": 0.9520063708889664,
+          "center": [
+            -0.5698477228482565,
+            1.2414708534876506,
+            -0.04058553402622541
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 12,
+      "phase": 0.705,
+      "triangles": 83,
+      "reversals": 2,
+      "minimumAlignment": -0.9901755548631105,
+      "minimumFieldAlignment": -0.9974613908563029,
+      "minimumAreaRatio": 0.19445885939023697,
+      "worst": [
+        {
+          "triangle": 188,
+          "alignment": -0.9901755548631105,
+          "fieldAlignment": -0.9974613908563029,
+          "areaRatio": 0.2042529788081463,
+          "center": [
+            -0.6206924517949423,
+            1.1719730297724407,
+            -0.08855900665124257
+          ]
+        },
+        {
+          "triangle": 886,
+          "alignment": -0.8799595086111938,
+          "fieldAlignment": -0.8008578105719883,
+          "areaRatio": 0.19445885939023697,
+          "center": [
+            -0.6937185724576315,
+            1.1237921714782715,
+            -0.08489883194367091
+          ]
+        },
+        {
+          "triangle": 513,
+          "alignment": 0.14936435809013618,
+          "fieldAlignment": 0.15124799006151687,
+          "areaRatio": 0.25387190377503654,
+          "center": [
+            -0.7969806591669718,
+            1.3422095775604248,
+            -0.08315668006738026
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 12,
+      "phase": 0.8,
+      "triangles": 83,
+      "reversals": 1,
+      "minimumAlignment": -0.33608781072667704,
+      "minimumFieldAlignment": -0.211813533595109,
+      "minimumAreaRatio": 0.05875201005776638,
+      "worst": [
+        {
+          "triangle": 886,
+          "alignment": -0.33608781072667704,
+          "fieldAlignment": -0.211813533595109,
+          "areaRatio": 0.0662814823416627,
+          "center": [
+            -0.6883862415949503,
+            1.1256849765777588,
+            -0.08809954548875491
+          ]
+        },
+        {
+          "triangle": 584,
+          "alignment": 0.3531059431424356,
+          "fieldAlignment": 0.4760927337279235,
+          "areaRatio": 1.9457903728332624,
+          "center": [
+            -0.5921141902605692,
+            1.220089316368103,
+            0.004174107064803441
+          ]
+        },
+        {
+          "triangle": 575,
+          "alignment": 0.3881407849690533,
+          "fieldAlignment": 0.4413164503046507,
+          "areaRatio": 2.1913488195627897,
+          "center": [
+            -0.7080183823903402,
+            1.3636621634165447,
+            -0.003881879150867462
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 12,
+      "phase": 0.94,
+      "triangles": 83,
+      "reversals": 0,
+      "minimumAlignment": 0.7088862788596608,
+      "minimumFieldAlignment": 0.7624985750824437,
+      "minimumAreaRatio": 0.8550073019390034,
+      "worst": [
+        {
+          "triangle": 579,
+          "alignment": 0.7088862788596608,
+          "fieldAlignment": 0.7624985750824437,
+          "areaRatio": 1.278897044571233,
+          "center": [
+            -0.5029901663462321,
+            0.8795063098271688,
+            0.07146844811116655
+          ]
+        },
+        {
+          "triangle": 177,
+          "alignment": 0.7860335737645591,
+          "fieldAlignment": 0.9151990731203701,
+          "areaRatio": 1.002160241229909,
+          "center": [
+            -0.45856698354085285,
+            0.8254600763320923,
+            -0.05321008168781797
+          ]
+        },
+        {
+          "triangle": 516,
+          "alignment": 0.7872022219360305,
+          "fieldAlignment": 0.7882054506921079,
+          "areaRatio": 1.2802444877808132,
+          "center": [
+            -0.4999918540318807,
+            0.8719581564267477,
+            -0.041629494012643896
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 16,
+      "phase": 0,
+      "triangles": 150,
+      "reversals": 0,
+      "minimumAlignment": 0.5000159402399916,
+      "minimumFieldAlignment": 0.7798274607107057,
+      "minimumAreaRatio": 0.9993553473180745,
+      "worst": [
+        {
+          "triangle": 983,
+          "alignment": 0.5000159402399916,
+          "fieldAlignment": 0.7798274607107057,
+          "areaRatio": 1.000439925869844,
+          "center": [
+            -0.4959850211938222,
+            0.8120583693186442,
+            0.0027769903341929116
+          ]
+        },
+        {
+          "triangle": 1072,
+          "alignment": 0.8116767041414541,
+          "fieldAlignment": 0.8241749048730077,
+          "areaRatio": 0.9994401372567159,
+          "center": [
+            -0.47380269567171734,
+            0.8552262187004089,
+            0.06351967404286067
+          ]
+        },
+        {
+          "triangle": 458,
+          "alignment": 0.8430580910898462,
+          "fieldAlignment": 0.9173862481801568,
+          "areaRatio": 0.9993553473180745,
+          "center": [
+            -0.48697418967882794,
+            0.8403677543004354,
+            0.04252402173976103
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 16,
+      "phase": 0.2,
+      "triangles": 150,
+      "reversals": 0,
+      "minimumAlignment": 0.5529447141605711,
+      "minimumFieldAlignment": 0.4675432976657391,
+      "minimumAreaRatio": 0.43595189740949225,
+      "worst": [
+        {
+          "triangle": 983,
+          "alignment": 0.5529447141605711,
+          "fieldAlignment": 0.7771072340888296,
+          "areaRatio": 2.4255089040963123,
+          "center": [
+            -0.5528887311617533,
+            0.8733046253522238,
+            0.021294812050958473
+          ]
+        },
+        {
+          "triangle": 1665,
+          "alignment": 0.6559188237558299,
+          "fieldAlignment": 0.4675432976657391,
+          "areaRatio": 2.8366208666754558,
+          "center": [
+            -0.577805370092392,
+            0.8976753155390421,
+            -0.024713471842308838
+          ]
+        },
+        {
+          "triangle": 458,
+          "alignment": 0.715706269318517,
+          "fieldAlignment": 0.6726616772306455,
+          "areaRatio": 2.342538425488975,
+          "center": [
+            -0.5336866279443105,
+            0.9144166509310404,
+            0.04595049346486727
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 16,
+      "phase": 0.29,
+      "triangles": 150,
+      "reversals": 1,
+      "minimumAlignment": -0.9675457624679703,
+      "minimumFieldAlignment": -0.938696566059162,
+      "minimumAreaRatio": 0.12747742481787797,
+      "worst": [
+        {
+          "triangle": 1676,
+          "alignment": -0.9675457624679703,
+          "fieldAlignment": -0.938696566059162,
+          "areaRatio": 0.32834762341287066,
+          "center": [
+            -0.6789663632710775,
+            1.132964849472046,
+            -0.09537334740161896
+          ]
+        },
+        {
+          "triangle": 473,
+          "alignment": 0.2593244930742868,
+          "fieldAlignment": 0.34882010124634,
+          "areaRatio": 1.5066913884087587,
+          "center": [
+            -0.5835569500923157,
+            1.2328410943349202,
+            -0.034103988048930965
+          ]
+        },
+        {
+          "triangle": 348,
+          "alignment": 0.2869870442962637,
+          "fieldAlignment": 0.32740913657210535,
+          "areaRatio": 0.12747742481787797,
+          "center": [
+            -0.61834188302358,
+            1.180555780728658,
+            -0.08579916755358379
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 16,
+      "phase": 0.375,
+      "triangles": 150,
+      "reversals": 1,
+      "minimumAlignment": -0.8896865269182721,
+      "minimumFieldAlignment": -0.8494041504501839,
+      "minimumAreaRatio": 0.1353099649311347,
+      "worst": [
+        {
+          "triangle": 1676,
+          "alignment": -0.8896865269182721,
+          "fieldAlignment": -0.8494041504501839,
+          "areaRatio": 0.1353099649311347,
+          "center": [
+            -0.6703284581502279,
+            1.1414951086044312,
+            -0.09876501560211182
+          ]
+        },
+        {
+          "triangle": 473,
+          "alignment": 0.3663312053387334,
+          "fieldAlignment": 0.4422504108321116,
+          "areaRatio": 1.1943802450722325,
+          "center": [
+            -0.5777472257614136,
+            1.2444156010945637,
+            -0.03380312739561001
+          ]
+        },
+        {
+          "triangle": 472,
+          "alignment": 0.44067886495949105,
+          "fieldAlignment": 0.5337459650669948,
+          "areaRatio": 1.6620905741021712,
+          "center": [
+            -0.5880685249964396,
+            1.2362232605616252,
+            -0.006890055723488331
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 16,
+      "phase": 0.485,
+      "triangles": 150,
+      "reversals": 2,
+      "minimumAlignment": -0.9805145977316448,
+      "minimumFieldAlignment": -0.9531528528658776,
+      "minimumAreaRatio": 0.07891551103612522,
+      "worst": [
+        {
+          "triangle": 1676,
+          "alignment": -0.9805145977316448,
+          "fieldAlignment": -0.9531528528658776,
+          "areaRatio": 0.5202635379818682,
+          "center": [
+            -0.6801686684290568,
+            1.1344146728515625,
+            -0.09289060533046722
+          ]
+        },
+        {
+          "triangle": 348,
+          "alignment": -0.9071868021510701,
+          "fieldAlignment": -0.8870260809094083,
+          "areaRatio": 0.224245768180373,
+          "center": [
+            -0.6177747050921122,
+            1.1752224365870159,
+            -0.08545139183600743
+          ]
+        },
+        {
+          "triangle": 1783,
+          "alignment": 0.1089231984622183,
+          "fieldAlignment": 0.10458955036494141,
+          "areaRatio": 0.6112510780263055,
+          "center": [
+            -0.6044457753499349,
+            1.212120811144511,
+            0.0871077465514342
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 16,
+      "phase": 0.595,
+      "triangles": 150,
+      "reversals": 1,
+      "minimumAlignment": -0.8896865269182721,
+      "minimumFieldAlignment": -0.8494041504501839,
+      "minimumAreaRatio": 0.1353099649311347,
+      "worst": [
+        {
+          "triangle": 1676,
+          "alignment": -0.8896865269182721,
+          "fieldAlignment": -0.8494041504501839,
+          "areaRatio": 0.1353099649311347,
+          "center": [
+            -0.6703284581502279,
+            1.1414951086044312,
+            -0.09876501560211182
+          ]
+        },
+        {
+          "triangle": 473,
+          "alignment": 0.3663312053387334,
+          "fieldAlignment": 0.4422504108321401,
+          "areaRatio": 1.1943802450722325,
+          "center": [
+            -0.5777472257614136,
+            1.2444156010945637,
+            -0.03380312739561001
+          ]
+        },
+        {
+          "triangle": 472,
+          "alignment": 0.44067886495949105,
+          "fieldAlignment": 0.5337459650669946,
+          "areaRatio": 1.6620905741021712,
+          "center": [
+            -0.5880685249964396,
+            1.2362232605616252,
+            -0.006890055723488331
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 16,
+      "phase": 0.705,
+      "triangles": 150,
+      "reversals": 2,
+      "minimumAlignment": -0.9805145977316448,
+      "minimumFieldAlignment": -0.9531528528659347,
+      "minimumAreaRatio": 0.07891551103612522,
+      "worst": [
+        {
+          "triangle": 1676,
+          "alignment": -0.9805145977316448,
+          "fieldAlignment": -0.9531528528659347,
+          "areaRatio": 0.5202635379818682,
+          "center": [
+            -0.6801686684290568,
+            1.1344146728515625,
+            -0.09289060533046722
+          ]
+        },
+        {
+          "triangle": 348,
+          "alignment": -0.9071868021510701,
+          "fieldAlignment": -0.8870260809093559,
+          "areaRatio": 0.224245768180373,
+          "center": [
+            -0.6177747050921122,
+            1.1752224365870159,
+            -0.08545139183600743
+          ]
+        },
+        {
+          "triangle": 1783,
+          "alignment": 0.1089231984622183,
+          "fieldAlignment": 0.10458955036503188,
+          "areaRatio": 0.6112510780263055,
+          "center": [
+            -0.6044457753499349,
+            1.212120811144511,
+            0.0871077465514342
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 16,
+      "phase": 0.8,
+      "triangles": 150,
+      "reversals": 1,
+      "minimumAlignment": -0.9675297950534961,
+      "minimumFieldAlignment": -0.9387107200191538,
+      "minimumAreaRatio": 0.12759788576470782,
+      "worst": [
+        {
+          "triangle": 1676,
+          "alignment": -0.9675297950534961,
+          "fieldAlignment": -0.9387107200191538,
+          "areaRatio": 0.32838133623358867,
+          "center": [
+            -0.6751853624979655,
+            1.13755468527476,
+            -0.09589031835397084
+          ]
+        },
+        {
+          "triangle": 473,
+          "alignment": 0.2595734849804347,
+          "fieldAlignment": 0.3489745535234243,
+          "areaRatio": 1.5067301450724049,
+          "center": [
+            -0.5790926019350687,
+            1.2370810111363728,
+            -0.035125055660804115
+          ]
+        },
+        {
+          "triangle": 348,
+          "alignment": 0.290354374057725,
+          "fieldAlignment": 0.3306953041645345,
+          "areaRatio": 0.12759788576470782,
+          "center": [
+            -0.6142848531405131,
+            1.1848421494166057,
+            -0.08659095068772633
+          ]
+        }
+      ]
+    },
+    {
+      "facets": 16,
+      "phase": 0.94,
+      "triangles": 150,
+      "reversals": 0,
+      "minimumAlignment": 0.4224855656980766,
+      "minimumFieldAlignment": 0.6569097969549387,
+      "minimumAreaRatio": 0.8565692659071013,
+      "worst": [
+        {
+          "triangle": 983,
+          "alignment": 0.4224855656980766,
+          "fieldAlignment": 0.7078568746627384,
+          "areaRatio": 1.5062817214128288,
+          "center": [
+            -0.5070289770762125,
+            0.8339859843254089,
+            0.007161476959784825
+          ]
+        },
+        {
+          "triangle": 1072,
+          "alignment": 0.6144399668679297,
+          "fieldAlignment": 0.6731249699519527,
+          "areaRatio": 1.9875083679950274,
+          "center": [
+            -0.4784684081872304,
+            0.8845913608868917,
+            0.056862637400627136
+          ]
+        },
+        {
+          "triangle": 458,
+          "alignment": 0.6429217150595559,
+          "fieldAlignment": 0.6569097969549387,
+          "areaRatio": 1.7066304014521922,
+          "center": [
+            -0.49548296133677167,
+            0.8713147441546122,
+            0.0393194817006588
+          ]
+        }
+      ]
+    }
+  ]
+}

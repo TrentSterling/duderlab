@@ -1,4 +1,4 @@
-/* Duder Lab V3.2 — deterministic, looping seven-bone motion clips.
+/* Duder Lab V3.2.1 — deterministic, looping seven-bone motion clips.
  * Every matrix maps the immutable rest mesh into the current pose. The same
  * matrices can initialize the rigid bodies when a clip is released to physics.
  */
@@ -22,7 +22,7 @@
     Object.freeze({id:'wave',label:'Wave',duration:4.0}),
     Object.freeze({id:'dance',label:'Dance',duration:1.8})
   ]);
-  const shapeKeys=['height','width','depth','belly','armLength','armSpread','armThickness','armGap','feet'];
+  const shapeKeys=['height','width','depth','belly','armLength','armSpread','armThickness','armGap','feet','blend'];
   const cache=new Map();
   function greetingFrame(rig){
     // Aim the forearm upward for this recipe, with a little forward presentation.
@@ -32,7 +32,9 @@
     const upper=rig.parts[1],lower=rig.parts[2],hinge=rig.joints.find(j=>j.child===2);
     const direction=upper.b.map((v,k)=>v-upper.a[k]),n=Math.hypot(...direction),axis=direction.map(v=>v/n);
     const forearm=lower.b.map((v,k)=>v-lower.a[k]),length=Math.hypot(...forearm);
-    let flex=1.90,roll=0,swing=0;
+    // The straight A-pose needs less elbow flex than the old bent bind mesh.
+    // Solve the shoulder again so the mitten still presents beside the face.
+    let flex=1.36,roll=0,swing=0;
     for(let attempt=0;attempt<3;attempt++){
       const v=C.transformVector(around([0,0,0],hinge.axis,flex),forearm);
       const dot=axis.reduce((s,x,k)=>s+x*v[k],0),a=v[2]-axis[2]*dot,b=axis[0]*v[1]-axis[1]*v[0],c=axis[2]*dot;

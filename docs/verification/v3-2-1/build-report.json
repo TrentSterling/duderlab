@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "version": "3.2.1",
+  "moduleCount": 11,
+  "modules": [
+    {
+      "file": "font-data.js",
+      "bytes": 98887,
+      "sha256": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+      "exactEmbedding": true
+    },
+    {
+      "file": "vendor-cannon.js",
+      "bytes": 347541,
+      "sha256": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26",
+      "exactEmbedding": true
+    },
+    {
+      "file": "core.js",
+      "bytes": 28418,
+      "sha256": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+      "exactEmbedding": true
+    },
+    {
+      "file": "shell.js",
+      "bytes": 10796,
+      "sha256": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+      "exactEmbedding": true
+    },
+    {
+      "file": "geometry.js",
+      "bytes": 20444,
+      "sha256": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+      "exactEmbedding": true
+    },
+    {
+      "file": "collision-shapes.js",
+      "bytes": 5197,
+      "sha256": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+      "exactEmbedding": true
+    },
+    {
+      "file": "physics.js",
+      "bytes": 24531,
+      "sha256": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16",
+      "exactEmbedding": true
+    },
+    {
+      "file": "animation.js",
+      "bytes": 10011,
+      "sha256": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+      "exactEmbedding": true
+    },
+    {
+      "file": "renderer.js",
+      "bytes": 27294,
+      "sha256": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+      "exactEmbedding": true
+    },
+    {
+      "file": "ui.js",
+      "bytes": 30314,
+      "sha256": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6",
+      "exactEmbedding": true
+    },
+    {
+      "file": "app.js",
+      "bytes": 20573,
+      "sha256": "032707e25625e8be73a8925b8e2fc7734d2fd846827e899efd325fb050c3d42c",
+      "exactEmbedding": true
+    }
+  ],
+  "outputs": [
+    {
+      "path": "static.html",
+      "bytes": 626447,
+      "sha256": "d425cab8e4ba531094f326b4e962df5d4cc3a6e0e6d240216f8460a2e01a78e0",
+      "identical": true
+    },
+    {
+      "path": "duder-lab-v3-2-1.html",
+      "bytes": 626447,
+      "sha256": "d425cab8e4ba531094f326b4e962df5d4cc3a6e0e6d240216f8460a2e01a78e0",
+      "identical": true
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 626447,
+      "sha256": "d425cab8e4ba531094f326b4e962df5d4cc3a6e0e6d240216f8460a2e01a78e0",
+      "identical": true
+    }
+  ],
+  "externalResourceAttributes": [],
+  "externalCssResources": [],
+  "networkApiMatches": [],
+  "releaseSourceHashes": {
+    "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+    "vendor-cannon.js": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26",
+    "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+    "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+    "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a",
+    "collision-shapes.js": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+    "physics.js": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16",
+    "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df",
+    "renderer.js": "b23867cc6ca1284a3e1c19158b67002167f2de556a8a04cea40abcbd5c4f62fd",
+    "ui.js": "fed49094a8c89982770d39bd3de452dd268aa033eb544dad6f9cd61c639563d6",
+    "app.js": "032707e25625e8be73a8925b8e2fc7734d2fd846827e899efd325fb050c3d42c"
+  },
+  "verificationScope": "Exact source embedding, JavaScript parsing, identical standalone outputs and external resource/API audit. Application behavior and actual GLSL rendering are checked separately."
+}

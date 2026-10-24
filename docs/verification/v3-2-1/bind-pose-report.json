@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "scope": "Straight bind elbow geometry, physical hinge frames, foot field separation, immutable weight caching, and cold-versus-warm animation rig parity after blend edits.",
+  "sourceHashes": {
+    "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+    "animation.js": "74d7e59cdbd52b9f798ef1fecb1245e7e4ae536dd7e8d6ce0b449f8b33ceb6df"
+  },
+  "failures": [],
+  "metrics": {
+    "shapeCorners": 1024,
+    "elbows": 2048,
+    "maxRestElbowAngle": 2.580956827951785e-8,
+    "maxHingeAxisLengthError": 2.220446049250313e-16,
+    "maxHingePerpendicularError": 4.440892098500626e-16,
+    "minFootMidlineField": 0.01001688502355897,
+    "cacheComparisons": 96,
+    "maxWarmColdPoseDifference": 0,
+    "maxWarmColdPartsDifference": 0,
+    "maxBlendHipMotion": 0.040374999999999994,
+    "maxWeightCacheDifference": 0
+  }
+}

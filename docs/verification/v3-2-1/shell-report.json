@@ -1,0 +1,228 @@
+{
+  "shapes": 35,
+  "totalTriangles": 123076,
+  "maxRefinements": 2,
+  "maxMs": 3208.47,
+  "defaultUnderarmSignedDistance": 0.05652429988007468,
+  "neutralGlbBytes": 88076,
+  "checks": [
+    {
+      "index": 0,
+      "triangles": 1552,
+      "refinements": 0,
+      "ms": 335.22
+    },
+    {
+      "index": 1,
+      "triangles": 2416,
+      "refinements": 0,
+      "ms": 301.77
+    },
+    {
+      "index": 2,
+      "triangles": 4208,
+      "refinements": 0,
+      "ms": 464.41
+    },
+    {
+      "index": 3,
+      "triangles": 5492,
+      "refinements": 0,
+      "ms": 575.86
+    },
+    {
+      "index": 4,
+      "triangles": 3264,
+      "refinements": 0,
+      "ms": 314.71
+    },
+    {
+      "index": 5,
+      "triangles": 2100,
+      "refinements": 0,
+      "ms": 376.23
+    },
+    {
+      "index": 6,
+      "triangles": 1812,
+      "refinements": 0,
+      "ms": 292.33
+    },
+    {
+      "index": 7,
+      "triangles": 3928,
+      "refinements": 0,
+      "ms": 698.99
+    },
+    {
+      "index": 8,
+      "triangles": 3056,
+      "refinements": 0,
+      "ms": 359.63
+    },
+    {
+      "index": 9,
+      "triangles": 2232,
+      "refinements": 0,
+      "ms": 258.61
+    },
+    {
+      "index": 10,
+      "triangles": 1360,
+      "refinements": 0,
+      "ms": 213.85
+    },
+    {
+      "index": 11,
+      "triangles": 3704,
+      "refinements": 0,
+      "ms": 483.47
+    },
+    {
+      "index": 12,
+      "triangles": 4228,
+      "refinements": 0,
+      "ms": 500.51
+    },
+    {
+      "index": 13,
+      "triangles": 4332,
+      "refinements": 0,
+      "ms": 552.48
+    },
+    {
+      "index": 14,
+      "triangles": 2996,
+      "refinements": 0,
+      "ms": 367.91
+    },
+    {
+      "index": 15,
+      "triangles": 4800,
+      "refinements": 0,
+      "ms": 738.42
+    },
+    {
+      "index": 16,
+      "triangles": 2632,
+      "refinements": 0,
+      "ms": 341.39
+    },
+    {
+      "index": 17,
+      "triangles": 4064,
+      "refinements": 0,
+      "ms": 489.87
+    },
+    {
+      "index": 18,
+      "triangles": 3984,
+      "refinements": 0,
+      "ms": 410.41
+    },
+    {
+      "index": 19,
+      "triangles": 4132,
+      "refinements": 0,
+      "ms": 544.47
+    },
+    {
+      "index": 20,
+      "triangles": 3112,
+      "refinements": 0,
+      "ms": 331.75
+    },
+    {
+      "index": 21,
+      "triangles": 5288,
+      "refinements": 2,
+      "ms": 881.6
+    },
+    {
+      "index": 22,
+      "triangles": 1420,
+      "refinements": 0,
+      "ms": 168.75
+    },
+    {
+      "index": 23,
+      "triangles": 3660,
+      "refinements": 0,
+      "ms": 389.65
+    },
+    {
+      "index": 24,
+      "triangles": 4192,
+      "refinements": 0,
+      "ms": 509.5
+    },
+    {
+      "index": 25,
+      "triangles": 1832,
+      "refinements": 0,
+      "ms": 290.12
+    },
+    {
+      "index": 26,
+      "triangles": 1268,
+      "refinements": 0,
+      "ms": 831.67
+    },
+    {
+      "index": 27,
+      "triangles": 11108,
+      "refinements": 2,
+      "ms": 3208.47
+    },
+    {
+      "index": 28,
+      "triangles": 2736,
+      "refinements": 0,
+      "ms": 281.2
+    },
+    {
+      "index": 29,
+      "triangles": 4312,
+      "refinements": 0,
+      "ms": 471.99
+    },
+    {
+      "index": 30,
+      "triangles": 4052,
+      "refinements": 0,
+      "ms": 403.28
+    },
+    {
+      "index": 31,
+      "triangles": 3416,
+      "refinements": 0,
+      "ms": 349.75
+    },
+    {
+      "index": 32,
+      "triangles": 2544,
+      "refinements": 0,
+      "ms": 265.56
+    },
+    {
+      "index": 33,
+      "triangles": 5108,
+      "refinements": 0,
+      "ms": 508.84
+    },
+    {
+      "index": 34,
+      "triangles": 2736,
+      "refinements": 0,
+      "ms": 342.63
+    }
+  ],
+  "failed": [],
+  "sourceHashes": {
+    "core.js": "1518e2d0b5726dd270ffd9e0b735d969976e951be1e53e79d9d7c81026c605d5",
+    "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+    "geometry.js": "aa9b2b30ad92ed3718cb39f02fe58a6612c20865b238f859d0f5308a4b28b32a"
+  },
+  "testSha256": "f9d2c1371fe4c5e49618af18d9a1a1d774f011ebc1413f1424b6a56e41a7b270",
+  "sourceStableDuringRun": true
+}
