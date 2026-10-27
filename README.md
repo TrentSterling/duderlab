@@ -2,11 +2,15 @@
 
 An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.2.1 — Soft Elbows**.
 
+Together with [Duderworld](https://github.com/TrentSterling/duderworld), Duder Lab develops reusable content for future **Tront EOS lobby demos and minigame samples**. Duder Lab handles the characters, wearables, rigs, and animation; Duderworld handles the environments and level geometry. The browser previews support rapid inspection and mesh export for eventual integration into Unity and Tront EOS projects.
+
 ![The reported elbow before and after the A-pose and weight fix](docs/media/v3-2-1-elbow-before-after.png)
 
 [Watch the updated wave from three angles](docs/media/v3-2-1-wave.mp4) · [See the separated legs](docs/media/v3-2-1-legs-before-after.png)
 
 ## Run
+
+[Open the hosted Duder Lab preview](https://trentsterling.github.io/duderlab/) · [Standalone HTML](https://trentsterling.github.io/duderlab/static.html) · [Duderworld preview](https://trentsterling.github.io/duderworld/)
 
 Download this repository and open **`static.html`** in a browser with WebGL2 enabled. It works directly from `file://`; the page contains its JavaScript, physics engine, shaders, and glyph atlas. No server, package installation, CDN, or network request is required.
 
@@ -38,6 +42,12 @@ python3 build.py
 ```
 
 On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-2-1.html`, and `dist/index.html`. UTF-8 is explicit, and the output directory is created automatically.
+
+### Hosted preview
+
+The [Pages workflow](.github/workflows/pages.yml) builds from `src/` on pushes to `main` and can also be run manually from `main`. It runs `python3 qa/check-build.py` to verify exact source embedding, JavaScript syntax, identical offline builds, and the absence of external runtime dependencies. The deployment contains only `dist/index.html` and a byte-identical `dist/static.html` alias for saving an offline copy.
+
+GitHub Pages uses **Settings → Pages → Build and deployment → Source: GitHub Actions**. The workflow uses the `github-pages` environment and official GitHub Actions pinned to release commits. Its build job has read access to repository contents; only its deployment job receives Pages and deployment-token write permissions. The hosted build uses the same meshes, shaders, controls, and exports as `static.html`.
 
 ## V3.2.1: A-pose binding, soft elbows, and separate legs
 
