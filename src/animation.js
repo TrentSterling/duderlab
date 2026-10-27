@@ -1,4 +1,4 @@
-/* Duder Lab V3.2.1 — deterministic, looping seven-bone motion clips.
+/* Duder Lab V3.4.3 — deterministic, looping seven-bone motion clips.
  * Every matrix maps the immutable rest mesh into the current pose. The same
  * matrices can initialize the rigid bodies when a clip is released to physics.
  */

@@ -1,4 +1,4 @@
-/* Duder Lab V3.2.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.4.4 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -107,7 +107,7 @@
   }`;
   function fragment(){return `#version 300 es
   precision highp float;precision highp int;
-  uniform highp sampler2D uData;uniform vec3 uCamera;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;
+  uniform highp sampler2D uData;uniform vec3 uCamera;uniform vec3 uViewDir;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;
   in vec3 vWorld;in vec3 vNormal;in vec3 vLocal;in vec3 vColor;in vec3 vBary;in float vJoint;
   flat in int vId;flat in float vKind;flat in float vRough;in float vOutlineScale;
   out vec4 outColor;
@@ -118,27 +118,37 @@
     // Interior hat loops stay attached while outer rims expand. Interpolate
     // their weight so a mixed 0/1 triangle bridges the two edges instead of
     // disappearing according to whichever vertex happens to provoke it.
-    if(uOutline){if(vOutlineScale<=0.)discard;outColor=vec4(.055,.075,.09,1.);return;}
+    if(uOutline){
+      // Coarse posed hull faces can cross a smooth contour and leave a long
+      // interior tail. Reject only clearly front-facing BODY fragments.
+      // Keep a 30-degree band around the tangent: a strict zero cutoff clips
+      // legitimate faceted silhouettes. Wearable contact loops are unchanged.
+      // uViewDir is the orthographic camera direction used by the vertex pass.
+      if(vKind<.5&&dot(normalize(vNormal),-uViewDir)>.5)discard;
+      if(vOutlineScale<=0.)discard;
+      outColor=vec4(.055,.075,.09,1.);return;
+    }
     vec4 base=texelFetch(uData,ivec2(1,vId),0),acc=texelFetch(uData,ivec2(2,vId),0),par=texelFetch(uData,ivec2(0,vId),0);
     vec3 albedo=vColor;float rough=vRough;
-    if(vKind<.5){albedo=skinColor(vLocal,base.rgb,acc.rgb,acc.a,par.z,par.w);rough=base.a;}
+    if(vKind<.5){albedo=skinColor(vLocal,base.rgb,acc.rgb,acc.a,par.z,par.w);albedo=duderOutfit(vLocal,albedo,texelFetch(uData,ivec2(18,vId),0),texelFetch(uData,ivec2(19,vId),0));rough=base.a;}
     vec3 ns=normalize(vNormal),nf=normalize(cross(dFdx(vWorld),dFdy(vWorld)));
     if(dot(nf,ns)<0.)nf=-nf;
     vec3 N=(uSmooth||vKind>1.5)?ns:(vKind<.5?normalize(mix(nf,ns,vJoint*.97)):nf);
     vec3 V=normalize(uCamera-vWorld),L=normalize(vec3(-.55,.85,1.15)),H=normalize(V+L);
-    float nl=max(dot(N,L),0.),nv=max(dot(N,V),.001),nh=max(dot(N,H),0.),vh=max(dot(V,H),0.);
-    float a=max(.06,rough*rough),a2=a*a,den=nh*nh*(a2-1.)+1.;
-    float D=a2/(3.14159265*den*den),k=(rough+1.)*(rough+1.)/8.;
-    float G=nl/(nl*(1.-k)+k)*nv/(nv*(1.-k)+k);
-    vec3 F=vec3(.04)+(1.-.04)*pow(1.-vh,5.);
-    vec3 A=linearRGB(albedo);
-    float hemi=.56+.20*N.y;vec3 ambient=mix(vec3(.72,.73,.82),vec3(1.10,1.07,1.01),N.y*.5+.5);
-    vec3 col=A*(hemi*ambient+.62*nl);
-    col+=D*G*F/(4.*max(.001,nv*nl))*.80*nl;
-    float rim=pow(1.-nv,4.);col+=vec3(.12,.16,.19)*rim*(1.-rough)*.65;
-    if(vKind>2.5){vec3 refl=reflect(-V,N);float strip=pow(max(0.,1.-abs(refl.y-.45)*3.),6.);col+=vec3(.20,.27,.34)*strip;}
-    float groundAO=smoothstep(0.,.35,vWorld.y);col*=mix(.72,1.,groundAO);
-    col=srgb(col/(1.+col*.10));
+    float nl=dot(N,L),nv=max(dot(N,V),.001),nh=max(dot(N,H),0.);
+    // Soft ink-and-clay lighting: intentional color bands, a broad restrained
+    // highlight, and a cool shadow floor. Opaque single-pass shading throughout.
+    float mid=smoothstep(-.15,.22,nl),light=smoothstep(.42,.78,nl);
+    vec3 shade=mix(vec3(.62,.60,.72),vec3(.86,.84,.91),mid);
+    shade=mix(shade,vec3(1.01,.99,.95),light);
+    vec3 col=albedo*shade;
+    float sheen=smoothstep(mix(.88,.97,rough),.997,nh)*(1.-rough)*.16;
+    col=mix(col,vec3(1.,.96,.86),sheen);
+    float rim=pow(1.-nv,4.)*smoothstep(-.3,.6,dot(N,normalize(vec3(.8,.4,-.8))));
+    col=mix(col,albedo*.85+vec3(.10,.14,.17),rim*.24);
+    if(vKind>1.5&&vKind<2.5){col=albedo*(.82+.18*max(nl,0.));}
+    if(vKind>2.5){vec3 refl=reflect(-V,N);float strip=1.-smoothstep(.04,.17,abs(refl.y-.45));col=mix(col,vec3(.26,.36,.43),strip*.65);}
+    col*=mix(.80,1.,smoothstep(0.,.30,vWorld.y));
     if(uWire){vec3 edge=smoothstep(vec3(0),fwidth(vBary)*1.15,vBary);float line=1.-min(edge.x,min(edge.y,edge.z));col=mix(col,vec3(.08,.12,.16),line*.85);}
     outColor=vec4(clamp(col,0.,1.),1.);
   }`;}
@@ -223,7 +233,11 @@
       for(const g of all){for(const index of g.indexed.indices)indices[offset++]=index+base;base+=g.indexed.positions.length/3;}
       const elements=gl.createBuffer();this.buffers.push(elements);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,elements);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);this.gpuGeometryBytes+=indices.byteLength;
       gl.bindVertexArray(null);this.last=ids;
-      this.restRadius=.8;for(const g of all)for(let i=0;i<g.positions.length;i+=3)this.restRadius=Math.max(this.restRadius,Math.hypot(g.positions[i],g.positions[i+2])*1.10);
+      this.restRadius=.8;this.restMinY=0;this.restMaxY=0;
+      for(const g of all)for(let i=0;i<g.positions.length;i+=3){
+        this.restRadius=Math.max(this.restRadius,Math.hypot(g.positions[i],g.positions[i+2])*1.10);
+        this.restMinY=Math.min(this.restMinY,g.positions[i+1]);this.restMaxY=Math.max(this.restMaxY,g.positions[i+1]);
+      }
     }
     prepareWireframe(){
       if(this.wireReady)return;const gl=this.gl;gl.bindVertexArray(this.wireVAO);
@@ -246,6 +260,8 @@
       for(const id of this.last){
         const r=recipes[id],o=id*this.texWidth*4,pose=state.poseById?.[id],transforms=pose?.transforms||this.idleTransforms(r,time,animate);
         tex.set([r.depth,r.blend,r.patternScale,r.seed%997],o);tex.set([...r.color,r.roughness],o+4);tex.set([...r.accent,r.pattern],o+8);tex.set([pose?1:0,0,0,0],o+12);
+        tex.set([r.height,r.width,r.depth,r.belly],o+18*4);
+        tex.set([...(r.outfitColor||[.20,.37,.47]),r.outfit==='overalls'?1:r.outfit==='tee'?2:0],o+19*4);
         const prim=DuderCore.primitives(r,0,false);for(let i=0;i<7;i++){
           tex.set([...prim[i].a,prim[i].ra],o+(4+i*2)*4);tex.set([...prim[i].b,prim[i].rb],o+(5+i*2)*4);
           tex.set(transforms[i],o+(20+i*4)*4);tex.set(M.rigidInverse(transforms[i]),o+(48+i*4)*4);
@@ -262,7 +278,10 @@
       this.eye=[at[0]+Math.sin(yaw)*Math.cos(pitch)*dist,at[1]+Math.sin(pitch)*dist,at[2]+Math.cos(yaw)*Math.cos(pitch)*dist];
       this.forward=M.norm(M.sub(at,this.eye));this.right=M.norm(M.cross(this.forward,[0,1,0]));this.up=M.cross(this.right,this.forward);
       const pile=state.physicsEnabled&&state.physicsMode==='pile';
-      const base=pile?3.1:state.physicsEnabled?(state.physicsMode==='sumo'?2.20:1.90):(single?1.42:1.37);
+      // Tall hats must fit a normal framed view. Preserve the old minimum framing
+      // and manual zoom, but include the actual static mesh's vertical extent.
+      const vertical=(Math.max(Math.abs((this.restMinY||0)-1.02),Math.abs((this.restMaxY||2)-1.02))*Math.abs(Math.cos(pitch))+(this.restRadius||1.18)*Math.abs(Math.sin(pitch)))*1.04;
+      const base=pile?3.1:state.physicsEnabled?(state.physicsMode==='sumo'?2.20:1.90):Math.max(single?1.42:1.37,vertical);
       const horizontal=pile?3.8:state.physicsEnabled?(state.physicsMode==='sumo'?2.45:1.65):(this.restRadius||1.18),half=Math.max(base,horizontal/aspect)/this.zoom;
       this.extent=[half*aspect,half];const view=M.view(this.eye,at);this.vpMatrix=M.mul(M.ortho(-half*aspect,half*aspect,-half,half,.1,45),view);
       this.grid=[cols,rows];this.viewport=vp;const p=M.point(this.vpMatrix,[0,.025,0]);this.ground=[p[0]/p[3],p[1]/p[3]];

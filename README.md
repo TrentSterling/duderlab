@@ -1,6 +1,6 @@
 # Duder Lab
 
-An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.2.1 — Soft Elbows**.
+An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.4.4 — Clay Wardrobe**.
 
 Together with [Duderworld](https://github.com/TrentSterling/duderworld), Duder Lab develops reusable content for future **Tront EOS lobby demos and minigame samples**. Duder Lab handles the characters, wearables, rigs, and animation; Duderworld handles the environments and level geometry. The browser previews support rapid inspection and mesh export for eventual integration into Unity and Tront EOS projects.
 
@@ -43,13 +43,19 @@ Python 3 is the only build dependency:
 python3 build.py
 ```
 
-On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-2-1.html`, and `dist/index.html`. UTF-8 is explicit, and the output directory is created automatically.
+On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-4-4.html`, and `dist/index.html`. UTF-8 is explicit, and the output directory is created automatically.
 
 ### Hosted preview
 
 The [Pages workflow](.github/workflows/pages.yml) builds from `src/` on pushes to `main` and can also be run manually from `main`. It runs `python3 qa/check-build.py` to verify exact source embedding, JavaScript syntax, identical offline builds, and the absence of external runtime dependencies. The deployment contains only `dist/index.html` and a byte-identical `dist/static.html` alias for saving an offline copy.
 
 GitHub Pages uses **Settings → Pages → Build and deployment → Source: GitHub Actions**. The workflow uses the `github-pages` environment and official GitHub Actions pinned to release commits. Its build job has read access to repository contents; only its deployment job receives Pages and deployment-token write permissions. The hosted build uses the same meshes, shaders, controls, and exports as `static.html`.
+
+## V3.4.4: restored Clay Wardrobe source
+
+The saved **Duder-Lab-3.4.4-offline.html** from October 26, 2026 contained newer work than the GitHub source. Its eleven embedded modules have been recovered exactly, and `python3 build.py` reproduces that saved HTML byte for byte (SHA-256 `7fcd9eeee5c62533a3a6a58050c45e4259948905f5182c8e3aad56e552a1029d`).
+
+This preserves eleven hat silhouettes, adjustable larger eyes, tee and overalls outfits, separate hat/frame colors, eyewear fit improvements, clay lighting, body-outline tail rejection, and camera framing for tall hats. The body shell, rig, wave motion, physics, and arm-weight implementation match the earlier source. The V3.2.1 and earlier proof sections below document those historical releases.
 
 ## V3.2.1: A-pose binding, soft elbows, and separate legs
 

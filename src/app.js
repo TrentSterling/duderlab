@@ -76,9 +76,13 @@
   function action(name,value){
     if(name==='param'){
       const r={...recipes[state.selected],[value.key]:value.value};recipes[state.selected]=DuderCore.sanitizeRecipe(r);
-      if(!['color','accent','roughness','pattern','patternScale','seed'].includes(value.key))dirty=true;
+      if(!['color','accent','roughness','pattern','patternScale','seed','outfit','outfitColor'].includes(value.key))dirty=true;
       if(state.physicsEnabled&&['height','width','depth','belly','armLength','armSpread','armThickness','armGap','feet','blend'].includes(value.key))startPhysics(state.physicsMode,false);
       persist();
+    }else if(name==='resetGearColors'||(name==='resetGearColor'&&['hatColor','glassesColor'].includes(value))){
+      const r={...recipes[state.selected]};
+      for(const key of name==='resetGearColors'?['hatColor','glassesColor']:[value])delete r[key];
+      recipes[state.selected]=DuderCore.sanitizeRecipe(r);dirty=true;persist();
     }else if(name==='tab'){if(value==='motion'&&!state.motionEnabled)startMotion();else state.tab=value;}
     else if(name==='mode'){if(state.physicsEnabled)stopPhysics();state.mode=value;dirty=true;renderer.frame(state);}
     else if(name==='select'){state.selected=((value|0)+16)%16;if(state.physicsEnabled)startPhysics(state.physicsMode);else if(state.mode==='focus')dirty=true;persist();}
@@ -116,7 +120,7 @@
     else if(name==='exportRecipe')exportRecipe();
     else if(name==='importRecipe')importRecipe();
     else if(name==='reset'){stopPhysics();state.motionEnabled=false;recipes=DuderCore.presets();state.selected=0;dirty=true;renderer.frame(state);persist();toast('Original 16 restored');}
-    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-2-1.png');});}
+    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-4-4.png');});}
     state.recipe=recipes[state.selected];
   }
   try{
@@ -187,7 +191,7 @@
       frames++;
       if(frames%30===0){
         const err=renderer.gl.getError();if(err!==0){errors.push('WebGL error '+err);console.error('WebGL error',err);}
-        canvas.dataset.diagnostics=JSON.stringify({version:'3.2.1',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
+        canvas.dataset.diagnostics=JSON.stringify({version:'3.4.4',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
       }
       requestAnimationFrame(tick);
     }catch(e){errors.push(e.message);console.error(e);canvas.dataset.error=e.message;fallback.hidden=false;fallback.textContent=e.message;}
