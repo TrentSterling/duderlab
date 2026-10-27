@@ -101,7 +101,6 @@
   // Stable bone order: torso, left upper/forearm, right upper/forearm, left/right leg.
   const boneNames=['Torso','Left upper arm','Left forearm','Right upper arm','Right forearm','Left leg','Right leg'];
   const blendScales=[1,.60,.42,.60,.42,.85,.85];
-  const adjacency=[[1,3,5,6],[0,2],[1],[0,4],[3],[0],[0]];
   function primitives(recipe,time=0,animate=false) {
     const r=recipe,h=r.height,w=r.width,ra=.50*w*r.belly,rb=.40*w;
     const lift=Math.max(0,.20-(.72*h-ra)),aY=lift+.72*h,bY=lift+1.36*h;
@@ -159,28 +158,35 @@
     for(const leg of [5,6])joints.push({parent:0,child:leg,point:parts[leg].a.slice(),type:'cone',angle:.70,twist:.42});
     return {parts,joints,names:boneNames.slice(),depth:r.depth};
   }
-  // Capsule distance selects the limb/torso region; longitudinal elbow planes
-  // then share each arm's influence smoothly along its axis. Surface-distance
-  // weights alone jump around overlapping capsule ends and fold the inner bend.
-  // Cache these immutable bind frames once per generated set of primitives.
-  const elbowWeightFrames=new WeakMap();
+  // Treat each complete arm as one region before splitting it at the elbow.
+  // The body may share an arm only through its local shoulder attachment;
+  // proximity to a hanging forearm must not pull the ribs into a wave.
+  // All envelopes are immutable bind-space functions, shared by render/export.
+  const armWeightFrames=new WeakMap();
   function skinWeightsForPoint(p,parts,blend=.16) {
-    const distances=parts.map(part=>sdRC(p,part));let nearest=0;
-    for(let i=1;i<distances.length;i++)if(distances[i]<distances[nearest])nearest=i;
-    const candidates=[nearest,...adjacency[nearest]].sort((a,b)=>distances[a]-distances[b]);
-    const span=Math.max(.065,blend*.72),weights=Array(7).fill(0);
-    for(const i of candidates.slice(0,4)){
-      const t=clamp(1-(distances[i]-distances[nearest])/span,0,1);weights[i]=t*t*(3-2*t);
-    }
-    let frames=elbowWeightFrames.get(parts);
+    const distances=parts.map(part=>sdRC(p,part));
+    const regions=[distances[0],Math.min(distances[1],distances[2]),Math.min(distances[3],distances[4]),distances[5],distances[6]];
+    const nearest=Math.min(...regions),span=Math.max(.065,blend*.72),weights=Array(7).fill(0);
+    const regionWeights=regions.map(d=>{const t=clamp(1-(d-nearest)/span,0,1);return t*t*(3-2*t);});
+    weights[0]=regionWeights[0];weights[5]=regionWeights[3];weights[6]=regionWeights[4];
+    let frames=armWeightFrames.get(parts);
     if(!frames){
       frames=[[1,2],[3,4]].map(([upper,lower])=>{
         const a=norm(sub(parts[upper].b,parts[upper].a)),b=norm(sub(parts[lower].b,parts[lower].a));
-        return{upper,lower,point:parts[lower].a,axis:norm(a.map((v,k)=>v+b[k])),halfWidth:parts[lower].ra*2.05};
-      });elbowWeightFrames.set(parts,frames);
+        return{upper,lower,point:parts[lower].a,axis:norm(a.map((v,k)=>v+b[k])),halfWidth:parts[lower].ra*2.05,shoulder:parts[upper].a,radius:parts[upper].ra};
+      });armWeightFrames.set(parts,frames);
     }
-    for(const {upper,lower,point,axis,halfWidth}of frames){
-      const total=weights[upper]+weights[lower];if(total===0)continue;
+    for(const {upper,lower,point,axis,halfWidth,shoulder,radius}of frames){
+      const region=(upper+1)/2,raw=regionWeights[region];if(raw===0)continue;
+      // Feather from the attachment into a small local collar. Starting the
+      // smoothstep just inside its center avoids a flat plateau/hard rim.
+      // The outer body becomes exactly torso-owned beyond the collar.
+      const portal=1-smooth(-radius*.5,radius*3.5,Math.hypot(...sub(p,shoulder)));
+      // Outside the collar, an arm must actually own the surface: a nearby
+      // arm across the underarm air gap cannot borrow a torso vertex.
+      const armSide=smooth(0,radius*.55,distances[0]-regions[region]);
+      const gate=portal+(1-portal)*armSide,total=raw*gate;
+      weights[0]+=raw-total;
       const f=smooth(-halfWidth,halfWidth,dot(sub(p,point),axis));
       weights[upper]=total*(1-f);weights[lower]=total*f;
     }
@@ -455,12 +461,12 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
     for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 3.4.4'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.4.5'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'3.4.4',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.4.5',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);

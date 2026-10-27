@@ -1,0 +1,201 @@
+{
+  "passed": true,
+  "scope": "Rigid dual-quaternion correctness, fixed-weight elbow cross-section preservation, posed CPU bake, and actual shipped GLSL transform feedback on software GLES.",
+  "sourceHashes": {
+    "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+    "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+    "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+    "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+    "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e"
+  },
+  "failures": [],
+  "metrics": {
+    "singleBoneCases": 180,
+    "maxSingleBonePositionError": 2.074811836202185e-7,
+    "maxSingleBoneNormalError": 4.311281446499963e-8,
+    "hemisphereCases": 288,
+    "maxHemispherePositionError": 0,
+    "maxHemisphereNormalError": 0,
+    "maxQuaternionNormError": 2.220446049250313e-16,
+    "maxDualOrthogonalityError": 5.551115123125783e-17,
+    "volumeSamples": 128,
+    "maxRadiusError": 3.397296902130087e-8,
+    "maxLbsRadiusError": 2.060629013256321e-8,
+    "posedBakes": 12,
+    "bakedVertices": 178800,
+    "maxWeldedBakeDifference": 0,
+    "maxAccessoryPositionError": 1.1949648128942218e-7
+  },
+  "volumeCases": [
+    {
+      "angleDegrees": 59.99999999999999,
+      "radius": 0.12,
+      "dualQuaternionRadius": [
+        0.11999999383523605,
+        0.12000000616476393
+      ],
+      "linearBlendRadius": [
+        0.10392304679828344,
+        0.10392304917736439
+      ],
+      "expectedLinearRadius": 0.10392304845413264
+    },
+    {
+      "angleDegrees": 108.99999999999999,
+      "radius": 0.12,
+      "dualQuaternionRadius": [
+        0.11999996602703102,
+        0.12000003397296902
+      ],
+      "linearBlendRadius": [
+        0.06968433407902265,
+        0.06968437207072055
+      ],
+      "expectedLinearRadius": 0.06968435468531278
+    },
+    {
+      "angleDegrees": 121.46705256773453,
+      "radius": 0.12,
+      "dualQuaternionRadius": [
+        0.11999998410297115,
+        0.1200000158970287
+      ],
+      "linearBlendRadius": [
+        0.05866464455677236,
+        0.05866465667756732
+      ],
+      "expectedLinearRadius": 0.0586646498232633
+    },
+    {
+      "angleDegrees": 160,
+      "radius": 0.12,
+      "dualQuaternionRadius": [
+        0.11999999301105461,
+        0.12000000698894533
+      ],
+      "linearBlendRadius": [
+        0.02083777668748531,
+        0.020837787304044276
+      ],
+      "expectedLinearRadius": 0.02083778132003165
+    }
+  ],
+  "gpu": {
+    "passed": true,
+    "scope": "Compare the unmodified production vertex shader with the CPU posed bake.\n\nThe node companion supplies actual application draw captures and CPU positions/\nnormals. GLES transform feedback records vWorld/vNormal before rasterization.\nThis checks software GLES correctness, not browser behavior or hardware speed.",
+    "renderer": {
+      "vendor": "Mesa",
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+      "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+      "shading_language": "OpenGL ES GLSL ES 3.20",
+      "egl_version": "1.5"
+    },
+    "cases": [
+      {
+        "name": "default-0.2",
+        "vertices": 1796,
+        "maxPositionError": 2.7314279645418166e-7,
+        "maxNormalError": 0.00001265392009149569,
+        "glErrors": []
+      },
+      {
+        "name": "default-0.38",
+        "vertices": 1796,
+        "maxPositionError": 4.2252084251516537e-7,
+        "maxNormalError": 0.000013239947959963246,
+        "glErrors": []
+      },
+      {
+        "name": "default-0.49",
+        "vertices": 1796,
+        "maxPositionError": 6.171240226062232e-7,
+        "maxNormalError": 0.00001537294383298882,
+        "glErrors": []
+      },
+      {
+        "name": "default-0.7",
+        "vertices": 1796,
+        "maxPositionError": 6.165130346775925e-7,
+        "maxNormalError": 0.00001538126124468025,
+        "glErrors": []
+      },
+      {
+        "name": "short-thick-0.2",
+        "vertices": 2738,
+        "maxPositionError": 0.000001356642924769814,
+        "maxNormalError": 0.000016069937318148134,
+        "glErrors": []
+      },
+      {
+        "name": "short-thick-0.38",
+        "vertices": 2738,
+        "maxPositionError": 0.000001356011105608553,
+        "maxNormalError": 0.000014588206367149192,
+        "glErrors": []
+      },
+      {
+        "name": "short-thick-0.49",
+        "vertices": 2738,
+        "maxPositionError": 0.000001356011105608553,
+        "maxNormalError": 0.000016634408584695364,
+        "glErrors": []
+      },
+      {
+        "name": "short-thick-0.7",
+        "vertices": 2738,
+        "maxPositionError": 0.000001356011105608553,
+        "maxNormalError": 0.000016634408584695364,
+        "glErrors": []
+      },
+      {
+        "name": "tall-thin-0.2",
+        "vertices": 3056,
+        "maxPositionError": 0.0000010894165472051049,
+        "maxNormalError": 0.000013091745034600142,
+        "glErrors": []
+      },
+      {
+        "name": "tall-thin-0.38",
+        "vertices": 3056,
+        "maxPositionError": 0.0000010667607980427408,
+        "maxNormalError": 0.00001514301134439904,
+        "glErrors": []
+      },
+      {
+        "name": "tall-thin-0.49",
+        "vertices": 3056,
+        "maxPositionError": 0.0000010667607980427408,
+        "maxNormalError": 0.00001343265297729718,
+        "glErrors": []
+      },
+      {
+        "name": "tall-thin-0.7",
+        "vertices": 3056,
+        "maxPositionError": 0.0000010667607980427408,
+        "maxNormalError": 0.000013113708153864451,
+        "glErrors": []
+      }
+    ],
+    "vertices": 30360,
+    "maxPositionError": 0.000001356642924769814,
+    "maxNormalError": 0.000016634408584695364,
+    "failures": [],
+    "shaderValidation": [
+      {
+        "stage": "vertex",
+        "compiled": true,
+        "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+      },
+      {
+        "stage": "fragment",
+        "compiled": true,
+        "log": ""
+      },
+      {
+        "stage": "transform-feedback-link",
+        "linked": true,
+        "log": ""
+      }
+    ]
+  }
+}

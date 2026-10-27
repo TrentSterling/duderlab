@@ -4,11 +4,11 @@
   const canvas=document.getElementById('duder'),fallback=document.getElementById('fallback');
   const errors=[];window.addEventListener('error',e=>{errors.push(e.message);canvas.dataset.error=e.message;});
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  const STORAGE='tront-duder-lab-v03';
+  const search=new URLSearchParams(location.search),isQA=search.has('qa'),isArmStudy=search.has('armstudy')||!!window.DuderArmStudyStart;
+  const STORAGE=isArmStudy?'tront-duder-arm-study-v3-4-5':'tront-duder-lab-v03';
   let recipes=DuderCore.presets();
-  let state={tab:'shape',mode:'gallery',selected:0,panelOpen:false,helpOpen:false,autoSpin:false,animate:true,smooth:true,wireframe:false,outlines:true,outlineWidth:2.2,projectionStrength:.55,physicsEnabled:false,physicsMode:'ragdoll',physicsPaused:false,physicsSettings:{gravity:9.81,damping:.18},physicsStats:{bodies:7,joints:6,maxJointError:0,sleeping:false},pileCount:8,motionEnabled:false,motionClip:'idle',motionTime:0,motionSpeed:1,motionAmplitude:1,motionPlaying:true,showRig:true,poseById:{},toast:'',dt:0,stats:{count:16,drawCalls:3,triangles:0,fps:0}};
-  const search=new URLSearchParams(location.search),isQA=search.has('qa');
-  try{if(!isQA){const old=JSON.parse(localStorage.getItem(STORAGE)||localStorage.getItem('tront-duder-lab-v02')||localStorage.getItem('tront-duder-lab-v01')||'null');if(old&&[1,2,3].includes(old.version)&&Array.isArray(old.recipes)&&old.recipes.length===16){recipes=old.recipes.map(DuderCore.sanitizeRecipe);state.selected=clamp(old.selected|0,0,15);}}}catch(e){/* Local storage can be unavailable for file://. Explicit recipe export remains usable. */}
+  let state={tab:'shape',mode:'gallery',selected:0,panelOpen:false,helpOpen:false,autoSpin:false,animate:true,smooth:true,wireframe:false,outlines:true,outlineWidth:2.2,projectionStrength:.55,physicsEnabled:false,physicsMode:'ragdoll',physicsPaused:false,physicsSettings:{gravity:9.81,damping:.18},physicsStats:{bodies:7,joints:6,maxJointError:0,sleeping:false},pileCount:8,motionEnabled:false,motionClip:'idle',motionTime:0,motionSpeed:1,motionAmplitude:1,motionPlaying:true,showRig:true,showArmWeights:false,poseById:{},toast:'',dt:0,stats:{count:16,drawCalls:3,triangles:0,fps:0}};
+  try{if(!isQA&&!isArmStudy){const old=JSON.parse(localStorage.getItem(STORAGE)||localStorage.getItem('tront-duder-lab-v02')||localStorage.getItem('tront-duder-lab-v01')||'null');if(old&&[1,2,3].includes(old.version)&&Array.isArray(old.recipes)&&old.recipes.length===16){recipes=old.recipes.map(DuderCore.sanitizeRecipe);state.selected=clamp(old.selected|0,0,15);}}}catch(e){/* Local storage can be unavailable for file://. Explicit recipe export remains usable. */}
   if(search.get('focus')){state.mode='focus';state.selected=clamp(parseInt(search.get('focus'))||0,0,15);}
   let renderer,ui,physics=null,physicsIds=[],activePhysicsCount=0,dirty=true,storageTimer,toastUntil=0,frames=0,lastTime=performance.now(),fpsAccum=0,fpsCount=0,fpsTime=0,clock=0;
   const toast=(s)=>{state.toast=s;toastUntil=performance.now()+3500;};
@@ -120,13 +120,17 @@
     else if(name==='exportRecipe')exportRecipe();
     else if(name==='importRecipe')importRecipe();
     else if(name==='reset'){stopPhysics();state.motionEnabled=false;recipes=DuderCore.presets();state.selected=0;dirty=true;renderer.frame(state);persist();toast('Original 16 restored');}
-    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-4-4.png');});}
+    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-4-5.png');});}
     state.recipe=recipes[state.selected];
   }
   try{
     renderer=new DuderRenderer(canvas);ui=new DuderUI(renderer.gl,canvas,action);await ui.ready;state.recipe=recipes[state.selected];ui.state=state;fallback.hidden=true;
   }catch(e){console.error(e);fallback.textContent=e.message;fallback.hidden=false;canvas.dataset.error=e.message;return;}
-  if(search.has('pile'))startPhysics('pile');else if(search.has('sumo'))startPhysics('sumo');else if(search.has('ragdoll'))startPhysics('ragdoll');else if(search.has('motion'))startMotion(DuderAnimation.clips.some(c=>c.id===search.get('motion'))?search.get('motion'):'wave');
+  if(isArmStudy){
+    recipes[0]=DuderCore.sanitizeRecipe({...DuderCore.randomRecipe(1702468274),name:'Arm Study',pattern:0,outfit:'none',hat:'beanie',glasses:'none'});
+    state.selected=0;startMotion('wave');state.panelOpen=true;
+    renderer.yaw=-.5;renderer.pitch=.06;renderer.zoom=1.25;
+  }else if(search.has('pile'))startPhysics('pile');else if(search.has('sumo'))startPhysics('sumo');else if(search.has('ragdoll'))startPhysics('ragdoll');else if(search.has('motion'))startMotion(DuderAnimation.clips.some(c=>c.id===search.get('motion'))?search.get('motion'):'wave');
   let pointer=null,pinch=null;const touchPoints=new Map();
   function xy(e){const r=canvas.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top];}
   canvas.addEventListener('contextmenu',e=>e.preventDefault());
@@ -170,6 +174,7 @@
     else if(k==='k'&&state.physicsEnabled){action('physicsKick');e.preventDefault();}
     else if(k==='x'){action('toggle','showRig');e.preventDefault();}
     else if(k==='o'){action('toggle','outlines');e.preventDefault();}
+    else if(k==='v'){action('toggle','showArmWeights');e.preventDefault();}
     else if(k==='escape'){state.helpOpen=false;state.panelOpen=false;if(state.mode==='focus')action('mode','gallery');}
     else if(k==='arrowleft'){action('select',state.selected-1);e.preventDefault();}
     else if(k==='arrowright'){action('select',state.selected+1);e.preventDefault();}
@@ -191,7 +196,7 @@
       frames++;
       if(frames%30===0){
         const err=renderer.gl.getError();if(err!==0){errors.push('WebGL error '+err);console.error('WebGL error',err);}
-        canvas.dataset.diagnostics=JSON.stringify({version:'3.4.4',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength});
+        canvas.dataset.diagnostics=JSON.stringify({version:'3.4.5',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength,showArmWeights:state.showArmWeights});
       }
       requestAnimationFrame(tick);
     }catch(e){errors.push(e.message);console.error(e);canvas.dataset.error=e.message;fallback.hidden=false;fallback.textContent=e.message;}

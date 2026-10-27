@@ -121,7 +121,7 @@
     _header(s,w,l){
       this.rect(0,0,w,l.header,C.panel);this.rect(0,l.header-1,w,1,C.border);
       this._hit(0,0,w,l.header,{type:'block',key:'header'});
-      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.4.4',32,48,9,C.muted);
+      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.4.5',32,48,9,C.muted);
       if(l.mobile){
         this.button(s.panelOpen?'Close':'Edit',w-121,20,65,30,'togglePanel',undefined,s.panelOpen,false,'togglePanel');
         this.button('?',w-48,20,30,30,'help',undefined,s.helpOpen,false,'help');
@@ -184,6 +184,8 @@
         this.slider('Motion amount','motionAmplitude',.25,1.25,x,yy,iw,s.motionAmplitude??1,.05,'motionParam');yy+=45;
         this.button('Release to ragdoll',x,yy,iw,33,'ragdoll',null,false,true,'motion:release');yy+=45;
         this.button('Show bones',x,yy,iw,28,'toggle','showRig',!!s.showRig,false,'motion:rig');yy+=39;
+        this.button('Arm weight colors / V',x,yy,iw,28,'toggle','showArmWeights',!!s.showArmWeights,false,'motion:weights');yy+=39;
+        if(s.showArmWeights){yy=this._wrap('Gray 0% / cyan 25% / yellow 50% / red 100% arm influence. The colors stay fixed to the skin.',x,yy,iw,11,C.muted);yy+=13;}
         yy=this._wrap('Scrub to inspect a pose. Release keeps the pose and its momentum. Gallery previews the clip on all 16.',x,yy,iw,11,C.muted);yy+=13;
         this.slider('Shell correction','projectionStrength',0,1,x,yy,iw,s.projectionStrength??.55,.01,'viewParam');yy+=43;
       }else if(tab==='physics'){
@@ -235,7 +237,7 @@
     _footer(s,w,h,l){
       const y=h-l.footer;this.rect(0,y,w,l.footer,C.panel);this.rect(0,y,w,1,C.border);
       this._hit(0,y,w,l.footer,{type:'block',key:'footer'});
-      if(l.left&&!l.mobile)this.text('V3.4.4   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
+      if(l.left&&!l.mobile)this.text('V3.4.5   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
       const x=(l.mobile?0:l.left)+18,st=s.stats||{},tris=st.triangles>=1000?(st.triangles/1000).toFixed(1)+'K':String(st.triangles||0);
       const text=(st.count||16)+((st.count||16)===1?' DUDER   ':' DUDERS   ')+(st.drawCalls??3)+' DRAWS   '+tris+' TRIS'+(w>650?(st.offlineCapture?'   OFFLINE REPLAY':'   '+Math.round(st.fps||0)+' FPS'):'');
       this.text(text,x,y+(l.footer-10)/2,10,C.lime);
@@ -279,7 +281,7 @@
         this.rect(vp.x+18,vp.y+15,ww,27,[.075,.084,.095,.92],6);
         this.clip={x:vp.x+26,y:vp.y+15,w:ww-16,h:27};this.text(title,vp.x+30,vp.y+24,10,C.lime,true);this.clip=null;
       }else if(state.motionEnabled){
-        const title=(state.motionClip||'idle').toUpperCase()+' / '+(state.motionPlaying?'PLAYING':'POSE PAUSED'),ww=this.measure(title,10,true)+24;
+        const title=(state.motionClip||'idle').toUpperCase()+' / '+(state.motionPlaying?'PLAYING':'POSE PAUSED')+(state.showArmWeights?' / ARM WEIGHTS':''),ww=this.measure(title,10,true)+24;
         this.rect(vp.x+18,vp.y+15,ww,27,[.075,.084,.095,.92],6);this.text(title,vp.x+30,vp.y+24,10,C.lime,true);
       }
       this._header(state,width,l);this._inspector(state,width,height,l);this._footer(state,width,height,l);

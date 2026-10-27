@@ -1,0 +1,117 @@
+{
+  "passed": true,
+  "version": "3.4.5",
+  "moduleCount": 11,
+  "modules": [
+    {
+      "file": "font-data.js",
+      "bytes": 98887,
+      "sha256": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+      "exactEmbedding": true
+    },
+    {
+      "file": "vendor-cannon.js",
+      "bytes": 347541,
+      "sha256": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26",
+      "exactEmbedding": true
+    },
+    {
+      "file": "core.js",
+      "bytes": 33440,
+      "sha256": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+      "exactEmbedding": true
+    },
+    {
+      "file": "shell.js",
+      "bytes": 10796,
+      "sha256": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+      "exactEmbedding": true
+    },
+    {
+      "file": "geometry.js",
+      "bytes": 29017,
+      "sha256": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+      "exactEmbedding": true
+    },
+    {
+      "file": "collision-shapes.js",
+      "bytes": 5197,
+      "sha256": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+      "exactEmbedding": true
+    },
+    {
+      "file": "physics.js",
+      "bytes": 24531,
+      "sha256": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16",
+      "exactEmbedding": true
+    },
+    {
+      "file": "animation.js",
+      "bytes": 10011,
+      "sha256": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+      "exactEmbedding": true
+    },
+    {
+      "file": "renderer.js",
+      "bytes": 29401,
+      "sha256": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+      "exactEmbedding": true
+    },
+    {
+      "file": "ui.js",
+      "bytes": 31741,
+      "sha256": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e",
+      "exactEmbedding": true
+    },
+    {
+      "file": "app.js",
+      "bytes": 21480,
+      "sha256": "3bdf46792be14d8f04da6f02958ed7e466deb815a8fd99bca4dd69efeca47c37",
+      "exactEmbedding": true
+    }
+  ],
+  "outputs": [
+    {
+      "path": "static.html",
+      "bytes": 644505,
+      "sha256": "f16768f807123d63b9238f30a0b8e1f80bc2a2ce706812522f1b61e1e7dcfa07",
+      "identical": true
+    },
+    {
+      "path": "duder-lab-v3-4-5.html",
+      "bytes": 644505,
+      "sha256": "f16768f807123d63b9238f30a0b8e1f80bc2a2ce706812522f1b61e1e7dcfa07",
+      "identical": true
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 644505,
+      "sha256": "f16768f807123d63b9238f30a0b8e1f80bc2a2ce706812522f1b61e1e7dcfa07",
+      "identical": true
+    },
+    {
+      "path": "duder-lab-arm-study.html",
+      "bytes": 644554,
+      "sha256": "aee4b54c5942703070277cd5d240a5b12daf84ba62414a746972bd36ef9b909b",
+      "onlyDifference": "Arm study startup flag",
+      "exactSourceEmbedding": true
+    }
+  ],
+  "externalResourceAttributes": [],
+  "externalCssResources": [],
+  "networkApiMatches": [],
+  "releaseSourceHashes": {
+    "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+    "vendor-cannon.js": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26",
+    "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+    "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+    "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+    "collision-shapes.js": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+    "physics.js": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16",
+    "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+    "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+    "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e",
+    "app.js": "3bdf46792be14d8f04da6f02958ed7e466deb815a8fd99bca4dd69efeca47c37"
+  },
+  "verificationScope": "Exact source embedding, JavaScript parsing, identical standard standalone outputs, one startup-flag-only arm-study variant, and external resource/API audit. Application behavior and actual GLSL rendering are checked separately."
+}
