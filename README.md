@@ -4,6 +4,8 @@ An offline WebGL2 workbench for parametric bean characters, wearable meshes, pro
 
 Together with [Duderworld](https://github.com/TrentSterling/duderworld), Duder Lab develops reusable content for future **Tront EOS lobby demos and minigame samples**. Duder Lab handles the characters, wearables, rigs, and animation; Duderworld handles the environments and level geometry. The browser previews support rapid inspection and mesh export for eventual integration into Unity and Tront EOS projects.
 
+**Scope:** Duder Lab is a browser prototyping lab, not a web game. It is plain WebGL2 with cannon-es physics (no Three.js), and the hosted page is a development preview for inspecting and comparing iterations. Approved meshes get converted to Unity locally later; this repository holds no Unity project, EOS networking, or gameplay code.
+
 ![The reported elbow before and after the A-pose and weight fix](docs/media/v3-2-1-elbow-before-after.png)
 
 [Watch the updated wave from three angles](docs/media/v3-2-1-wave.mp4) · [See the separated legs](docs/media/v3-2-1-legs-before-after.png)
