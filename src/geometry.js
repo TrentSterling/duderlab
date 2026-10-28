@@ -407,18 +407,14 @@
     const r=recipe||{},B=new Builder(characterId),m=metrics(r);
     const sides=num(r,'facets',12)<=8?8:num(r,'facets',12)>=16?16:12;
     const rings=sides===8?6:sides===16?10:8;
-    const base=validCol(r.color,[.20,.45,.94]),rough=clamp(num(r,'roughness',.7),.05,1);let socketWeights=null;
+    const base=validCol(r.color,[.20,.45,.94]),rough=clamp(num(r,'roughness',.7),.05,1);let shoulderWeights;
     if(global.DuderShell&&typeof global.DuderShell.build==='function'){
-      // One closed shell: torso/legs retain bounded SDF repair (tag 7), while
-      // structured shoulder/arm loops use their authored surface (tag 8).
-      const shell=global.DuderShell.build(r),p=shell.positions,n=shell.normals;socketWeights=shell.skinByPosition;
+      // The original connected shell plus one local loop at each shoulder.
+      const shell=global.DuderShell.build(r),p=shell.positions,n=shell.normals;shoulderWeights=shell.skinByPosition;
       for(let i=0;i<p.length;i+=9){
         const a=Array.from(p.subarray(i,i+3)),b=Array.from(p.subarray(i+3,i+6)),c=Array.from(p.subarray(i+6,i+9));
         const ns=[Array.from(n.subarray(i,i+3)),Array.from(n.subarray(i+3,i+6)),Array.from(n.subarray(i+6,i+9))];
-        // Shell indices already have one coherent outward winding. A smooth
-        // normal near a concave collar can point across a small triangle;
-        // using it to flip that face would break the welded mesh orientation.
-        B.tri(a,b,c,base,0,rough,shell.faceKinds?shell.faceKinds[i/9]:7,ns);
+        B.tri(a,b,c,base,0,rough,7,ns);
       }
     }else{
       // Development fallback only; the standalone build includes shell.js.
@@ -434,21 +430,14 @@
     out.skinIndices=new Float32Array(vertices*4);out.skinWeights=new Float32Array(vertices*4);
     for(let i=0;i<vertices;i++){
       if(out.meta[i*4+1]<0){out.skinWeights[i*4]=1;continue;}
-      const p=Array.from(out.positions.subarray(i*3,i*3+3));
-      let skin=socketWeights?.get(p.map(x=>Math.round(Math.fround(x)*1e6)).join(','))||global.DuderCore.skinWeightsForPoint(p,parts,num(r,'blend',.16));
-      if(out.meta[i*4+1]===7){
-        // This mesh was sampled without arms. Its torso must stay attached to
-        // the torso, including tiny faces beside the pinned socket boundary.
-        // Preserve the existing leg blend while returning every arm component.
-        const weights=Array(7).fill(0);
-        for(let j=0;j<4;j++){const id=skin.indices[j];weights[id>=1&&id<=4?0:id]+=skin.weights[j];}
-        const indices=weights.map((_,id)=>id).sort((a,b)=>weights[b]-weights[a]).slice(0,4);
-        skin={indices,weights:indices.map(id=>weights[id])};
-      }
+      const p=Array.from(out.positions.subarray(i*3,i*3+3)),loopSkin=shoulderWeights?.get(p.map(v=>Math.round(Math.fround(v)*1e6)).join(',')),skin=loopSkin||global.DuderCore.skinWeightsForPoint(p,parts,num(r,'blend',.16));
+      // Tag each shared loop vertex, not whole faces. Boundary copies must
+      // take the same deformation path even in triangles with original vertices.
+      if(loopSkin)out.meta[i*4+1]=8;
       out.skinIndices.set(skin.indices,i*4);out.skinWeights.set(skin.weights,i*4);
     }
     out.counts.parts=7;out.counts.hat=r.hat||'none';out.counts.glasses=r.glasses||'none';
     out.indexed=indexedGeometry(out);return out;
   }
-  global.DuderGeometry={build,metrics,version:'3.4.6',hatNames:['none','cap','bucket','beanie','bowler','sunhat','cowboy','wizard','chef','crown','beret','topHat'],glassesNames:['none','square','round','aviator','catEye']};
+  global.DuderGeometry={build,metrics,version:'3.4.7',hatNames:['none','cap','bucket','beanie','bowler','sunhat','cowboy','wizard','chef','crown','beret','topHat'],glassesNames:['none','square','round','aviator','catEye']};
 })(typeof window!=='undefined'?window:globalThis);

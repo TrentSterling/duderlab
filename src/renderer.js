@@ -1,4 +1,4 @@
-/* Duder Lab V3.4.6 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.4.7 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -84,11 +84,11 @@
     // Bone-driven positions never accumulate projection: each frame starts from
     // rest coordinates. Rigid regions stay exactly attached; only joint vertices
     // receive two bounded corrections, each no larger than .035 world units.
-    // Surface tag 8 is a structured shoulder/arm surface with fixed ring weights;
-    // the former straight-capsule field must not pull it back into a web.
-    if(body&&aMeta.y<7.5&&vJoint>.0001){
+    if(body&&vJoint>.0001){
       float cap=.035*uProjection*vJoint;
-      for(int i=0;i<2;i++){vec3 g=grad(p);p-=g*clamp(field(p),-cap,cap);}
+      // Preserve the inserted loop's rest-space placement. All original
+      // vertices retain the same correction, including shared face boundaries.
+      if(aMeta.y<7.5){for(int i=0;i<2;i++){vec3 g=grad(p);p-=g*clamp(field(p),-cap,cap);}}
       n=normalize(mix(n,grad(p),vJoint*.8));
     }
     vLocal=rest;vWorld=p;vNormal=n;vColor=aColor;vBary=aBary;vId=id;vKind=aMeta.z;vRough=aMeta.w;vOutlineScale=aOutline.w;
@@ -127,7 +127,10 @@
       // Keep a 30-degree band around the tangent: a strict zero cutoff clips
       // legitimate faceted silhouettes. Wearable contact loops are unchanged.
       // uViewDir is the orthographic camera direction used by the vertex pass.
-      if(vKind<.5&&dot(normalize(vNormal),-uViewDir)>.5)discard;
+      // The soft shoulder join needs a narrower silhouette band so its coarse
+      // hull cannot draw an inward tail across the torso. Full-arm and torso
+      // regions keep the existing outline threshold.
+      if(vKind<.5&&dot(normalize(vNormal),-uViewDir)>(vArmWeight>.001&&vArmWeight<.999?.25:.5))discard;
       if(vOutlineScale<=0.)discard;
       outColor=vec4(.055,.075,.09,1.);return;
     }

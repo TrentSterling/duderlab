@@ -1,14 +1,14 @@
 # Duder Lab
 
-An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.4.6 — Shoulder Loops**.
+An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.4.7 — Local Shoulder Loop**.
 
 Together with [Duderworld](https://github.com/TrentSterling/duderworld), Duder Lab develops reusable content for future **Tront EOS lobby demos and minigame samples**. Duder Lab handles the characters, wearables, rigs, and animation; Duderworld handles the environments and level geometry. The browser previews support rapid inspection and mesh export for eventual integration into Unity and Tront EOS projects.
 
 **Scope:** Duder Lab is a browser prototyping lab, not a web game. It is plain WebGL2 with cannon-es physics (no Three.js), and the hosted page is a development preview for inspecting and comparing iterations. Approved meshes get converted to Unity locally later; this repository holds no Unity project, EOS networking, or gameplay code.
 
-![Shoulder surface and edge loops before and after the geometry repair](docs/media/v3-4-6-shoulder-closeup.png)
+![Original mesh and the single local shoulder loop, surface and wireframe](docs/media/v3-4-7-shoulder-closeup.png)
 
-[Watch the new before/after wave](docs/media/v3-4-6-shoulder-wave.mp4) · [Read the topology change](docs/shoulder-topology.md) · [Open the offline arm-study build](duder-lab-arm-study.html)
+[Watch the before/after wave](docs/media/v3-4-7-shoulder-wave.mp4) · [Read the topology change](docs/shoulder-topology.md) · [Open the offline arm-study build](duder-lab-arm-study.html)
 
 ## Run
 
@@ -44,7 +44,7 @@ Python 3 is the only build dependency:
 python3 build.py
 ```
 
-On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-4-6.html`, and `dist/index.html`. It also writes `duder-lab-arm-study.html`, which starts the fixed reference character in Wave with the Motion panel open. The study uses its own local-storage key. UTF-8 is explicit, and the output directory is created automatically.
+On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-4-7.html`, and `dist/index.html`. It also writes `duder-lab-arm-study.html`, which starts the fixed reference character in Wave with the Motion panel open. The study uses its own local-storage key. UTF-8 is explicit, and the output directory is created automatically.
 
 ### Hosted preview
 
@@ -52,15 +52,19 @@ The [Pages workflow](.github/workflows/pages.yml) builds from `src/` on pushes t
 
 GitHub Pages uses **Settings → Pages → Build and deployment → Source: GitHub Actions**. The workflow uses the `github-pages` environment and official GitHub Actions pinned to release commits. Its build job has read access to repository contents; only its deployment job receives Pages and deployment-token write permissions. The hosted build uses the same meshes, shaders, controls, and exports as `static.html`.
 
-## V3.4.6: rebuilt shoulder and arm topology
+## V3.4.7: one local shoulder loop
 
-The V3.4.5 influence numbers improved much more than the visible wave. The remaining defect was a fan of triangles connecting the raised arm to vertices low on the ribs. The new mesh replaces that attachment: the torso and legs are meshed first, elliptical shoulder sockets are cut into the body, and a rounded collar joins them to explicit circumferential arm rings. The rings continue through the upper arm, elbow, forearm, and rounded tip.
+The V3.4.6 arm reconstruction was too broad and introduced a narrow, pinched shoulder root. It has been removed. This revision starts from the original V3.4.5 mesh and inserts one shared contour through each shoulder's weight transition. Only the new lower loop points move toward the shoulder; every original body vertex keeps its position and skin weights. Normals are recomputed on the small affected band.
 
-The original seven-bone rig and wave clip drive the new surface. Torso vertices retain torso/leg weights, and the shoulder rings carry their own progressive arm weights. This prevents thin clipped torso faces from moving against a pinned socket. The custom rings keep their authored shape instead of being projected back onto the former straight-capsule union. Neutral and posed GLB exports preserve the shared attachment positions.
+On the reference character, this adds **43 vertices and 86 triangles**: **3,232 → 3,318 total triangles**, instead of the rejected reconstruction's 6,268. The forearms, hands, distant body faces, eyes, and accessories retain their original geometry. The rig, wave clip, and draw count are unchanged.
 
-The reference character increases from **3,232 to 6,268 triangles**, from **1,676 to 3,284 indexed vertices**, and from **206,384 to 403,616 bytes of geometry buffers**. The increase is the actual ringed arm geometry. It retains **four draws including the GPU UI**, one character fill batch, one outline batch, and seven physics bodies. Shape meshes use bounded caches; color and wardrobe edits reuse them.
+The new loop interpolates the existing endpoint influences. Cuts close to an existing vertex reuse it when the requested slide is small. Deep underarm cuts keep their new point. Genuinely new shoulder points retain their placement and use torso/upper-arm influences; this avoids pulling them back into the former attachment or letting the elbow distort the new loop. The original vertices keep their previous correction behavior, even when sharing a face with the new loop. CPU export follows the same per-vertex rule. The shoulder outline also uses a narrower facing threshold to reduce its inward black tail; the last short section of the underarm outline tapers at the join.
 
-The long underarm web is visibly removed in the matched wave. A small local shading crease remains at the strongest bend; this pass does not claim an anatomically finished shoulder. Inspect the surface and actual wireframe in the [topology study](docs/shoulder-topology.md), or open `duder-lab-arm-study.html`, pause the wave, and use **Preview → Wireframe**. The prior weight-only study remains below as release history.
+The long diagonal underarm web is reduced and the artificially narrowed socket is gone. The result retains low-poly faceting at the join. See the [surface and wireframe comparison](docs/shoulder-topology.md) and [verification records](docs/verification/v3-4-7/). Open `duder-lab-arm-study.html`, pause with **Space**, and choose **Preview → Wireframe** to inspect the single added band.
+
+### V3.4.6: rejected full arm reconstruction
+
+That version added rings through the entire arm and increased the reference character to 6,268 triangles. Its new root was only 75% of the arm radius and sat beside a fully fixed collar. The relaxation had happened before that construction was added, so it did not relax the new join. The remaining pinch was an actual constriction in the authored geometry, not merely a shading issue. Its source and proof remain in commit history; V3.4.7 removes that approach.
 
 ## V3.4.5: focused shoulder weights and an inspectable arm study
 

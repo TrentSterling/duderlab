@@ -1,0 +1,124 @@
+{
+  "release": "3.4.7",
+  "passedWithinStatedScope": true,
+  "scope": "Final accepted local-snap source: five bind cases and 45 posed body cases, plus exact original-reference locality against 15172b8. No final all-preset or 24-case sweep was performed.",
+  "finalCandidateRoot": "/tmp/duder-loop-local-snap",
+  "productionRoot": "/workspace/scratch/b58b947dd638/duderlab",
+  "productionSourceIdentity": [
+    {
+      "file": "src/core.js",
+      "testedCandidateSHA256": "a1f4549c773f0f59220a8fc6635ad1ae10fa3c4217f4c67f4daae229d7eed97e",
+      "productionSHA256": "a1f4549c773f0f59220a8fc6635ad1ae10fa3c4217f4c67f4daae229d7eed97e",
+      "byteIdentical": true
+    },
+    {
+      "file": "src/shell.js",
+      "testedCandidateSHA256": "fefc105c831eda93f5fb5330c2fe87affa008cb1c3a928c55f3c64ffc6a195ad",
+      "productionSHA256": "fefc105c831eda93f5fb5330c2fe87affa008cb1c3a928c55f3c64ffc6a195ad",
+      "byteIdentical": true
+    },
+    {
+      "file": "src/geometry.js",
+      "testedCandidateSHA256": "716632905b3b784e9bc7e3f94ac162e8df778e32a9dbab487545ebbf2a64cd31",
+      "productionSHA256": "716632905b3b784e9bc7e3f94ac162e8df778e32a9dbab487545ebbf2a64cd31",
+      "byteIdentical": true
+    },
+    {
+      "file": "src/animation.js",
+      "testedCandidateSHA256": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+      "productionSHA256": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+      "byteIdentical": true
+    },
+    {
+      "file": "src/renderer.js",
+      "testedCandidateSHA256": "1a341e115365c9a9d775876f4c0ee56666cfd17fb210b80588cdfb4d823196e3",
+      "productionSHA256": "1a341e115365c9a9d775876f4c0ee56666cfd17fb210b80588cdfb4d823196e3",
+      "byteIdentical": true
+    }
+  ],
+  "sourceIdentityExplanation": "The candidate was tested before copying to production. The recorded QA hashes are retained, not rewritten. Every QA-loaded source file and the renderer are byte-identical to production. This identity links the candidate reports to the final integration.",
+  "acceptedCases": [
+    "reported-wave",
+    "preset-04-Mint Bucket",
+    "preset-07-Teal Bowler",
+    "preset-15-Cyan Static",
+    "thin-short-low-resolution"
+  ],
+  "bindCases": 5,
+  "poseCases": 45,
+  "posesPerCase": [
+    "identity",
+    "wave-0",
+    "wave-0.8",
+    "wave-1.16",
+    "wave-1.88",
+    "wave-2.38",
+    "wave-2.82",
+    "wave-3.2",
+    "wave-3.76"
+  ],
+  "checks": {
+    "allShellsAndFinalBodiesClosedConnectedSphereTopology": true,
+    "finalBuilderChangedTrianglesOrWinding": 0,
+    "bindFacingFailures": 0,
+    "posedFacingFailures": 0,
+    "maximumWeightNormalizationError": 4.470348358154297e-08,
+    "maximumNeutralRestError": 0,
+    "maximumCoincidentWeightError": 0,
+    "maximumCoincidentNormalError": 0,
+    "maximumPosedSeamError": 0,
+    "minimumPosedTriangleDoubleArea": 3.9606897746028024e-06,
+    "boneCount": 7
+  },
+  "referenceBudget": {
+    "baseline": {
+      "bodyTriangles": 2176,
+      "totalTriangles": 3232,
+      "originalVertices": 1090
+    },
+    "candidate": {
+      "bodyTriangles": 2262,
+      "totalTriangles": 3318,
+      "vertices": 1133
+    },
+    "addedVertices": 43,
+    "netAddedTriangles": 86
+  },
+  "referenceLocality": {
+    "changedOriginalPositions": 0,
+    "changedOriginalWeights": 0,
+    "changedOriginalMetadata": 0,
+    "maxOriginalPoseDifference": 0,
+    "changedOriginalNormals": 50,
+    "changedDistantNormals": 0,
+    "maxDistantNormalDifference": 0,
+    "distantOriginalTriangles": 2009,
+    "missingDistantFaces": 0,
+    "accessoriesIdentical": true
+  },
+  "limitations": [
+    "The five-case acceptance is scoped to the reference body, Mint Bucket, Teal Bowler, Cyan Static, and the thin-short extreme; it is not an all 24-case pass.",
+    "Actual facing is checked on faces flagged by supplied-normal or transported-face-normal disagreement. Proper nonadjacent intersections are tested; shared-vertex contacts and coplanar overlaps are excluded. This is not a global self-intersection proof.",
+    "Supplied or transported normal disagreement alone is diagnostic, not an inversion failure.",
+    "The reported-wave body QA retains the randomized recipe accessories but tests the isolated body. The separate exact locality/budget fixture uses the study appearance: solid color, no outfit, beanie, no glasses.",
+    "The inherited thin-long report is a historical baseline comparison, not a final-source retest."
+  ],
+  "reports": {
+    "shoulder-reference.json": {
+      "sha256": "3e8946a8bcf207b3085844df9616f5d9d7ad5828258e6b522932ea624966f4b5",
+      "bytes": 9920
+    },
+    "shoulder-regressions.json": {
+      "sha256": "f72a545a3b0f5be13f6bbf24be30a6cee1e01c5593f7bf0c140a3d8ea5c81652",
+      "bytes": 34885
+    },
+    "shoulder-locality.json": {
+      "sha256": "e5ce9ef11c5ab10c1468a330c5f59ddba53e5362812e9b218ed67919b03b74df",
+      "bytes": 2971
+    },
+    "inherited-thin-long.json": {
+      "sha256": "ca5f81e975b4ada9530373aef132f8317c198813e3ace17665dbcd0d54638295",
+      "bytes": 3966
+    }
+  }
+}

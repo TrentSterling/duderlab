@@ -65,7 +65,7 @@ def main():
     for row, name in enumerate(['raised-surface', 'raised-wire']):
         for column, version in enumerate(['before', 'after']):
             x, y = 8+column*648, 42+row*680
-            label = ('BEFORE / V3.4.5' if version == 'before' else 'AFTER / V3.4.6')
+            label = ('BEFORE / V3.4.5' if version == 'before' else 'AFTER / V3.4.7')
             if row:
                 label += ' / WIREFRAME'
             draw.text((x+6, y-32), label, font=font, fill='#172129')

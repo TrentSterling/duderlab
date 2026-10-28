@@ -423,16 +423,9 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
           joint=clamp((1-Math.max(...skin.weights))*4,0,1);
           if(posed){
             const skinned=skinDualQuaternion(rest,norm([n[0],n[1],n[2]/r.depth]),skin,palette);p=skinned.p;n=norm(skinned.n);
-            // Explicit shoulder/arm loops define their own surface. Projecting
-            // them onto the old capsule union would restore the underarm web.
-            if(part<8&&joint>0){
-              for(let q=0;q<2;q++){const g=posedGradient(p),step=clamp(posedField(p),-.035*strength*joint,.035*strength*joint);for(let j=0;j<3;j++)p[j]-=g[j]*step;}
-              const g=posedGradient(p);n=norm(n.map((v,j)=>mix(v,g[j],joint*.8)));
-            }
+            if(part<8&&joint>0){for(let q=0;q<2;q++){const g=posedGradient(p),step=clamp(posedField(p),-.035*strength*joint,.035*strength*joint);for(let j=0;j<3;j++)p[j]-=g[j]*step;}}
+            const g=posedGradient(p);n=norm(n.map((v,j)=>mix(v,g[j],joint*.8)));
           }else{
-            // Coherent shell vertices are already the final bind surface.
-            // Keep both sides of the torso/socket boundary exactly welded in
-            // a neutral GLB, as they are in the live renderer.
             const q=part>=7?{p,n}:projectVertex(p,part,parts,r.blend);p=q.p;p[2]*=r.depth;n=norm([q.n[0],q.n[1],q.n[2]/r.depth]);
           }
         }else if(posed){p=transformPoint(transforms[0],p);n=norm(transformVector(transforms[0],n));}
@@ -468,12 +461,12 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
     for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 3.4.6'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.4.7'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'3.4.6',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.4.7',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);

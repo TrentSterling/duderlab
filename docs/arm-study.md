@@ -1,6 +1,6 @@
 # DuderLab arm study: V3.4.5
 
-**Historical weight-only study.** Its numerical gains did not resolve the visible triangular underarm web. [V3.4.6 replaces the shoulder and arm topology](shoulder-topology.md); the current offline build contains that geometry repair.
+**Historical weight-only study.** Its numerical gains did not resolve the visible triangular underarm web. [V3.4.7 replaces the shoulder and arm topology](shoulder-topology.md); the current offline build contains that geometry repair.
 
 The wave was pulling torso vertices because the bind weights treated a nearby arm capsule as an eligible owner of the body surface. A focused local shoulder envelope substantially reduces that movement while retaining the existing wave and elbow bend.
 

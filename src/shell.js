@@ -1,10 +1,11 @@
-/* Duder Lab — one welded body with explicit shoulder and arm loops.
- * Surface Nets supplies the torso and legs. Elliptical shoulder openings are
- * stitched to a curved collar and longitudinal arm rings with fixed weights.
+/* Duder Lab — coherent Surface Nets skin for the seven-part SDF union.
+ * This supplies one closed tessellation instead of overlapping primitive skins.
+ * One local shoulder loop distributes the arm bend; the rest of the original
+ * low-poly body and arms keep their existing mesh and bounded SDF correction.
  */
 (function(root){
   'use strict';
-  const torsoCache=new Map(),CACHE_LIMIT=64;
+  const cache=new Map(),CACHE_LIMIT=64;
   const shapeKeys=['height','width','belly','armLength','armSpread','armThickness','armGap','feet','blend','facets'];
   const corners=[[0,0,0],[1,0,0],[0,1,0],[1,1,0],[0,0,1],[1,0,1],[0,1,1],[1,1,1]];
   const edges=[[0,1],[2,3],[4,5],[6,7],[0,2],[1,3],[4,6],[5,7],[0,4],[1,5],[2,6],[3,7]];
@@ -13,14 +14,13 @@
   const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
   const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
 
-  function buildTorso(recipe,attempt=0){
+  function build(recipe,attempt=0){
     const C=root.DuderCore;if(!C)throw Error('DuderCore must load before DuderShell.');
     const r=C.sanitizeRecipe(recipe),key=shapeKeys.map(k=>r[k]).join('|');
-    if(torsoCache.has(key)){const hit=torsoCache.get(key);torsoCache.delete(key);torsoCache.set(key,hit);return hit;}
-    // Mesh the torso and legs first. Arm sockets are cut and stitched below.
-    const parts=C.primitives(r),center=parts[0].a;
-    for(const i of [1,2,3,4])parts[i]={a:center.slice(),b:center.slice(),ra:0,rb:0};
-    const step=(r.facets<=8?.105:r.facets>=16?.065:.085)*Math.min(1,Math.max(.62,r.width*r.armThickness/.88))*Math.pow(.82,attempt),margin=r.blend+.11;
+    if(cache.has(key)){const hit=cache.get(key);cache.delete(key);cache.set(key,hit);return hit;}
+    // A few more samples keep posed underarm triangles from spanning an entire
+    // occlusion fold. This improves the smooth shell without another draw pass.
+    const parts=C.primitives(r),step=(r.facets<=8?.105:r.facets>=16?.065:.085)*Math.min(1,Math.max(.62,r.width*r.armThickness/.88))*Math.pow(.82,attempt),margin=r.blend+.11;
     const lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];
     for(const p of parts)for(const [point,radius]of [[p.a,p.ra],[p.b,p.rb]])for(let k=0;k<3;k++){
       lo[k]=Math.min(lo[k],point[k]-radius-margin);hi[k]=Math.max(hi[k],point[k]+radius+margin);
@@ -110,7 +110,7 @@
       // than the coarse lattice. Allow two extra retries for that rare shape;
       // ordinary recipes keep their original resolution and cached mesh.
       if(attempt>=6)throw Error('Cannot build a regular closed shell: '+reason);
-      return buildTorso(recipe,attempt+1);
+      return build(recipe,attempt+1);
     }
     if(!topologyValid())return refine('ambiguous lattice cell');
 
@@ -161,85 +161,41 @@
     if(!topologyValid(true))return refine('projection folded a coarse triangle');
     const positions=new Float32Array(indices.length*3),normalArray=new Float32Array(indices.length*3);
     for(let i=0;i<indices.length;i++){positions.set(vertices[indices[i]],i*3);normalArray.set(normals[indices[i]],i*3);}
-    const result={positions,normals:normalArray,triangleCount:indices.length/3,
+    const original={positions,normals:normalArray,triangleCount:indices.length/3,
       indexedPositions:new Float32Array(vertices.flat()),indices:new Uint32Array(indices),
       stats:{step,vertices:vertices.length,triangles:indices.length/3,grid:dims,refinements:attempt,cacheKey:key}};
-    torsoCache.set(key,result);while(torsoCache.size>CACHE_LIMIT)torsoCache.delete(torsoCache.keys().next().value);
+    const result=shoulderLoop(original,r,parts);
+    cache.set(key,result);while(cache.size>CACHE_LIMIT)cache.delete(cache.keys().next().value);
     return result;
   }
-
- const norm=a=>{const n=Math.hypot(...a)||1;return a.map(v=>v/n);},mix=(a,b,t)=>a+(b-a)*t,clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),smooth=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t);};
- const key=p=>p.map(x=>Math.round(Math.fround(x)*1e6)).join(',');
- const cache=new Map();
- function build(recipe){
-  const C=root.DuderCore,r=C.sanitizeRecipe(recipe),id=shapeKeys.map(k=>r[k]).join('|');
-  if(cache.has(id)){const hit=cache.get(id);cache.delete(id);cache.set(id,hit);return hit;}
-  const original=buildTorso(r),parts=C.primitives(r),vertices=[];for(let i=0;i<original.indexedPositions.length;i+=3)vertices.push(Array.from(original.indexedPositions.slice(i,i+3)));
-  let faces=[];const baseNormals=new Map();for(let i=0;i<original.indices.length;i+=3){faces.push({v:Array.from(original.indices.slice(i,i+3)),kind:7});for(let j=0;j<3;j++)baseNormals.set(original.indices[i+j],Array.from(original.normals.slice((i+j)*3,(i+j)*3+3)));}
-  const weights=new Map(),patched=new Set(),stats=[];
-  function torsoX(y,z){let lo=0,hi=2*r.width;for(let j=0;j<32;j++){const x=(lo+hi)/2;if(C.sdRC([x,y,z],parts[0])>0)hi=x;else lo=x;}return(lo+hi)/2;}
-  function skin(upper,lower,total,fore=0){const w=Array(7).fill(0);w[0]=1-total;w[upper]=total*(1-fore);w[lower]=total*fore;const indices=w.map((_,i)=>i).sort((a,b)=>w[b]-w[a]).slice(0,4);return{indices,weights:indices.map(i=>w[i])};}
-  for(const [upper,lower,sign]of [[1,2,-1],[3,4,1]]){
-   const U=parts[upper],L=parts[lower],S=U.a,rad=U.ra,Ry=rad*2.25,Rz=rad*2.25;
-   // Clip a shared boundary into the actual torso surface. Keeping its polar
-   // angles avoids the folded strips produced by remapping a jagged cut.
-   const kept=[],removed=[],intersections=new Map(),value=p=>((p[1]-S[1])/Ry)**2+(p[2]/Rz)**2-1;
-   function crossing(a,b){const edge=a<b?a+','+b:b+','+a;if(intersections.has(edge))return intersections.get(edge);const A=vertices[a],B=vertices[b];let lo=0,hi=1,positive=value(A)>0;for(let j=0;j<32;j++){const mid=(lo+hi)/2,p=A.map((v,k)=>mix(v,B[k],mid));if((value(p)>0)===positive)lo=mid;else hi=mid;}const t=(lo+hi)/2,p=A.map((v,k)=>mix(v,B[k],t));p[0]=sign*torsoX(p[1],p[2]);const index=vertices.length;vertices.push(p);intersections.set(edge,index);return index;}
-   for(const face of faces){const center=face.v.reduce((sum,i)=>sum+vertices[i][0],0)/3;
-    if(center*sign<=0){kept.push(face);continue;}
-    const ds=face.v.map(i=>value(vertices[i])),inside=ds.filter(d=>d<0).length;if(inside===0){kept.push(face);continue;}removed.push(face);if(inside===3)continue;
-    const polygon=[];for(let j=0;j<3;j++){const a=face.v[j],b=face.v[(j+1)%3];if(ds[j]>=0)polygon.push(a);if((ds[j]>=0)!==(ds[(j+1)%3]>=0))polygon.push(crossing(a,b));}
-    for(let j=1;j<polygon.length-1;j++)kept.push({v:[polygon[0],polygon[j],polygon[j+1]],kind:7});
-   }
-   const edges=new Map();for(const {v}of kept)for(let j=0;j<3;j++){const a=v[j],b=v[(j+1)%3],key=a<b?a+','+b:b+','+a;if(edges.has(key))edges.delete(key);else edges.set(key,[b,a]);}
-   const next=new Map();for(const [a,b]of edges.values()){if(next.has(a))throw Error('Non-disk socket: multiple outgoing edges');next.set(a,b);}
-   const first=next.keys().next().value,loop=[first];let cursor=next.get(first);while(cursor!==first&&loop.length<1000){if(cursor===undefined)throw Error('Open shoulder boundary');loop.push(cursor);cursor=next.get(cursor);}
-   if(loop.length!==next.size)throw Error('Shoulder boundary has more than one loop '+loop.length+'/'+next.size);
-   faces=kept;const retainedFaceCount=faces.length;
-   const N=loop.length,outer=loop.map(i=>vertices[i]);
-   const angles=outer.map(p=>Math.atan2(p[2]/Rz,(p[1]-S[1])/Ry));
-   let prev=loop,ringCount=0;for(const index of loop){patched.add(index);weights.set(key(vertices[index]),skin(upper,lower,0));}
-   function appendRing(points,totalWeight,forearm=0){ringCount++;const ring=[];for(const p of points){const i=vertices.length;vertices.push(p);patched.add(i);ring.push(i);weights.set(key(p.map(Math.fround)),skin(upper,lower,totalWeight,forearm));}
-    for(let i=0;i<N;i++){const j=(i+1)%N;faces.push({v:[prev[i],prev[j],ring[j]],kind:8},{v:[prev[i],ring[j],ring[i]],kind:8});}prev=ring;
-   }
-   // The torso fillet stays pinned. It rounds into a compact high socket,
-   // instead of anchoring the moving arm to vertices low on the rib cage.
-   const rootRadius=.75,filletLength=.25;
-   for(const t of [.2,.4,.6,.8,1])appendRing(angles.map(a=>{const radius=rad*(rootRadius+(2.25-rootRadius)*(1-Math.sin(t*Math.PI/2))),y=S[1]+Math.cos(a)*radius,z=Math.sin(a)*radius,x=mix(torsoX(y,z),torsoX(S[1],0),smooth(0,1,t))+rad*filletLength*(1-Math.cos(t*Math.PI/2));return[sign*x,y,z];}),0);
-   // Bend over enough distance that neighboring tube rings cannot fold over
-   // each other. Shoulder weights follow the sweep angle; the elbow blend
-   // continues across this collar and every subsequent ring.
-   const axis=norm(sub(U.b,S)),upperLength=Math.hypot(...sub(U.b,S)),foreLength=Math.hypot(...sub(L.b,L.a));
-   let join=Math.min(upperLength*.88,rad*3.2);
-   // Very thin, steep arms need more lateral room before the ring can lean.
-   // Constrain the inner edge to stay outside the planar socket instead of
-   // allowing a buried second layer in the first moving band.
-   const rootOut=torsoX(S[1],0)+rad*filletLength,sideLean=Math.hypot(axis[1],axis[2]),bendRadius=3*(rad*.95)**2/(2*Math.max(1e-8,(join-rad*.80)*sideLean)),tightBend=bendRadius<rad*rootRadius;
-   if(tightBend)join=Math.min(upperLength*.98,Math.max(join,(rootOut-S[0]*sign+rad*.99*sideLean+rad*.05)/Math.abs(axis[0])));
-   const P0=[sign*(torsoX(S[1],0)+rad*filletLength),S[1],0],P3=S.map((v,k)=>v+axis[k]*join),P1=P0.map((v,k)=>v+(k===0?sign*rad*.95:0)),P2=P3.map((v,k)=>v-axis[k]*rad*.80);
-   function ring(center,tangent,radius){let e1=norm([-tangent[1]*sign,tangent[0]*sign,0]),e2=norm(cross(tangent,e1)).map(v=>v*sign);return angles.map(a=>center.map((v,k)=>v+radius*(Math.cos(a)*e1[k]+Math.sin(a)*e2[k])));}
-   for(const t of [.16,.32,.5,.72,1]){const q=1-t,center=[0,1,2].map(k=>P0[k]*q*q*q+3*P1[k]*q*q*t+3*P2[k]*q*t*t+P3[k]*t*t*t),tangent=norm([0,1,2].map(k=>3*(P1[k]-P0[k])*q*q+6*(P2[k]-P1[k])*q*t+3*(P3[k]-P2[k])*t*t));
-    const radius=rad*mix(rootRadius,.99,t);let frame=tangent;
-    if(tightBend){const lean=Math.min(Math.hypot(tangent[1],tangent[2]),clamp(((center[0]-P0[0])*sign-rad*.03*t)/radius,0,1)),yz=Math.max(1e-8,Math.hypot(tangent[1],tangent[2]));frame=[sign*Math.sqrt(1-lean*lean),tangent[1]*lean/yz,tangent[2]*lean/yz];}
-    appendRing(ring(center,frame,radius),clamp(Math.atan2(center[1]-S[1],(center[0]-S[0])*sign)/Math.atan2(axis[1],axis[0]*sign),0,1),smooth(-L.ra*2.05,L.ra*2.05,dot(sub(center,S),axis)-upperLength));
-   }
-   const end=upperLength+foreLength,steps=Array.from({length:Math.ceil((end-join)/(rad*.55))},(_,i)=>mix(join,end,(i+1)/Math.ceil((end-join)/(rad*.55))));
-   for(const s of steps){const radius=s<=upperLength?mix(U.ra,U.rb,s/upperLength):mix(L.ra,L.rb,(s-upperLength)/foreLength),center=S.map((v,k)=>v+axis[k]*s),f=smooth(-L.ra*2.05,L.ra*2.05,s-upperLength);appendRing(ring(center,axis,radius),1,f);}
-   for(const angle of [Math.PI/8,Math.PI/4,Math.PI*3/8]){const center=L.b.map((v,k)=>v+axis[k]*L.rb*Math.sin(angle));appendRing(ring(center,axis,L.rb*Math.cos(angle)),1,1);}
-   const tip=vertices.length,pole=L.b.map((v,k)=>v+axis[k]*L.rb);vertices.push(pole);patched.add(tip);weights.set(key(pole.map(Math.fround)),skin(upper,lower,1,1));
-   for(let i=0;i<N;i++)faces.push({v:[prev[i],prev[(i+1)%N],tip],kind:8});
-   stats.push({side:sign,tightBend,join:join/rad,removed:removed.length,boundaryVertices:N,rings:ringCount,addedFaces:faces.length-retainedFaceCount});
+ function shoulderLoop(source,r,parts){
+  const C=root.DuderCore,points=[],normals=[],len2=(a,b)=>dot(sub(a,b),sub(a,b));
+  for(let i=0;i<source.indexedPositions.length;i+=3)points.push(Array.from(source.indexedPositions.slice(i,i+3)));
+  let faces=[];for(let i=0;i<source.indices.length;i+=3){faces.push(Array.from(source.indices.slice(i,i+3)));for(let j=0;j<3;j++)normals[source.indices[i+j]]=Array.from(source.normals.slice((i+j)*3,(i+j)*3+3));}
+  const stats=[],skinByPosition=new Map();const skinKey=p=>p.map(v=>Math.round(Math.fround(v)*1e6)).join(',');
+  // Split just one influence contour at each shoulder. Every original vertex
+  // stays at its existing position; only triangles crossed by the loop change.
+  for(const upper of [1,3]){const lower=upper+1,total=p=>{const s=C.skinWeightsForPoint(p,parts,r.blend);return s.indices.reduce((sum,b,k)=>sum+([upper,lower].includes(b)?s.weights[k]:0),0);},values=points.map(p=>total(p)-.5),cuts=new Map(),out=[];let changed=0;
+   function cut(a,b){const k=a<b?a+','+b:b+','+a;if(cuts.has(k))return cuts.get(k);const A=points[a],B=points[b],t=-values[a]/(values[b]-values[a]);const hit=C.projectSurfaceVertex(A.map((v,k)=>v+(B[k]-v)*t),parts,r.blend);
+    // Slide the lower part of the new loop toward the shoulder. This changes
+    // the long flat underarm chord into a bend, without narrowing the arm root.
+    const S=parts[upper].a,rad=parts[upper].ra,below=Math.max(0,Math.min(1,(S[1]-hit.p[1]-rad*.25)/(rad*1.55))),lift=1.2*rad*below*below*(3-2*below),delta=S.map((v,k)=>v-hit.p[k]),length=Math.hypot(...delta);if((t<.08||t>.92)&&lift<=rad*.25){const original=t<.08?a:b;cuts.set(k,original);return original;}hit.p=hit.p.map((v,k)=>v+delta[k]*lift/Math.max(1e-8,length));
+    // Interpolate the original endpoint influences. Re-evaluating the distance
+    // envelope at the inserted point would repaint this carefully placed loop.
+    const w=Array(7).fill(0);for(const [p,f]of [[A,1-t],[B,t]]){const skin=C.skinWeightsForPoint(p,parts,r.blend);for(let j=0;j<4;j++)w[skin.indices[j]]+=skin.weights[j]*f;}w[upper]+=w[lower];w[lower]=0;const ids=w.map((_,i)=>i).sort((a,b)=>w[b]-w[a]).slice(0,4),sum=ids.reduce((s,i)=>s+w[i],0);skinByPosition.set(skinKey(hit.p),{indices:ids,weights:ids.map(i=>w[i]/sum)});
+    const index=points.length;points.push(hit.p);normals.push(hit.n);values.push(0);cuts.set(k,index);return index;}
+   function polygon(ids){ids=ids.filter((v,i)=>i===0||v!==ids[i-1]);if(ids.length>1&&ids[0]===ids[ids.length-1])ids.pop();if(ids.length<3)return;if(ids.length===3)out.push(ids);else if(len2(points[ids[0]],points[ids[2]])<=len2(points[ids[1]],points[ids[3]]))out.push([ids[0],ids[1],ids[2]],[ids[0],ids[2],ids[3]]);else out.push([ids[0],ids[1],ids[3]],[ids[1],ids[2],ids[3]]);}
+   for(const face of faces){const signs=face.map(i=>values[i]>=0);if(signs.every(Boolean)||signs.every(x=>!x)){out.push(face);continue;}changed++;
+    for(const side of [true,false]){const poly=[];for(let j=0;j<3;j++){const a=face[j],b=face[(j+1)%3];if(signs[j]===side)poly.push(a);if(signs[j]!==signs[(j+1)%3])poly.push(cut(a,b));}polygon(poly);}
+   }faces=out;stats.push({upper,cutEdges:cuts.size,changedFaces:changed});
   }
-  const normals=vertices.map(()=>[0,0,0]);
-  for(const {v}of faces){const [a,b,c]=v.map(i=>vertices[i]),n=norm(cross(sub(b,a),sub(c,a)));for(let j=0;j<3;j++){const u=norm(sub(vertices[v[(j+1)%3]],vertices[v[j]])),w=norm(sub(vertices[v[(j+2)%3]],vertices[v[j]])),angle=Math.acos(clamp(dot(u,w),-1,1));for(let k=0;k<3;k++)normals[v[j]][k]+=n[k]*angle;}}
-  for(let i=0;i<vertices.length;i++)normals[i]=patched.has(i)?norm(normals[i]):(baseNormals.get(i)||norm(normals[i]));
-  const edgeCounts=new Map();for(const {v}of faces)for(let j=0;j<3;j++){const a=v[j],b=v[(j+1)%3],key=a<b?a+','+b:b+','+a,q=edgeCounts.get(key)||[0,0];q[0]++;q[1]+=a<b?1:-1;edgeCounts.set(key,q);}
-  const badEdges=[...edgeCounts.values()].filter(q=>q[0]!==2||q[1]!==0);if(badEdges.length)throw Error('Ring mesh has '+badEdges.length+' invalid edges');
-  // Removed socket interiors must not survive as unused indexed vertices.
-  const used=[...new Set(faces.flatMap(f=>f.v))],remap=new Map(used.map((v,i)=>[v,i]));
-  const positions=new Float32Array(faces.length*9),normalArray=new Float32Array(faces.length*9),indices=new Uint32Array(faces.length*3),faceKinds=[];
-  faces.forEach((f,i)=>{faceKinds.push(f.kind);f.v.forEach((vi,j)=>{positions.set(vertices[vi],i*9+j*3);normalArray.set(normals[vi],i*9+j*3);indices[i*3+j]=remap.get(vi);});});
-  const result={positions,normals:normalArray,indices,indexedPositions:new Float32Array(used.flatMap(i=>vertices[i])),faceKinds,skinByPosition:weights,triangleCount:faces.length,stats:{...original.stats,ringPatch:stats,closedManifold:true,vertices:used.length,triangles:faces.length}};cache.set(id,result);while(cache.size>CACHE_LIMIT)cache.delete(cache.keys().next().value);return result;
+  // Recompute normals only on the inserted band and its shared boundary.
+  const touched=new Set();for(const face of faces)if(face.some(i=>i>=source.indexedPositions.length/3))for(const i of face)touched.add(i);
+  const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],unit=a=>{const n=Math.hypot(...a)||1;return a.map(v=>v/n);},sums=points.map(()=>[0,0,0]);
+  for(const face of faces){const n=unit(cross(sub(points[face[1]],points[face[0]]),sub(points[face[2]],points[face[0]])));for(let j=0;j<3;j++){const i=face[j];if(!touched.has(i))continue;const a=unit(sub(points[face[(j+1)%3]],points[i])),b=unit(sub(points[face[(j+2)%3]],points[i])),angle=Math.acos(Math.max(-1,Math.min(1,dot(a,b))));for(let k=0;k<3;k++)sums[i][k]+=n[k]*angle;}}
+  for(const i of touched)normals[i]=unit(sums[i]);
+  const positions=new Float32Array(faces.length*9),ns=new Float32Array(faces.length*9),indices=new Uint32Array(faces.length*3);faces.forEach((f,i)=>f.forEach((v,j)=>{positions.set(points[v],i*9+j*3);ns.set(normals[v],i*9+j*3);indices[i*3+j]=v;}));
+  const result={positions,skinByPosition,normals:ns,indices,indexedPositions:new Float32Array(points.flat()),triangleCount:faces.length,stats:{...source.stats,baseTriangles:source.triangleCount,triangles:faces.length,vertices:points.length,shoulderLoop:stats}};return result;
  }
- root.DuderShell=Object.freeze({build,clearCache:()=>{cache.clear();torsoCache.clear();},version:'3.0'});
+  root.DuderShell=Object.freeze({build,clearCache:()=>cache.clear(),version:'3.1'});
 })(typeof window!=='undefined'?window:globalThis);
