@@ -1,0 +1,105 @@
+{
+  "baseRoot": "/tmp/duderlab-v345-local-loop-base",
+  "candidateRoot": "/tmp/duder-loop-local-snap",
+  "recipe": {
+    "name": "Duder 1702468274",
+    "seed": 1702468274,
+    "height": 0.9427383803226985,
+    "width": 0.9838516732957213,
+    "depth": 1.0399583201110363,
+    "belly": 0.9441612956370228,
+    "armLength": 0.9332098877057433,
+    "armSpread": 0.06288972284877672,
+    "armThickness": 1,
+    "armGap": 0.1,
+    "feet": 1.0360811228537932,
+    "blend": 0.1640717530529946,
+    "facets": 12,
+    "eyeSpace": 1.0488679870753548,
+    "color": [
+      0.9333333333333333,
+      0.3764705882352941,
+      0.4823529411764706
+    ],
+    "accent": [
+      0.6235294117647059,
+      0.18823529411764706,
+      0.30196078431372547
+    ],
+    "pattern": 0,
+    "patternScale": 0.8156558190379293,
+    "roughness": 0.78,
+    "eyeSize": 1.18,
+    "outfit": "none",
+    "outfitColor": [
+      0.3607843137254902,
+      0.4235294117647059,
+      0.5764705882352941
+    ],
+    "hat": "beanie",
+    "glasses": "none",
+    "accessoryColor": [
+      0.2549019607843137,
+      0.6039215686274509,
+      0.3764705882352941
+    ]
+  },
+  "scope": "One exact reported-wave recipe. All original indexed positions, source normals, original triangle identity, expanded skin/meta records, accessories and actual held-wave CPU positions compared against15172b8. The exact allowed original strip is the set of original faces replaced by contour splits, not an anatomical radius mask.",
+  "baseline": {
+    "bodyTriangles": 2176,
+    "totalTriangles": 3232,
+    "originalVertices": 1090
+  },
+  "candidate": {
+    "bodyTriangles": 2262,
+    "totalTriangles": 3318,
+    "vertices": 1133
+  },
+  "locality": {
+    "addedVertices": 43,
+    "replacedOriginalTriangles": 46,
+    "addedTriangles": 132,
+    "netAddedTriangles": 86,
+    "allowedOriginalStripVertices": 50,
+    "changedOriginalPositions": 0,
+    "changedPositions": [],
+    "changedOriginalNormals": 50,
+    "changedDistantNormals": 0,
+    "missingOriginalRecords": 0,
+    "changedOriginalWeights": 0,
+    "changedOriginalMetadata": 0,
+    "originalNewTags": 0,
+    "maxOriginalPoseDifference": 0,
+    "maxDistantNormalDifference": 0,
+    "distantOriginalTriangles": 2009,
+    "missingDistantFaces": 0,
+    "escapedFaces": 0,
+    "accessoriesIdentical": true,
+    "stripBounds": {
+      "min": [
+        -0.575232744216919,
+        0.7899351119995117,
+        -0.13821032643318176
+      ],
+      "max": [
+        0.5262464284896851,
+        1.2267963886260986,
+        0.13459491729736328
+      ]
+    },
+    "newVertexBounds": {
+      "min": [
+        -0.4604007303714752,
+        0.944013774394989,
+        -0.1125175878405571
+      ],
+      "max": [
+        0.4603687822818756,
+        1.173770785331726,
+        0.11646314710378647
+      ]
+    }
+  },
+  "passed": true,
+  "reportPreparation": "Obsolete snapshots of two historical regression face IDs were omitted; every locality check and its result is preserved unchanged."
+}

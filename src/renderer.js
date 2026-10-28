@@ -1,4 +1,4 @@
-/* Duder Lab V3.2.1 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.4.7 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -31,7 +31,7 @@
   uniform bool uOutline;uniform float uOutlineWidth;uniform vec2 uViewport;uniform vec3 uViewDir;
   uniform float uProjection;
   out vec3 vWorld;out vec3 vNormal;out vec3 vLocal;out vec3 vColor;out vec3 vBary;
-  out float vJoint;flat out int vId;flat out float vKind;flat out float vRough;out float vOutlineScale;
+  out float vJoint;out float vArmWeight;flat out int vId;flat out float vKind;flat out float vRough;out float vOutlineScale;
   vec4 A[7];vec4 B[7];mat4 T[7];mat4 IT[7];float K;float Depth;bool Physics;
   float sdRC(vec3 p,vec4 a,vec4 b){
     vec3 ba=b.xyz-a.xyz;float l2=dot(ba,ba),rr=a.w-b.w;
@@ -62,7 +62,7 @@
     bool body=aMeta.y>-.5;vec3 rest=body?aPosition*vec3(1,1,Depth):aPosition;
     vec3 sourceN=uOutline?aOutline.xyz:aNormal;
     vec3 restN=body?normalize(sourceN/vec3(1,1,Depth)):sourceN;
-    vec3 p=vec3(0),n=vec3(0);float maxWeight=0.;
+    vec3 p=vec3(0),n=vec3(0);float maxWeight=0.;vArmWeight=0.;
     if(body){
       // Blending rigid transforms as dual quaternions keeps the soft elbow's
       // cross-section from collapsing at a deep bend. Fixed rest weights and
@@ -70,6 +70,7 @@
       vec4 qr=vec4(0),qd=vec4(0),reference=texelFetch(uData,ivec2(76+int(aSkinIndices.x+.5)*2,id),0);
       for(int i=0;i<4;i++){
         float w=aSkinWeights[i];int j=int(aSkinIndices[i]+.5);maxWeight=max(maxWeight,w);
+        if(j>=1&&j<=4)vArmWeight+=w;
         if(w>0.){vec4 r=texelFetch(uData,ivec2(76+j*2,id),0),d=texelFetch(uData,ivec2(77+j*2,id),0);float s=dot(r,reference)<0.?-1.:1.;qr+=r*w*s;qd+=d*w*s;}
       }
       float qlength=max(length(qr),1e-8);qr/=qlength;qd/=qlength;
@@ -85,7 +86,9 @@
     // receive two bounded corrections, each no larger than .035 world units.
     if(body&&vJoint>.0001){
       float cap=.035*uProjection*vJoint;
-      for(int i=0;i<2;i++){vec3 g=grad(p);p-=g*clamp(field(p),-cap,cap);}
+      // Preserve the inserted loop's rest-space placement. All original
+      // vertices retain the same correction, including shared face boundaries.
+      if(aMeta.y<7.5){for(int i=0;i<2;i++){vec3 g=grad(p);p-=g*clamp(field(p),-cap,cap);}}
       n=normalize(mix(n,grad(p),vJoint*.8));
     }
     vLocal=rest;vWorld=p;vNormal=n;vColor=aColor;vBary=aBary;vId=id;vKind=aMeta.z;vRough=aMeta.w;vOutlineScale=aOutline.w;
@@ -107,8 +110,8 @@
   }`;
   function fragment(){return `#version 300 es
   precision highp float;precision highp int;
-  uniform highp sampler2D uData;uniform vec3 uCamera;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;
-  in vec3 vWorld;in vec3 vNormal;in vec3 vLocal;in vec3 vColor;in vec3 vBary;in float vJoint;
+  uniform highp sampler2D uData;uniform vec3 uCamera;uniform vec3 uViewDir;uniform bool uSmooth;uniform bool uWire;uniform bool uOutline;uniform bool uArmWeights;
+  in vec3 vWorld;in vec3 vNormal;in vec3 vLocal;in vec3 vColor;in vec3 vBary;in float vJoint;in float vArmWeight;
   flat in int vId;flat in float vKind;flat in float vRough;in float vOutlineScale;
   out vec4 outColor;
   ${DuderCore.skinGLSL}
@@ -118,27 +121,48 @@
     // Interior hat loops stay attached while outer rims expand. Interpolate
     // their weight so a mixed 0/1 triangle bridges the two edges instead of
     // disappearing according to whichever vertex happens to provoke it.
-    if(uOutline){if(vOutlineScale<=0.)discard;outColor=vec4(.055,.075,.09,1.);return;}
+    if(uOutline){
+      // Coarse posed hull faces can cross a smooth contour and leave a long
+      // interior tail. Reject only clearly front-facing BODY fragments.
+      // Keep a 30-degree band around the tangent: a strict zero cutoff clips
+      // legitimate faceted silhouettes. Wearable contact loops are unchanged.
+      // uViewDir is the orthographic camera direction used by the vertex pass.
+      // The soft shoulder join needs a narrower silhouette band so its coarse
+      // hull cannot draw an inward tail across the torso. Full-arm and torso
+      // regions keep the existing outline threshold.
+      if(vKind<.5&&dot(normalize(vNormal),-uViewDir)>(vArmWeight>.001&&vArmWeight<.999?.25:.5))discard;
+      if(vOutlineScale<=0.)discard;
+      outColor=vec4(.055,.075,.09,1.);return;
+    }
+    // Inspect the real bind weights through the normal fill batch. No texture,
+    // transparent overlay, render pass, or animation-dependent weighting.
+    if(uArmWeights){
+      float w=clamp(vArmWeight,0.,1.);
+      vec3 gray=vec3(.66,.72,.77),cyan=vec3(.15,.72,.90),yellow=vec3(1.,.83,.27),red=vec3(.95,.25,.16);
+      vec3 color=w<.25?mix(gray,cyan,w*4.):w<.5?mix(cyan,yellow,(w-.25)*4.):mix(yellow,red,(w-.5)*2.);
+      outColor=vec4(color*(.88+.12*abs(normalize(vNormal).z)),1.);return;
+    }
     vec4 base=texelFetch(uData,ivec2(1,vId),0),acc=texelFetch(uData,ivec2(2,vId),0),par=texelFetch(uData,ivec2(0,vId),0);
     vec3 albedo=vColor;float rough=vRough;
-    if(vKind<.5){albedo=skinColor(vLocal,base.rgb,acc.rgb,acc.a,par.z,par.w);rough=base.a;}
+    if(vKind<.5){albedo=skinColor(vLocal,base.rgb,acc.rgb,acc.a,par.z,par.w);albedo=duderOutfit(vLocal,albedo,texelFetch(uData,ivec2(18,vId),0),texelFetch(uData,ivec2(19,vId),0));rough=base.a;}
     vec3 ns=normalize(vNormal),nf=normalize(cross(dFdx(vWorld),dFdy(vWorld)));
     if(dot(nf,ns)<0.)nf=-nf;
     vec3 N=(uSmooth||vKind>1.5)?ns:(vKind<.5?normalize(mix(nf,ns,vJoint*.97)):nf);
     vec3 V=normalize(uCamera-vWorld),L=normalize(vec3(-.55,.85,1.15)),H=normalize(V+L);
-    float nl=max(dot(N,L),0.),nv=max(dot(N,V),.001),nh=max(dot(N,H),0.),vh=max(dot(V,H),0.);
-    float a=max(.06,rough*rough),a2=a*a,den=nh*nh*(a2-1.)+1.;
-    float D=a2/(3.14159265*den*den),k=(rough+1.)*(rough+1.)/8.;
-    float G=nl/(nl*(1.-k)+k)*nv/(nv*(1.-k)+k);
-    vec3 F=vec3(.04)+(1.-.04)*pow(1.-vh,5.);
-    vec3 A=linearRGB(albedo);
-    float hemi=.56+.20*N.y;vec3 ambient=mix(vec3(.72,.73,.82),vec3(1.10,1.07,1.01),N.y*.5+.5);
-    vec3 col=A*(hemi*ambient+.62*nl);
-    col+=D*G*F/(4.*max(.001,nv*nl))*.80*nl;
-    float rim=pow(1.-nv,4.);col+=vec3(.12,.16,.19)*rim*(1.-rough)*.65;
-    if(vKind>2.5){vec3 refl=reflect(-V,N);float strip=pow(max(0.,1.-abs(refl.y-.45)*3.),6.);col+=vec3(.20,.27,.34)*strip;}
-    float groundAO=smoothstep(0.,.35,vWorld.y);col*=mix(.72,1.,groundAO);
-    col=srgb(col/(1.+col*.10));
+    float nl=dot(N,L),nv=max(dot(N,V),.001),nh=max(dot(N,H),0.);
+    // Soft ink-and-clay lighting: intentional color bands, a broad restrained
+    // highlight, and a cool shadow floor. Opaque single-pass shading throughout.
+    float mid=smoothstep(-.15,.22,nl),light=smoothstep(.42,.78,nl);
+    vec3 shade=mix(vec3(.62,.60,.72),vec3(.86,.84,.91),mid);
+    shade=mix(shade,vec3(1.01,.99,.95),light);
+    vec3 col=albedo*shade;
+    float sheen=smoothstep(mix(.88,.97,rough),.997,nh)*(1.-rough)*.16;
+    col=mix(col,vec3(1.,.96,.86),sheen);
+    float rim=pow(1.-nv,4.)*smoothstep(-.3,.6,dot(N,normalize(vec3(.8,.4,-.8))));
+    col=mix(col,albedo*.85+vec3(.10,.14,.17),rim*.24);
+    if(vKind>1.5&&vKind<2.5){col=albedo*(.82+.18*max(nl,0.));}
+    if(vKind>2.5){vec3 refl=reflect(-V,N);float strip=1.-smoothstep(.04,.17,abs(refl.y-.45));col=mix(col,vec3(.26,.36,.43),strip*.65);}
+    col*=mix(.80,1.,smoothstep(0.,.30,vWorld.y));
     if(uWire){vec3 edge=smoothstep(vec3(0),fwidth(vBary)*1.15,vBary);float line=1.-min(edge.x,min(edge.y,edge.z));col=mix(col,vec3(.08,.12,.16),line*.85);}
     outColor=vec4(clamp(col,0.,1.),1.);
   }`;}
@@ -194,7 +218,7 @@
       this.canvas=canvas;this.gl=canvas.getContext('webgl2',{alpha:false,antialias:true,depth:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});
       if(!this.gl)throw Error('WebGL 2 is required. Try current Chrome, Edge, or Firefox with graphics acceleration enabled.');
       const gl=this.gl;this.program=program(gl,vs,fragment());this.bg=program(gl,bgVS,bgFS);this.rigProgram=program(gl,rigVS,rigFS);
-      this.uniforms={};for(const name of ['uData','uVP','uGrid','uFocus','uCamera','uSmooth','uWire','uOutline','uOutlineWidth','uViewport','uProjection','uViewDir'])this.uniforms[name]=gl.getUniformLocation(this.program,name);
+      this.uniforms={};for(const name of ['uData','uVP','uGrid','uFocus','uCamera','uSmooth','uWire','uOutline','uOutlineWidth','uViewport','uProjection','uViewDir','uArmWeights'])this.uniforms[name]=gl.getUniformLocation(this.program,name);
       this.bgUniforms={};for(const name of ['uGrid','uGround','uSelected','uFocus','uSize','uScene','uEye','uRight','uUp','uForward','uExtent','uShadows[0]','uShadowCount'])this.bgUniforms[name]=gl.getUniformLocation(this.bg,name);
       this.rigUniform=gl.getUniformLocation(this.rigProgram,'uVP');
       this.vao=gl.createVertexArray();this.wireVAO=gl.createVertexArray();this.emptyVAO=gl.createVertexArray();this.rigVAO=gl.createVertexArray();this.rigBuffer=gl.createBuffer();
@@ -223,7 +247,11 @@
       for(const g of all){for(const index of g.indexed.indices)indices[offset++]=index+base;base+=g.indexed.positions.length/3;}
       const elements=gl.createBuffer();this.buffers.push(elements);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,elements);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);this.gpuGeometryBytes+=indices.byteLength;
       gl.bindVertexArray(null);this.last=ids;
-      this.restRadius=.8;for(const g of all)for(let i=0;i<g.positions.length;i+=3)this.restRadius=Math.max(this.restRadius,Math.hypot(g.positions[i],g.positions[i+2])*1.10);
+      this.restRadius=.8;this.restMinY=0;this.restMaxY=0;
+      for(const g of all)for(let i=0;i<g.positions.length;i+=3){
+        this.restRadius=Math.max(this.restRadius,Math.hypot(g.positions[i],g.positions[i+2])*1.10);
+        this.restMinY=Math.min(this.restMinY,g.positions[i+1]);this.restMaxY=Math.max(this.restMaxY,g.positions[i+1]);
+      }
     }
     prepareWireframe(){
       if(this.wireReady)return;const gl=this.gl;gl.bindVertexArray(this.wireVAO);
@@ -246,6 +274,8 @@
       for(const id of this.last){
         const r=recipes[id],o=id*this.texWidth*4,pose=state.poseById?.[id],transforms=pose?.transforms||this.idleTransforms(r,time,animate);
         tex.set([r.depth,r.blend,r.patternScale,r.seed%997],o);tex.set([...r.color,r.roughness],o+4);tex.set([...r.accent,r.pattern],o+8);tex.set([pose?1:0,0,0,0],o+12);
+        tex.set([r.height,r.width,r.depth,r.belly],o+18*4);
+        tex.set([...(r.outfitColor||[.20,.37,.47]),r.outfit==='overalls'?1:r.outfit==='tee'?2:0],o+19*4);
         const prim=DuderCore.primitives(r,0,false);for(let i=0;i<7;i++){
           tex.set([...prim[i].a,prim[i].ra],o+(4+i*2)*4);tex.set([...prim[i].b,prim[i].rb],o+(5+i*2)*4);
           tex.set(transforms[i],o+(20+i*4)*4);tex.set(M.rigidInverse(transforms[i]),o+(48+i*4)*4);
@@ -262,7 +292,10 @@
       this.eye=[at[0]+Math.sin(yaw)*Math.cos(pitch)*dist,at[1]+Math.sin(pitch)*dist,at[2]+Math.cos(yaw)*Math.cos(pitch)*dist];
       this.forward=M.norm(M.sub(at,this.eye));this.right=M.norm(M.cross(this.forward,[0,1,0]));this.up=M.cross(this.right,this.forward);
       const pile=state.physicsEnabled&&state.physicsMode==='pile';
-      const base=pile?3.1:state.physicsEnabled?(state.physicsMode==='sumo'?2.20:1.90):(single?1.42:1.37);
+      // Tall hats must fit a normal framed view. Preserve the old minimum framing
+      // and manual zoom, but include the actual static mesh's vertical extent.
+      const vertical=(Math.max(Math.abs((this.restMinY||0)-1.02),Math.abs((this.restMaxY||2)-1.02))*Math.abs(Math.cos(pitch))+(this.restRadius||1.18)*Math.abs(Math.sin(pitch)))*1.04;
+      const base=pile?3.1:state.physicsEnabled?(state.physicsMode==='sumo'?2.20:1.90):Math.max(single?1.42:1.37,vertical);
       const horizontal=pile?3.8:state.physicsEnabled?(state.physicsMode==='sumo'?2.45:1.65):(this.restRadius||1.18),half=Math.max(base,horizontal/aspect)/this.zoom;
       this.extent=[half*aspect,half];const view=M.view(this.eye,at);this.vpMatrix=M.mul(M.ortho(-half*aspect,half*aspect,-half,half,.1,45),view);
       this.grid=[cols,rows];this.viewport=vp;const p=M.point(this.vpMatrix,[0,.025,0]);this.ground=[p[0]/p[3],p[1]/p[3]];
@@ -295,7 +328,7 @@
       gl.uniform4fv(this.bgUniforms['uShadows[0]'],shadows);gl.uniform1i(this.bgUniforms.uShadowCount,this.last.length);
       gl.drawArrays(gl.TRIANGLES,0,3);this.drawCalls++;
       gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.useProgram(this.program);gl.bindVertexArray(this.vao);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);
-      gl.uniform1i(this.uniforms.uData,0);gl.uniformMatrix4fv(this.uniforms.uVP,false,this.vpMatrix);gl.uniform2fv(this.uniforms.uGrid,this.grid);gl.uniform1i(this.uniforms.uFocus,state.mode==='focus'?state.selected:-1);gl.uniform3fv(this.uniforms.uCamera,this.eye);gl.uniform1i(this.uniforms.uSmooth,state.smooth?1:0);gl.uniform1i(this.uniforms.uWire,state.wireframe?1:0);gl.uniform2f(this.uniforms.uViewport,vp.w,vp.h);gl.uniform1f(this.uniforms.uOutlineWidth,state.outlineWidth??2.2);gl.uniform1f(this.uniforms.uProjection,state.projectionStrength??.55);gl.uniform3fv(this.uniforms.uViewDir,this.forward);
+      gl.uniform1i(this.uniforms.uData,0);gl.uniformMatrix4fv(this.uniforms.uVP,false,this.vpMatrix);gl.uniform2fv(this.uniforms.uGrid,this.grid);gl.uniform1i(this.uniforms.uFocus,state.mode==='focus'?state.selected:-1);gl.uniform3fv(this.uniforms.uCamera,this.eye);gl.uniform1i(this.uniforms.uSmooth,state.smooth?1:0);gl.uniform1i(this.uniforms.uWire,state.wireframe?1:0);gl.uniform2f(this.uniforms.uViewport,vp.w,vp.h);gl.uniform1f(this.uniforms.uOutlineWidth,state.outlineWidth??2.2);gl.uniform1f(this.uniforms.uProjection,state.projectionStrength??.55);gl.uniform3fv(this.uniforms.uViewDir,this.forward);gl.uniform1i(this.uniforms.uArmWeights,state.showArmWeights?1:0);
       if(state.outlines!==false){gl.uniform1i(this.uniforms.uOutline,1);gl.cullFace(gl.FRONT);gl.drawElements(gl.TRIANGLES,this.indexCount,gl.UNSIGNED_INT,0);this.drawCalls++;}
       gl.uniform1i(this.uniforms.uOutline,0);gl.cullFace(gl.BACK);
       if(state.wireframe){this.prepareWireframe();gl.bindVertexArray(this.wireVAO);gl.drawArrays(gl.TRIANGLES,0,this.expandedVertexCount);}

@@ -126,7 +126,7 @@
 
   // Closed profile in (radius,height), revolved about Y. A closed profile
   // includes the inner skin so the hat brim/crown has real thickness.
-  function lathe(B,profile,sides,depth,col,rough=.72,offsetY=0,outline=true,outlineWeights=null,edgeColors=null) {
+  function lathe(B,profile,sides,depth,col,rough=.72,offsetY=0,outline=true,outlineWeights=null,edgeColors=null,warp=null) {
     const previousStroke=B.outlineScale;if(!outline)B.outlineScale=0;
     // Profiles are oriented; use the right-hand outward normal of their 2D edge.
     let area=0;for(let i=0;i<profile.length;i++){const a=profile[i],b=profile[(i+1)%profile.length];area+=a[0]*b[1]-b[0]*a[1];}
@@ -136,7 +136,7 @@
       if(Math.abs(dr)+Math.abs(dy)<1e-8)continue;
       for(let i=0;i<sides;i++){
         const t=TAU*i/sides,tn=TAU*(i+1)/sides,tm=(t+tn)/2;
-        const p=(v,t)=>{const radius=Math.abs(v[0])<1e-10?0:v[0],angle=t===TAU?0:t;return [radius*Math.cos(angle),v[1]+offsetY,radius*Math.sin(angle)*depth];};
+        const p=(v,t)=>{const radius=Math.abs(v[0])<1e-10?0:v[0],angle=t===TAU?0:t,q=[radius*Math.cos(angle),v[1]+offsetY,radius*Math.sin(angle)*depth];return warp?warp(q,angle,v):q;};
         const outward=[orient*dy*Math.cos(tm),-orient*dr,orient*dy*Math.sin(tm)/depth];
         // Keep the hollow hat's inner/contact loop fixed while the exterior
         // expands. Moving both edges of a thin underside annulus by a constant
@@ -167,18 +167,66 @@
   }
 
   function eyes(B,m,r) {
-    const rx=.034*m.w,ry=.060*m.w,rz=.025*m.w*m.depth;
+    const size=num(r,'eyeSize',1.18),rx=.034*m.w*size,ry=.060*m.w*size,rz=.025*m.w*m.depth;
     for(const sign of [-1,1]){
       const x=sign*m.eyeX,y=m.faceY,z=m.faceFront(x,y)+.008*m.w;
-      sphere(B,[x,y,z],[rx,ry,rz],8,5,[.016,.023,.033],2,.20,-1,true);
+      sphere(B,[x,y,z],[rx,ry,rz],12,8,[.016,.023,.033],2,.20,-1,true);
       if(r.glasses==='none'||r.glasses==='round'||!r.glasses)
-        sphere(B,[x-.010*m.w,y+.021*m.w,z+.021*m.w*m.depth],[.009*m.w,.012*m.w,.005*m.w],6,3,[.88,.94,1],2,.14,-1,true);
+        sphere(B,[x-.010*m.w*size,y+.021*m.w*size,z+.021*m.w*m.depth],[.009*m.w*size,.012*m.w*size,.005*m.w],8,4,[.88,.94,1],2,.14,-1,true);
     }
+  }
+
+  // The eyes and opaque lenses are separate low-poly surfaces. Their centers
+  // can clear while the curved lens fan crosses an eye near an edge. Maximize
+  // their depth difference over exact projected triangle intersections, not
+  // just vertices or a sampling grid. A linear difference reaches its maximum
+  // at a vertex of the clipped overlap polygon. This runs only on rebuild.
+  function eyewearClearance(B,front,back,w) {
+    function plane(t) {
+      const [a,b,c]=t,det=(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
+      if(Math.abs(det)<1e-12*w*w)return null;
+      const x=((b[2]-a[2])*(c[1]-a[1])-(c[2]-a[2])*(b[1]-a[1]))/det;
+      const y=((b[0]-a[0])*(c[2]-a[2])-(c[0]-a[0])*(b[2]-a[2]))/det;
+      return {t:det>0?t:[a,c,b],det,x,y,z:a[2]-x*a[0]-y*a[1],
+        minX:Math.min(a[0],b[0],c[0]),maxX:Math.max(a[0],b[0],c[0]),minY:Math.min(a[1],b[1],c[1]),maxY:Math.max(a[1],b[1],c[1])};
+    }
+    const eyes=[];
+    for(let i=0;i<B.p.length;i+=9)if(B.m[i/3*4+2]===2){
+      const e=plane([B.p.slice(i,i+3),B.p.slice(i+3,i+6),B.p.slice(i+6,i+9)]);
+      if(e&&e.det>0)eyes.push(e);
+    }
+    function overlap(triangles) {
+      let greatest=-Infinity;
+      for(const t of triangles){const f=plane(t);if(!f)continue;
+        for(const e of eyes){
+          if(e.maxX<f.minX||f.maxX<e.minX||e.maxY<f.minY||f.maxY<e.minY)continue;
+          let polygon=e.t;
+          for(let i=0;i<3&&polygon.length;i++){
+            const a=f.t[i],b=f.t[(i+1)%3],side=q=>(b[0]-a[0])*(q[1]-a[1])-(b[1]-a[1])*(q[0]-a[0]),clipped=[];
+            for(let j=0;j<polygon.length;j++){
+              const u=polygon[j],v=polygon[(j+1)%polygon.length],du=side(u),dv=side(v);
+              if(du>=0)clipped.push(u);
+              if((du>=0)!==(dv>=0)){const s=du/(du-dv);clipped.push(u.map((q,k)=>q+s*(v[k]-q)));}
+            }
+            polygon=clipped;
+          }
+          for(const p of polygon)greatest=Math.max(greatest,p[2]-(f.x*p[0]+f.y*p[1]+f.z));
+        }
+      }
+      return greatest;
+    }
+    const visibleOverlap=overlap(front),penetration=Math.max(0,visibleOverlap);
+    if(!penetration)return 0;
+    // A fixed thickness/margin at activation would make the glasses pop. Ramp
+    // extra clearance from zero, up to the full rear-surface separation plus
+    // a small tolerance. Existing hidden rear contact near onset is retained;
+    // this corrects visible breakthrough, not a boolean union of all solids.
+    return penetration+Math.min(Math.max(0,overlap(back)-visibleOverlap)+.0005*w,penetration);
   }
 
   function eyewear(B,m,r) {
     const type=r.glasses||'none';if(type==='none')return;
-    const w=m.w,space=num(r,'eyeSpace',1),frame=validCol(r.accessoryColor,DARK),lens=[.032,.050,.072];
+    const w=m.w,space=num(r,'eyeSpace',1),frame=validCol(r.glassesColor,validCol(r.accessoryColor,DARK)),lens=[.032,.050,.072];
     const isRound=type==='round';
     const shape=[];
     if(type==='square'){
@@ -192,11 +240,32 @@
     }else{
       for(let i=0;i<12;i++){const a=TAU*i/12;shape.push([Math.cos(a)*.127*w*space,Math.sin(a)*.135*w]);}
     }
-    for(const sign of [-1,1]){
+    const rims=[-1,1].map(sign=>{
       const cx=sign*m.eyeX,cy=m.faceY,xy=shape.map(p=>[cx+(type==='catEye'?sign*p[0]:p[0]),cy+p[1]]);
       let area=0;for(let i=0;i<xy.length;i++){const a=xy[i],b=xy[(i+1)%xy.length];area+=a[0]*b[1]-b[0]*a[1];}if(area<0)xy.reverse();
       const inner=xy.map(p=>[cx+(p[0]-cx)*.77,cy+(p[1]-cy)*.77]);
-      const point=(p,offset)=>[p[0],p[1],m.faceFront(p[0],p[1])+.050*w+offset];
+      return {sign,cx,cy,xy,inner};
+    });
+    const basePoint=(p,offset)=>[p[0],p[1],m.faceFront(p[0],p[1])+.050*w+offset];
+    let clearance=0;
+    if(!isRound){
+      const front=[],back=[];
+      for(const {cx,cy,xy,inner}of rims)for(let i=0;i<xy.length;i++){
+        const j=(i+1)%xy.length;
+        for(const [triangles,offset]of [[front,.015*w],[back,-.014*w]]){
+          const A=basePoint(xy[i],offset),B1=basePoint(xy[j],offset),C=basePoint(inner[j],offset),D=basePoint(inner[i],offset);
+          triangles.push([A,B1,C],[A,C,D]);
+        }
+        const center=[cx,cy,m.faceFront(cx,cy)+.053*w];
+        front.push([center,basePoint(inner[i],.004*w),basePoint(inner[j],.004*w)]);
+        back.push([[cx,cy,center[2]-.009*w],basePoint(inner[i],-.006*w),basePoint(inner[j],-.006*w)]);
+      }
+      clearance=eyewearClearance(B,front,back,w);
+    }
+    // Preserve the old arithmetic path exactly when no clearance is required.
+    const shifted=p=>{if(clearance)p[2]+=clearance;return p;};
+    const point=(p,offset)=>shifted(basePoint(p,offset));
+    for(const {sign,cx,cy,xy,inner}of rims){
       const n=xy.length;
       for(let i=0;i<n;i++){
         const j=(i+1)%n,A=point(xy[i],.015*w),B1=point(xy[j],.015*w),C=point(inner[j],.015*w),D=point(inner[i],.015*w);
@@ -205,7 +274,7 @@
         const outward=[(xy[i][0]+xy[j][0])/2-cx,(xy[i][1]+xy[j][1])/2-cy,0];
         B.quad(A,a,b,B1,outward,frame,1,.46);B.quad(D,C,c,d,outward.map(x=>-x),frame,1,.46);
         if(!isRound){
-          const center=[cx,cy,m.faceFront(cx,cy)+.053*w];
+          const center=shifted([cx,cy,m.faceFront(cx,cy)+.053*w]);
           const surfaceNormal=p=>{
             const e=.001*w;
             const dx=(m.faceFront(p[0]+e,p[1])-m.faceFront(p[0]-e,p[1]))/(2*e);
@@ -222,17 +291,32 @@
         }
       }
       const maxX=xy.reduce((v,p)=>Math.max(v,sign*p[0]),0),sideX=Math.max(m.radiusAt(cy)+.028*w,maxX+.020*w);
-      const z=m.faceFront(sign*maxX,cy)+.052*w;
-      tube(B,[[sign*(maxX-.006*w),cy+.025*w,z],[sign*sideX,cy+.015*w,.105*w*m.depth],[sign*(sideX-.018*w),cy-.025*w,-.16*w*m.depth]],.016*w,frame,.48,6);
+      // Intersect the actual rim at the temple height. The maximum-width point
+      // of a cat-eye sits above this height; using it left the arm detached.
+      const hingeY=cy+.025*w;let edgeX=-Infinity,edge=0,edgeT=0;
+      for(let i=0;i<xy.length;i++){
+        const a=xy[i],b=xy[(i+1)%xy.length];
+        if(Math.abs(b[1]-a[1])<1e-10||hingeY<Math.min(a[1],b[1])||hingeY>Math.max(a[1],b[1]))continue;
+        const t=(hingeY-a[1])/(b[1]-a[1]),x=sign*(a[0]+t*(b[0]-a[0]));
+        if(x>edgeX){edgeX=x;edge=i;edgeT=t;}
+      }
+      // Use the rim's actual triangulation halfway between its front/back faces,
+      // rather than resampling the curved head, which can miss a coarse rim.
+      const j=(edge+1)%n,A=point(xy[edge],.0005*w),B1=point(xy[j],.0005*w),C=point(inner[j],.0005*w),D=point(inner[edge],.0005*w),inset=.18,t=edgeT;
+      const hinge=t>=inset?A.map((v,k)=>(1-t)*v+(t-inset)*B1[k]+inset*C[k]):A.map((v,k)=>(1-inset)*v+t*C[k]+(inset-t)*D[k]);
+      // Shallow, widely spaced frames can put the hinge behind the old fixed
+      // bend. Keep the path moving rearward so its six-sided rings cannot flip.
+      const sideZ=Math.min(.105*w*m.depth,hinge[2]-.060*w*m.depth);
+      tube(B,[hinge,[sign*sideX,cy+.015*w,sideZ],[sign*(sideX-.018*w),cy-.025*w,-.16*w*m.depth]],.016*w,frame,.48,6);
     }
-    const bridgeY=m.faceY+.018*w,bridgeZ=m.faceFront(0,bridgeY)+.065*w;
+    const bridgeY=m.faceY+.018*w,bridgeZ=m.faceFront(0,bridgeY)+.065*w+(clearance||0);
     tube(B,[[-.050*w*space,bridgeY,bridgeZ-.005*w],[0,bridgeY+.017*w,bridgeZ],[.050*w*space,bridgeY,bridgeZ-.005*w]],.014*w,frame,.46,6);
     if(type==='aviator')tube(B,[[-.067*w*space,bridgeY+.065*w,bridgeZ-.005*w],[.067*w*space,bridgeY+.065*w,bridgeZ-.005*w]],.009*w,frame,.40,6);
   }
 
   function hats(B,m,r,sides) {
     const type=r.hat||'none';if(type==='none')return;
-    const w=m.w,d=m.depth,col=validCol(r.accessoryColor,[.94,.89,.77]);
+    const w=m.w,d=m.depth,col=validCol(r.hatColor,validCol(r.accessoryColor,[.94,.89,.77]));
     const y=m.top-.17*w,profile=[];
     const P=p=>p.map(v=>[v[0]*w,v[1]*w]);
     if(type==='cap'){
@@ -278,6 +362,44 @@
     }else if(type==='sunhat'){
       lathe(B,P([[.340,0],[.755,-.056],[.777,-.033],[.760,-.004],[.410,.025],[.380,.198],[.313,.275],[0,.278],[0,.244],[.291,.242],[.348,.181],[.377,.025]]),sides,d,col,.88,y,true,[0,1,1,1,1,1,1,1,0,0,0,0]);
       lathe(B,P([[.402,.060],[.408,.062],[.399,.117],[.392,.119]]),sides,d,mixCol(col,[.17,.105,.06],.66),.85,y,false);
+    }else if(type==='cowboy'){
+      // One closed shell: side-curled brim and a pinched, softly dented crown.
+      const warp=(q,a,v)=>{
+        const radius=v[0]/w,h=v[1]/w,brim=clamp((radius-.42)/.30,0,1);
+        q[1]+=.145*w*brim*brim*Math.pow(Math.cos(a),4);
+        const pinch=clamp((h-.12)/.30,0,1)*.10;
+        q[0]*=1-pinch;
+        return q;
+      };
+      lathe(B,P([[.340,0],[.720,-.035],[.755,-.012],[.730,.025],[.410,.050],[.425,.230],[.365,.390],[.255,.430],[0,.400],[0,.365],[.235,.395],[.335,.360],[.392,.220],[.377,.040]]),sides,d,col,.83,y,true,[0,1,1,1,1,1,1,1,1,0,0,0,0,0],null,warp);
+      lathe(B,P([[.415,.070],[.421,.072],[.427,.134],[.421,.136]]),sides,d,mixCol(col,DARK,.47),.85,y,false,null,null,warp);
+    }else if(type==='wizard'){
+      // The cone bends with height, while both skins share the same displacement.
+      const bend=(q,a,v)=>{const t=clamp(v[1]/(.98*w),0,1);q[0]-=.27*w*t*t;q[2]-=.045*w*t*t*d;return q;};
+      lathe(B,P([[.340,0],[.620,-.025],[.642,.008],[.610,.040],[.400,.075],[.350,.280],[.270,.520],[.180,.740],[.090,.900],[0,.980],[0,.940],[.070,.865],[.150,.710],[.240,.490],[.320,.260],[.365,.070]]),sides,d,col,.87,y,true,[0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],null,bend);
+      lathe(B,P([[.395,.104],[.400,.106],[.385,.166],[.379,.168]]),sides,d,mixCol(col,[.96,.72,.35],.68),.84,y,false,null,null,bend);
+    }else if(type==='chef'){
+      // A continuous cuff-to-puff shell; six gentle lobes imply gathered fabric.
+      const shape=[[.340,0],[.390,.015],[.400,.200],[.480,.270],[.560,.430],[.520,.600],[.400,.690],[.200,.740],[0,.760],[0,.720],[.180,.700],[.370,.650],[.480,.560],[.520,.430],[.445,.290],[.365,.215],[.360,.035]];
+      const pleat=(q,a,v)=>{const h=v[1]/w,t=clamp((h-.20)/.12,0,1),f=1+.055*t*Math.cos(6*a);q[0]*=f;q[2]*=f;return q;};
+      const tint=mixCol(col,DARK,.09),colors=shape.map((_,i)=>i===1?tint:col);
+      lathe(B,P(shape),Math.ceil(sides/12)*12,d,col,.93,y,true,[0,.75,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],colors,pleat);
+    }else if(type==='crown'){
+      // Six points belong to one thick open ring, with a pinned lower contact.
+      const points=(q,a,v)=>{if(v[1]/w>.19)q[1]+=.185*w*Math.max(0,Math.cos(6*a));return q;};
+      lathe(B,P([[.360,0],[.405,0],[.413,.070],[.405,.200],[.370,.200],[.365,.070]]),Math.ceil(sides/12)*12,d,col,.52,y,true,[0,.75,1,1,1,0],null,points);
+      const stroke=B.outlineScale;B.outlineScale=0;
+      const jewel=mixCol(validCol(r.accent,[.20,.55,.64]),[.8,.95,1],.18);
+      sphere(B,[0,y+.105*w,.410*w*d],[.046*w,.052*w,.018*w*d],8,4,jewel,1,.32);
+      B.outlineScale=stroke;
+    }else if(type==='beret'){
+      // Lean the crown as one shell; the contact ring stays centered on the head.
+      const lean=(q,a,v)=>{const t=clamp(v[1]/(.30*w),0,1);q[0]+=.10*w*t;q[1]+=.10*q[0]*t;return q;};
+      lathe(B,P([[.340,0],[.390,.015],[.510,.095],[.590,.200],[.540,.300],[.370,.370],[0,.390],[0,.355],[.350,.335],[.500,.270],[.550,.200],[.470,.120],[.360,.045]]),sides,d,col,.94,y,true,[0,.75,1,1,1,1,1,0,0,0,0,0,0],null,lean);
+      lathe(B,P([[0,.385],[.026,.385],[.029,.435],[.018,.452],[0,.452]]),12,d,mixCol(col,DARK,.15),.94,y,true,null,null,lean);
+    }else if(type==='topHat'){
+      lathe(B,P([[.340,0],[.570,-.015],[.590,.010],[.560,.040],[.405,.040],[.390,.200],[.430,.600],[.440,.640],[0,.640],[0,.605],[.405,.605],[.356,.200],[.372,.045]]),sides,d,col,.76,y,true,[0,1,1,1,1,1,1,1,1,0,0,0,0]);
+      lathe(B,P([[.402,.071],[.408,.073],[.398,.170],[.392,.172]]),sides,d,mixCol(col,[.80,.38,.29],.60),.83,y,false);
     }
   }
 
@@ -285,17 +407,14 @@
     const r=recipe||{},B=new Builder(characterId),m=metrics(r);
     const sides=num(r,'facets',12)<=8?8:num(r,'facets',12)>=16?16:12;
     const rings=sides===8?6:sides===16?10:8;
-    const base=validCol(r.color,[.20,.45,.94]),rough=clamp(num(r,'roughness',.7),.05,1);
+    const base=validCol(r.color,[.20,.45,.94]),rough=clamp(num(r,'roughness',.7),.05,1);let shoulderWeights;
     if(global.DuderShell&&typeof global.DuderShell.build==='function'){
-      // One coherent rest shell removes the internal overlapping triangles of
-      // per-primitive sphere templates. The vertex shader still projects every
-      // vertex against the live seven-primitive SDF, preserving blend-shell motion.
-      const shell=global.DuderShell.build(r),p=shell.positions,n=shell.normals;
+      // The original connected shell plus one local loop at each shoulder.
+      const shell=global.DuderShell.build(r),p=shell.positions,n=shell.normals;shoulderWeights=shell.skinByPosition;
       for(let i=0;i<p.length;i+=9){
         const a=Array.from(p.subarray(i,i+3)),b=Array.from(p.subarray(i+3,i+6)),c=Array.from(p.subarray(i+6,i+9));
         const ns=[Array.from(n.subarray(i,i+3)),Array.from(n.subarray(i+3,i+6)),Array.from(n.subarray(i+6,i+9))];
-        const outward=ns[0].map((v,k)=>v+ns[1][k]+ns[2][k]);
-        B.triFacing(a,b,c,outward,base,0,rough,7,ns);
+        B.tri(a,b,c,base,0,rough,7,ns);
       }
     }else{
       // Development fallback only; the standalone build includes shell.js.
@@ -303,17 +422,22 @@
     }
     B.outlineGroup=1;eyes(B,m,r);
     B.outlineGroup=2;B.outlineScale=.60;eyewear(B,m,r);
-    B.outlineGroup=3;B.outlineScale=1;hats(B,m,r,sides);
+    // Curved wearables get twice the circumferential sampling of the body
+    // setting. Their existing closed profiles and anchored contact loops stay.
+    B.outlineGroup=3;B.outlineScale=1;hats(B,m,r,sides*2);
     const out=B.finish();
     const parts=global.DuderCore.primitives(global.DuderCore.sanitizeRecipe(r)),vertices=out.positions.length/3;
     out.skinIndices=new Float32Array(vertices*4);out.skinWeights=new Float32Array(vertices*4);
     for(let i=0;i<vertices;i++){
       if(out.meta[i*4+1]<0){out.skinWeights[i*4]=1;continue;}
-      const p=Array.from(out.positions.subarray(i*3,i*3+3)),skin=global.DuderCore.skinWeightsForPoint(p,parts,num(r,'blend',.16));
+      const p=Array.from(out.positions.subarray(i*3,i*3+3)),loopSkin=shoulderWeights?.get(p.map(v=>Math.round(Math.fround(v)*1e6)).join(',')),skin=loopSkin||global.DuderCore.skinWeightsForPoint(p,parts,num(r,'blend',.16));
+      // Tag each shared loop vertex, not whole faces. Boundary copies must
+      // take the same deformation path even in triangles with original vertices.
+      if(loopSkin)out.meta[i*4+1]=8;
       out.skinIndices.set(skin.indices,i*4);out.skinWeights.set(skin.weights,i*4);
     }
     out.counts.parts=7;out.counts.hat=r.hat||'none';out.counts.glasses=r.glasses||'none';
     out.indexed=indexedGeometry(out);return out;
   }
-  global.DuderGeometry={build,metrics,version:'3.2.1',hatNames:['none','cap','bucket','beanie','bowler','sunhat'],glassesNames:['none','square','round','aviator','catEye']};
+  global.DuderGeometry={build,metrics,version:'3.4.7',hatNames:['none','cap','bucket','beanie','bowler','sunhat','cowboy','wizard','chef','crown','beret','topHat'],glassesNames:['none','square','round','aviator','catEye']};
 })(typeof window!=='undefined'?window:globalThis);

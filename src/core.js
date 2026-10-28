@@ -15,20 +15,20 @@
   const norm = a => { const l = Math.hypot(...a); return l > 1e-12 ? a.map(x=>x/l) : [0,1,0]; };
   const smooth = (a, b, x) => { const t=clamp((x-a)/(b-a),0,1); return t*t*(3-2*t); };
   const hex = s => { s=s.replace('#',''); return [0,2,4].map(i=>parseInt(s.slice(i,i+2),16)/255); };
-  const hats = ['none','cap','bucket','beanie','bowler','sunhat'];
+  const hats = ['none','cap','bucket','beanie','bowler','sunhat','cowboy','wizard','chef','crown','beret','topHat'];
   const glasses = ['none','square','round','aviator','catEye'];
   const patterns = ['Solid','Freckles','Clouds','Stars','Spots','Seeds','Patchwork','Cow'];
   const ranges = {
     height:[.75,1.30], width:[.75,1.30], depth:[.62,1.24], belly:[.80,1.20],
     armLength:[.70,1.40], armSpread:[-.15,.22], armThickness:[.65,1.35], armGap:[0,.24], feet:[.70,1.30], blend:[.03,.22],
-    facets:[8,16], eyeSpace:[.70,1.30], patternScale:[.60,2], roughness:[.15,.95]
+    facets:[8,16], eyeSpace:[.70,1.30], eyeSize:[.75,1.45], patternScale:[.60,2], roughness:[.15,.95]
   };
 
   function baseDefaults() {
     return {name:'Blue Duder',seed:1001,height:1,width:1,depth:.88,belly:1,
       armLength:1,armSpread:.08,armThickness:1,armGap:.10,feet:1,blend:.16,facets:12,eyeSpace:1,
       color:hex('2374EF'),accent:hex('153B92'),pattern:0,patternScale:1,
-      roughness:.78,hat:'none',glasses:'square',accessoryColor:hex('18232D')};
+      roughness:.78,eyeSize:1.18,outfit:'none',outfitColor:hex('345E78'),hat:'none',glasses:'square',accessoryColor:hex('18232D')};
   }
   function sanitizeRecipe(obj) {
     const d=baseDefaults(), s=obj&&typeof obj==='object'?obj:{};
@@ -36,16 +36,23 @@
       const v=Number(s[key]); if(Number.isFinite(v)) d[key]=clamp(v,lo,hi);
     }
     d.facets=[8,12,16].reduce((best,n)=>Math.abs(n-d.facets)<Math.abs(best-d.facets)?n:best,8);
-    for(const key of ['color','accent','accessoryColor']) {
+    // Optional gear overrides stay absent in legacy recipes and presets. Invalid
+    // or cleared overrides inherit accessoryColor instead of inventing a color.
+    for(const key of ['color','accent','accessoryColor','outfitColor','hatColor','glassesColor']) {
       let c=s[key];
       if(typeof c==='string' && /^#?[0-9a-f]{6}$/i.test(c)) c=hex(c);
-      if((Array.isArray(c)||ArrayBuffer.isView(c)) && c.length>=3 && [c[0],c[1],c[2]].every(v=>Number.isFinite(Number(v))))
+      const optional=key==='hatColor'||key==='glassesColor';
+      // Check optional RGB component types before coercion: JSON nulls (including
+      // serialized NaN/Infinity), booleans, strings and nested arrays are not RGB.
+      // Keep the established coercion behavior for the four legacy color fields.
+      if((Array.isArray(c)||ArrayBuffer.isView(c)) && c.length>=3 && [c[0],c[1],c[2]].every(v=>optional?typeof v==='number'&&Number.isFinite(v):Number.isFinite(Number(v))))
         d[key]=[0,1,2].map(i=>clamp(Number(c[i]),0,1));
     }
     const pat=typeof s.pattern==='string'&&!/^\d+$/.test(s.pattern)?patterns.findIndex(p=>p.toLowerCase()===s.pattern.toLowerCase()):Number(s.pattern);
     if(Number.isFinite(pat)&&pat>=0) d.pattern=clamp(Math.round(pat),0,7);
     if(hats.includes(s.hat)) d.hat=s.hat;
     if(glasses.includes(s.glasses)) d.glasses=s.glasses;
+    if(['none','overalls','tee'].includes(s.outfit)) d.outfit=s.outfit;
     if(Number.isFinite(Number(s.seed))) d.seed=Number(s.seed)>>>0;
     if(typeof s.name==='string') d.name=s.name.replace(/[\x00-\x1f<>]/g,'').trim().slice(0,48)||'Duder';
     return d;
@@ -69,7 +76,15 @@
       ['Cyan Static','4C545D','44BFD5',6,'beanie','none','36ACC5'],
       ['Cowabunga','F4EBD6','25272A',7,'bucket','none','ED4B45']
     ];
-    return rows.map((a,i)=>sanitizeRecipe({ ...baseDefaults(),name:a[0],color:hex(a[1]),accent:hex(a[2]),pattern:a[3],hat:a[4],glasses:a[5],accessoryColor:hex(a[6]),seed:1001+i*977 }));
+    const proportions=[
+      [1,1],[.96,1.04],[1.06,.92],[.91,1.10],[1.10,.93],[1.04,1],
+      [1.09,.94],[.94,1.06],[.91,1.08],[1.03,.96],[1.10,.92],[1,.99],
+      [.96,1.02],[.92,1.08],[1.08,.95],[.97,1.04]
+    ];
+    return rows.map((a,i)=>sanitizeRecipe({ ...baseDefaults(),name:a[0],color:hex(a[1]),accent:hex(a[2]),pattern:a[3],hat:a[4],glasses:a[5],accessoryColor:hex(a[6]),seed:1001+i*977,
+      height:proportions[i][0],width:proportions[i][1],
+      outfit:[1,3,13].includes(i)?'overalls':[4,6].includes(i)?'tee':'none',
+      outfitColor:hex(i===1?'356E7B':i===3?'345C57':i===4?'F1CB7D':i===6?'F0DAB7':'5C6C93') }));
   }
   function rng(seed) {
     let a=seed>>>0; return ()=>{a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t^=t+Math.imul(t^(t>>>7),61|t);return ((t^(t>>>14))>>>0)/4294967296;};
@@ -86,7 +101,6 @@
   // Stable bone order: torso, left upper/forearm, right upper/forearm, left/right leg.
   const boneNames=['Torso','Left upper arm','Left forearm','Right upper arm','Right forearm','Left leg','Right leg'];
   const blendScales=[1,.60,.42,.60,.42,.85,.85];
-  const adjacency=[[1,3,5,6],[0,2],[1],[0,4],[3],[0],[0]];
   function primitives(recipe,time=0,animate=false) {
     const r=recipe,h=r.height,w=r.width,ra=.50*w*r.belly,rb=.40*w;
     const lift=Math.max(0,.20-(.72*h-ra)),aY=lift+.72*h,bY=lift+1.36*h;
@@ -144,28 +158,35 @@
     for(const leg of [5,6])joints.push({parent:0,child:leg,point:parts[leg].a.slice(),type:'cone',angle:.70,twist:.42});
     return {parts,joints,names:boneNames.slice(),depth:r.depth};
   }
-  // Capsule distance selects the limb/torso region; longitudinal elbow planes
-  // then share each arm's influence smoothly along its axis. Surface-distance
-  // weights alone jump around overlapping capsule ends and fold the inner bend.
-  // Cache these immutable bind frames once per generated set of primitives.
-  const elbowWeightFrames=new WeakMap();
+  // Treat each complete arm as one region before splitting it at the elbow.
+  // The body may share an arm only through its local shoulder attachment;
+  // proximity to a hanging forearm must not pull the ribs into a wave.
+  // All envelopes are immutable bind-space functions, shared by render/export.
+  const armWeightFrames=new WeakMap();
   function skinWeightsForPoint(p,parts,blend=.16) {
-    const distances=parts.map(part=>sdRC(p,part));let nearest=0;
-    for(let i=1;i<distances.length;i++)if(distances[i]<distances[nearest])nearest=i;
-    const candidates=[nearest,...adjacency[nearest]].sort((a,b)=>distances[a]-distances[b]);
-    const span=Math.max(.065,blend*.72),weights=Array(7).fill(0);
-    for(const i of candidates.slice(0,4)){
-      const t=clamp(1-(distances[i]-distances[nearest])/span,0,1);weights[i]=t*t*(3-2*t);
-    }
-    let frames=elbowWeightFrames.get(parts);
+    const distances=parts.map(part=>sdRC(p,part));
+    const regions=[distances[0],Math.min(distances[1],distances[2]),Math.min(distances[3],distances[4]),distances[5],distances[6]];
+    const nearest=Math.min(...regions),span=Math.max(.065,blend*.72),weights=Array(7).fill(0);
+    const regionWeights=regions.map(d=>{const t=clamp(1-(d-nearest)/span,0,1);return t*t*(3-2*t);});
+    weights[0]=regionWeights[0];weights[5]=regionWeights[3];weights[6]=regionWeights[4];
+    let frames=armWeightFrames.get(parts);
     if(!frames){
       frames=[[1,2],[3,4]].map(([upper,lower])=>{
         const a=norm(sub(parts[upper].b,parts[upper].a)),b=norm(sub(parts[lower].b,parts[lower].a));
-        return{upper,lower,point:parts[lower].a,axis:norm(a.map((v,k)=>v+b[k])),halfWidth:parts[lower].ra*2.05};
-      });elbowWeightFrames.set(parts,frames);
+        return{upper,lower,point:parts[lower].a,axis:norm(a.map((v,k)=>v+b[k])),halfWidth:parts[lower].ra*2.05,shoulder:parts[upper].a,radius:parts[upper].ra};
+      });armWeightFrames.set(parts,frames);
     }
-    for(const {upper,lower,point,axis,halfWidth}of frames){
-      const total=weights[upper]+weights[lower];if(total===0)continue;
+    for(const {upper,lower,point,axis,halfWidth,shoulder,radius}of frames){
+      const region=(upper+1)/2,raw=regionWeights[region];if(raw===0)continue;
+      // Feather from the attachment into a small local collar. Starting the
+      // smoothstep just inside its center avoids a flat plateau/hard rim.
+      // The outer body becomes exactly torso-owned beyond the collar.
+      const portal=1-smooth(-radius*.5,radius*3.5,Math.hypot(...sub(p,shoulder)));
+      // Outside the collar, an arm must actually own the surface: a nearby
+      // arm across the underarm air gap cannot borrow a torso vertex.
+      const armSide=smooth(0,radius*.55,distances[0]-regions[region]);
+      const gate=portal+(1-portal)*armSide,total=raw*gate;
+      weights[0]+=raw-total;
       const f=smooth(-halfWidth,halfWidth,dot(sub(p,point),axis));
       weights[upper]=total*(1-f);weights[lower]=total*f;
     }
@@ -234,7 +255,7 @@
     }
     return inside?-minD:minD;
   }
-  function skinColor(p,recipe) {
+  function patternColor(p,recipe) {
     const r=recipe,id=Math.round(r.pattern),base=r.color,accent=r.accent;if(id===0)return base.slice();
     const uv=[Math.atan2(p[0],p[2])/TAU+.5,p[1]/2.1],scale=r.patternScale,seed=r.seed%997;
     const freq=id===2?[4,3]:id===3?[5,3]:id===5?[6,4]:[6,4],g=[uv[0]*freq[0]*scale,uv[1]*freq[1]*scale],c=g.map(Math.floor),h=hash2(c[0],c[1],seed),q=[fract(g[0])-.5+(h-.5)*.20,fract(g[1])-.5+(hash2(c[0]+19,c[1]-7,seed)-.5)*.18];
@@ -247,7 +268,61 @@
     if(id===6){const X=Math.floor(p[0]*3.7*scale+Math.sin(p[1]*4)*.24),Y=Math.floor(p[1]*3.7*scale+Math.sin(p[2]*4)*.24),Z=Math.floor(p[2]*3.7*scale+Math.cos(p[0]*4)*.24);mask=hash2(X+Z*17,Y,seed)>.68?1:0;}
     return base.map((x,i)=>mix(x,accent[i],mask));
   }
+  // Fitted color-block garments are evaluated in the immutable bind space.
+  // The GPU and posed export use this same coordinate convention. No floating
+  // duplicate shell, new skin weights, transparency, or physics body is needed.
+  function outfitColor(p,r,base) {
+    if(!r.outfit||r.outfit==='none')return base;
+    const lift=Math.max(0,.20-(.72*r.height-.50*r.width*r.belly));
+    const x=Math.abs(p[0]/r.width),y=(p[1]-lift)/r.height,z=Math.abs(p[2]/(r.depth*r.width));
+    const inside=(v,b)=>1-smooth(b-.012,b+.012,v),front=smooth(.12,.22,z);
+    let mask=0,pocket=0,button=0;
+    if(r.outfit==='overalls'){
+      const waist=inside(y,.66)*inside(x,.55*r.belly);
+      const bib=inside(x,.24)*inside(y,1.07-.025*smooth(.15,.24,x))*front;
+      const strapY=1.065+.115*smooth(.18,.43,x);
+      const straps=inside(Math.abs(y-strapY),.036)*smooth(.13,.17,x);
+      mask=Math.max(waist,bib,straps);
+      // A rounded inset pocket and two brass fasteners remain quiet at distance.
+      const qx=Math.max(x-.102,0),qy=Math.max(Math.abs(y-.91)-.048,0);
+      const sd=Math.hypot(qx,qy)-.028;
+      pocket=inside(sd,0)*front*smooth(.66,.72,y);
+      button=inside(Math.hypot(x-.18,y-1.065),.018)*front;
+    }else{
+      const neck=1.19-.10*Math.exp(-x*x*42);
+      mask=inside(y,neck)*smooth(.60,.62,y)*inside(x,.64);
+      pocket=inside(Math.hypot((p[0]/r.width-.19)*.85,y-.92),.055)*front;
+    }
+    const fabric=r.outfitColor||[.20,.37,.47];
+    const garment=fabric.map((v,i)=>mix(v,v*.76+.12,pocket*.75));
+    const brass=[.95,.76,.37];
+    return base.map((v,i)=>mix(v,mix(garment[i],brass[i],button),mask));
+  }
+  function skinColor(p,r){return outfitColor(p,r,patternColor(p,r));}
   const skinGLSL=`
+float garmentInside(float v,float b){return 1.-smoothstep(b-.012,b+.012,v);}
+vec3 duderOutfit(vec3 p,vec3 base,vec4 shape,vec4 outfit){
+  if(outfit.a<.5)return base;
+  float lift=max(0.,.20-(.72*shape.x-.50*shape.y*shape.w));
+  float x=abs(p.x/shape.y),y=(p.y-lift)/shape.x,z=abs(p.z/(shape.z*shape.y));
+  float front=smoothstep(.12,.22,z),mask=0.,pocket=0.,button=0.;
+  if(outfit.a<1.5){
+    float waist=garmentInside(y,.66)*garmentInside(x,.55*shape.w);
+    float bib=garmentInside(x,.24)*garmentInside(y,1.07-.025*smoothstep(.15,.24,x))*front;
+    float strapY=1.065+.115*smoothstep(.18,.43,x);
+    float straps=garmentInside(abs(y-strapY),.036)*smoothstep(.13,.17,x);
+    mask=max(waist,max(bib,straps));
+    float sd=length(vec2(max(x-.102,0.),max(abs(y-.91)-.048,0.)))-.028;
+    pocket=garmentInside(sd,0.)*front*smoothstep(.66,.72,y);
+    button=garmentInside(length(vec2(x-.18,y-1.065)),.018)*front;
+  }else{
+    float neck=1.19-.10*exp(-x*x*42.);
+    mask=garmentInside(y,neck)*smoothstep(.60,.62,y)*garmentInside(x,.64);
+    pocket=garmentInside(length(vec2((p.x/shape.y-.19)*.85,y-.92)),.055)*front;
+  }
+  vec3 garment=mix(outfit.rgb,outfit.rgb*.76+.12,pocket*.75);
+  return mix(base,mix(garment,vec3(.95,.76,.37),button),mask);
+}
 float duderHash(vec2 c,float seed){
   uint h=uint(int(c.x))*0x1f123bb5u ^ uint(int(c.y))*0x5f356495u ^ uint(seed);
   h^=h>>16u;h*=0x7feb352du;h^=h>>15u;h*=0x846ca68bu;h^=h>>16u;
@@ -340,7 +415,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     for(let vi=0;vi<src.length/3;vi+=3){
       const vs=[];let body=true;
       for(let k=0;k<3;k++){
-        const i=vi+k,part=Math.round(meta[i*4+1]),isBody=part>=0&&part<=7;body=body&&isBody;
+        const i=vi+k,part=Math.round(meta[i*4+1]),isBody=part>=0&&part<=8;body=body&&isBody;
         let p=Array.from(src.slice(i*3,i*3+3)),n=ns?Array.from(ns.slice(i*3,i*3+3)):[0,1,0],joint=0;
         const rest=isBody?[p[0],p[1],p[2]*r.depth]:p.slice();
         if(isBody){
@@ -348,17 +423,20 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
           joint=clamp((1-Math.max(...skin.weights))*4,0,1);
           if(posed){
             const skinned=skinDualQuaternion(rest,norm([n[0],n[1],n[2]/r.depth]),skin,palette);p=skinned.p;n=norm(skinned.n);
-            if(joint>0){for(let q=0;q<2;q++){const g=posedGradient(p),step=clamp(posedField(p),-.035*strength*joint,.035*strength*joint);for(let j=0;j<3;j++)p[j]-=g[j]*step;}}
+            if(part<8&&joint>0){for(let q=0;q<2;q++){const g=posedGradient(p),step=clamp(posedField(p),-.035*strength*joint,.035*strength*joint);for(let j=0;j<3;j++)p[j]-=g[j]*step;}}
             const g=posedGradient(p);n=norm(n.map((v,j)=>mix(v,g[j],joint*.8)));
           }else{
-            const q=part===7?projectSurfaceVertex(p,parts,r.blend):projectVertex(p,part,parts,r.blend);p=q.p;p[2]*=r.depth;n=norm([q.n[0],q.n[1],q.n[2]/r.depth]);
+            const q=part>=7?{p,n}:projectVertex(p,part,parts,r.blend);p=q.p;p[2]*=r.depth;n=norm([q.n[0],q.n[1],q.n[2]/r.depth]);
           }
         }else if(posed){p=transformPoint(transforms[0],p);n=norm(transformVector(transforms[0],n));}
         const c=cs?Array.from(cs.slice(i*3,i*3+3)):r.color.slice();vs.push({p,n,c,rest,joint});
       }
       let flat=norm(cross(sub(vs[1].p,vs[0].p),sub(vs[2].p,vs[0].p)));
       if(body && dot(flat,vs[0].n)<0)flat=flat.map(x=>-x);
-      emit(vs,body,flat,body&&r.pattern!==0?2:0,meta[vi*4+2]);
+      // Garment edges and fasteners need eight samples per base edge; the
+      // earlier four-sample bake left sawtooth color seams in reloaded GLBs.
+      // Uniform subdivision preserves shared edges and does not change shape.
+      emit(vs,body,flat,body?(r.outfit!=='none'?3:r.pattern!==0?2:0):0,meta[vi*4+2]);
     }
     return {positions:new Float32Array(positions),normals:new Float32Array(normals),colors:new Float32Array(colors),triangles:positions.length/9,poseApplied:posed};
   }
@@ -383,12 +461,12 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
     for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 3.2.1'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.4.7'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'3.2.1',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.4.7',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);

@@ -1,0 +1,911 @@
+{
+  "passed": true,
+  "scope": "Matched shoulder surface and wireframe proof from unmodified production GLSL.",
+  "baseline": "/tmp/duderlab-v345-loop-baseline",
+  "time": 1.88,
+  "camera": {
+    "yaw": -0.5,
+    "pitch": 0.03,
+    "zoom": 2.7,
+    "target": [
+      -0.47,
+      1.15,
+      0.02
+    ]
+  },
+  "captures": [
+    {
+      "version": "before",
+      "view": "bind-wire",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 2,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 2,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+          "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+          "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+          "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+        },
+        "vertices": 9699,
+        "attribute_vertices": 9699,
+        "indexed_draw_calls": 0,
+        "triangles": 3233,
+        "programs": 2,
+        "shader_validation": [
+          {
+            "stage": "vertex",
+            "compiled": true,
+            "log": ""
+          },
+          {
+            "stage": "fragment",
+            "compiled": true,
+            "log": ""
+          },
+          {
+            "stage": "link",
+            "linked": true,
+            "log": ""
+          },
+          {
+            "stage": "vertex",
+            "compiled": true,
+            "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+          },
+          {
+            "stage": "fragment",
+            "compiled": true,
+            "log": ""
+          },
+          {
+            "stage": "link",
+            "linked": true,
+            "log": ""
+          }
+        ],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 121.83,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawArrays",
+            "vertices": 9696,
+            "unique_vertices": 9696,
+            "indices": 0,
+            "submitted_vertices": 9696,
+            "mode": 4,
+            "elapsed_ms": 539.96,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/before/bind-wire.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    },
+    {
+      "version": "before",
+      "view": "raised-surface",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 3,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+          "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+          "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+          "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+        },
+        "vertices": 19395,
+        "attribute_vertices": 3355,
+        "indexed_draw_calls": 2,
+        "triangles": 6465,
+        "programs": 2,
+        "shader_validation": [],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 1.01,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawElements",
+            "vertices": 1676,
+            "unique_vertices": 1676,
+            "indices": 9696,
+            "submitted_vertices": 9696,
+            "mode": 4,
+            "elapsed_ms": 449.41,
+            "errors": []
+          },
+          {
+            "index": 2,
+            "method": "drawElements",
+            "vertices": 1676,
+            "unique_vertices": 1676,
+            "indices": 9696,
+            "submitted_vertices": 9696,
+            "mode": 4,
+            "elapsed_ms": 4.39,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/before/raised-surface.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    },
+    {
+      "version": "before",
+      "view": "raised-wire",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 2,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 2,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+          "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+          "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+          "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+        },
+        "vertices": 9699,
+        "attribute_vertices": 9699,
+        "indexed_draw_calls": 0,
+        "triangles": 3233,
+        "programs": 2,
+        "shader_validation": [],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 1.19,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawArrays",
+            "vertices": 9696,
+            "unique_vertices": 9696,
+            "indices": 0,
+            "submitted_vertices": 9696,
+            "mode": 4,
+            "elapsed_ms": 6.78,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/before/raised-wire.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    },
+    {
+      "version": "before",
+      "view": "raised-back",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 3,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+          "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+          "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+          "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+        },
+        "vertices": 19395,
+        "attribute_vertices": 3355,
+        "indexed_draw_calls": 2,
+        "triangles": 6465,
+        "programs": 2,
+        "shader_validation": [],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 1.31,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawElements",
+            "vertices": 1676,
+            "unique_vertices": 1676,
+            "indices": 9696,
+            "submitted_vertices": 9696,
+            "mode": 4,
+            "elapsed_ms": 2.68,
+            "errors": []
+          },
+          {
+            "index": 2,
+            "method": "drawElements",
+            "vertices": 1676,
+            "unique_vertices": 1676,
+            "indices": 9696,
+            "submitted_vertices": 9696,
+            "mode": 4,
+            "elapsed_ms": 4.68,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/before/raised-back.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    },
+    {
+      "version": "before",
+      "view": "settled-surface",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 3,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+          "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+          "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+          "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+        },
+        "vertices": 19395,
+        "attribute_vertices": 3355,
+        "indexed_draw_calls": 2,
+        "triangles": 6465,
+        "programs": 2,
+        "shader_validation": [],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 1.54,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawElements",
+            "vertices": 1676,
+            "unique_vertices": 1676,
+            "indices": 9696,
+            "submitted_vertices": 9696,
+            "mode": 4,
+            "elapsed_ms": 2.43,
+            "errors": []
+          },
+          {
+            "index": 2,
+            "method": "drawElements",
+            "vertices": 1676,
+            "unique_vertices": 1676,
+            "indices": 9696,
+            "submitted_vertices": 9696,
+            "mode": 4,
+            "elapsed_ms": 36.28,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/before/settled-surface.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    },
+    {
+      "version": "after",
+      "view": "bind-wire",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 2,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 2,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+          "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+          "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+          "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+        },
+        "vertices": 18807,
+        "attribute_vertices": 18807,
+        "indexed_draw_calls": 0,
+        "triangles": 6269,
+        "programs": 3,
+        "shader_validation": [
+          {
+            "stage": "vertex",
+            "compiled": true,
+            "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+          },
+          {
+            "stage": "fragment",
+            "compiled": true,
+            "log": ""
+          },
+          {
+            "stage": "link",
+            "linked": true,
+            "log": ""
+          }
+        ],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 1.17,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawArrays",
+            "vertices": 18804,
+            "unique_vertices": 18804,
+            "indices": 0,
+            "submitted_vertices": 18804,
+            "mode": 4,
+            "elapsed_ms": 583.89,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/after/bind-wire.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    },
+    {
+      "version": "after",
+      "view": "raised-surface",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 3,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+          "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+          "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+          "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+        },
+        "vertices": 37611,
+        "attribute_vertices": 6571,
+        "indexed_draw_calls": 2,
+        "triangles": 12537,
+        "programs": 3,
+        "shader_validation": [],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 3.17,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawElements",
+            "vertices": 3284,
+            "unique_vertices": 3284,
+            "indices": 18804,
+            "submitted_vertices": 18804,
+            "mode": 4,
+            "elapsed_ms": 510.95,
+            "errors": []
+          },
+          {
+            "index": 2,
+            "method": "drawElements",
+            "vertices": 3284,
+            "unique_vertices": 3284,
+            "indices": 18804,
+            "submitted_vertices": 18804,
+            "mode": 4,
+            "elapsed_ms": 4.65,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/after/raised-surface.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    },
+    {
+      "version": "after",
+      "view": "raised-wire",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 2,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 2,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+          "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+          "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+          "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+        },
+        "vertices": 18807,
+        "attribute_vertices": 18807,
+        "indexed_draw_calls": 0,
+        "triangles": 6269,
+        "programs": 3,
+        "shader_validation": [],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 1.14,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawArrays",
+            "vertices": 18804,
+            "unique_vertices": 18804,
+            "indices": 0,
+            "submitted_vertices": 18804,
+            "mode": 4,
+            "elapsed_ms": 8.05,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/after/raised-wire.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    },
+    {
+      "version": "after",
+      "view": "raised-back",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 3,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+          "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+          "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+          "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+        },
+        "vertices": 37611,
+        "attribute_vertices": 6571,
+        "indexed_draw_calls": 2,
+        "triangles": 12537,
+        "programs": 3,
+        "shader_validation": [],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 0.99,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawElements",
+            "vertices": 3284,
+            "unique_vertices": 3284,
+            "indices": 18804,
+            "submitted_vertices": 18804,
+            "mode": 4,
+            "elapsed_ms": 2.27,
+            "errors": []
+          },
+          {
+            "index": 2,
+            "method": "drawElements",
+            "vertices": 3284,
+            "unique_vertices": 3284,
+            "indices": 18804,
+            "submitted_vertices": 18804,
+            "mode": 4,
+            "elapsed_ms": 4.01,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/after/raised-back.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    },
+    {
+      "version": "after",
+      "view": "settled-surface",
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "render": {
+        "renderer": {
+          "vendor": "Mesa",
+          "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+          "shading_language": "OpenGL ES GLSL ES 3.20",
+          "egl_version": "1.5"
+        },
+        "width": 640,
+        "height": 640,
+        "draw_calls": 3,
+        "source_hashes": {
+          "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+          "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+          "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+          "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+          "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+          "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+          "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+        },
+        "vertices": 37611,
+        "attribute_vertices": 6571,
+        "indexed_draw_calls": 2,
+        "triangles": 12537,
+        "programs": 3,
+        "shader_validation": [],
+        "draws": [
+          {
+            "index": 0,
+            "method": "drawArrays",
+            "vertices": 3,
+            "unique_vertices": 3,
+            "indices": 0,
+            "submitted_vertices": 3,
+            "mode": 4,
+            "elapsed_ms": 1.18,
+            "errors": []
+          },
+          {
+            "index": 1,
+            "method": "drawElements",
+            "vertices": 3284,
+            "unique_vertices": 3284,
+            "indices": 18804,
+            "submitted_vertices": 18804,
+            "mode": 4,
+            "elapsed_ms": 2.79,
+            "errors": []
+          },
+          {
+            "index": 2,
+            "method": "drawElements",
+            "vertices": 3284,
+            "unique_vertices": 3284,
+            "indices": 18804,
+            "submitted_vertices": 18804,
+            "mode": 4,
+            "elapsed_ms": 4.21,
+            "errors": []
+          }
+        ],
+        "image": "/workspace/scratch/b58b947dd638/duderlab/output/shoulder-closeups-v3-4-6/after/settled-surface.png",
+        "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+      }
+    }
+  ]
+}

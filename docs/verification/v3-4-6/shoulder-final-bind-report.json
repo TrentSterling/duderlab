@@ -1,0 +1,3032 @@
+{
+  "scope": "The actual shell and rendered body: all 16 presets, the reported seed, and five dimensional extremes unless --case selects a subset. Identity plus eight wave samples, or bind only with --bind-only. Structural gates: welded closure, directed winding, connectedness, positive volume, nonzero area, stored skin assignments, neutral export identity, and seam continuity. Supplied/transported-normal disagreement is diagnostic: both omit deformation-gradient effects. With --check-facing, each flagged face is tested for exterior/interior generalized winding0/1 and proper nonadjacent triangle intersections. Shared-vertex contacts and coplanar overlaps are excluded; this is not a proof of absence of all self intersections. Color subdivision is suppressed only during deformation checks.",
+  "bindOnly": true,
+  "checkFacing": true,
+  "sourceRoot": "/workspace/scratch/b58b947dd638/duderlab",
+  "sourceHashes": {
+    "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+    "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+    "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+    "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3"
+  },
+  "cases": 22,
+  "poseCases": 0,
+  "passed": true,
+  "checks": [
+    {
+      "name": "preset-01-Blue Shift",
+      "recipe": {
+        "name": "Blue Shift",
+        "seed": 1001,
+        "height": 1,
+        "width": 1,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.13725490196078433,
+          0.4549019607843137,
+          0.9372549019607843
+        ],
+        "accent": [
+          0.08235294117647059,
+          0.23137254901960785,
+          0.5725490196078431
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "none",
+        "glasses": "square",
+        "accessoryColor": [
+          0.09411764705882353,
+          0.13725490196078433,
+          0.17647058823529413
+        ]
+      },
+      "ms": 2132,
+      "shellTopology": {
+        "vertices": 2912,
+        "edges": 8730,
+        "triangles": 5820,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000012388265824131915,
+        "signedVolume": 0.9298140018410637
+      },
+      "finalTopology": {
+        "vertices": 2912,
+        "edges": 8730,
+        "triangles": 5820,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000012388265824131915,
+        "signedVolume": 0.9298140018410637
+      },
+      "shellOrientation": {
+        "minimum": 0.6810369934071636,
+        "reversed": 0,
+        "worst": {
+          "triangle": 255,
+          "cosine": 0.6810369934071636,
+          "positions": [
+            [
+              -0.38247087597846985,
+              1.3703663349151611,
+              -0.12804102897644043
+            ],
+            [
+              -0.38713446259498596,
+              1.37704598903656,
+              -0.10933482646942139
+            ],
+            [
+              -0.39357373118400574,
+              1.3917500972747803,
+              -0.07113983482122421
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.6810369934071636,
+        "reversed": 0,
+        "worst": {
+          "triangle": 255,
+          "cosine": 0.6810369934071636,
+          "positions": [
+            [
+              -0.38247087597846985,
+              1.3703663349151611,
+              -0.12804102897644043
+            ],
+            [
+              -0.38713446259498596,
+              1.37704598903656,
+              -0.10933482646942139
+            ],
+            [
+              -0.39357373118400574,
+              1.3917500972747803,
+              -0.07113983482122421
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.3886884359392013e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-02-Coral Cap",
+      "recipe": {
+        "name": "Coral Cap",
+        "seed": 1978,
+        "height": 0.96,
+        "width": 1.04,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          1,
+          0.4627450980392157,
+          0.38823529411764707
+        ],
+        "accent": [
+          0.9294117647058824,
+          0.3058823529411765,
+          0.2784313725490196
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "overalls",
+        "outfitColor": [
+          0.20784313725490197,
+          0.43137254901960786,
+          0.4823529411764706
+        ],
+        "hat": "cap",
+        "glasses": "none",
+        "accessoryColor": [
+          0.9490196078431372,
+          0.8862745098039215,
+          0.7450980392156863
+        ]
+      },
+      "ms": 1808,
+      "shellTopology": {
+        "vertices": 3024,
+        "edges": 9066,
+        "triangles": 6044,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 8.375747318553458e-7,
+        "signedVolume": 0.9981967971737409
+      },
+      "finalTopology": {
+        "vertices": 3024,
+        "edges": 9066,
+        "triangles": 6044,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 8.375747318553458e-7,
+        "signedVolume": 0.9981967971737409
+      },
+      "shellOrientation": {
+        "minimum": 0.796219719038809,
+        "reversed": 0,
+        "worst": {
+          "triangle": 333,
+          "cosine": 0.796219719038809,
+          "positions": [
+            [
+              -0.4052310585975647,
+              1.3856849670410156,
+              -0.0811816155910492
+            ],
+            [
+              -0.40768110752105713,
+              1.386059284210205,
+              -0.06742145866155624
+            ],
+            [
+              -0.41157829761505127,
+              1.3946104049682617,
+              0.011885199695825577
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.796219719038809,
+        "reversed": 0,
+        "worst": {
+          "triangle": 333,
+          "cosine": 0.796219719038809,
+          "positions": [
+            [
+              -0.4052310585975647,
+              1.3856849670410156,
+              -0.0811816155910492
+            ],
+            [
+              -0.40768110752105713,
+              1.386059284210205,
+              -0.06742145866155624
+            ],
+            [
+              -0.41157829761505127,
+              1.3946104049682617,
+              0.011885199695825577
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.7886905451524058e-8,
+      "maxWeightError": 3.166496753692627e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-03-Sunshine",
+      "recipe": {
+        "name": "Sunshine",
+        "seed": 2955,
+        "height": 1.06,
+        "width": 0.92,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.9725490196078431,
+          0.7843137254901961,
+          0.21568627450980393
+        ],
+        "accent": [
+          0.9058823529411765,
+          0.6509803921568628,
+          0.10980392156862745
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "none",
+        "glasses": "round",
+        "accessoryColor": [
+          0.13333333333333333,
+          0.1450980392156863,
+          0.16862745098039217
+        ]
+      },
+      "ms": 1721,
+      "shellTopology": {
+        "vertices": 2552,
+        "edges": 7650,
+        "triangles": 5100,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000051669570869594395,
+        "signedVolume": 0.8012717505768027
+      },
+      "finalTopology": {
+        "vertices": 2552,
+        "edges": 7650,
+        "triangles": 5100,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000051669570869594395,
+        "signedVolume": 0.8012717505768027
+      },
+      "shellOrientation": {
+        "minimum": 0.31373992320956895,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2185,
+          "cosine": 0.31373992320956895,
+          "positions": [
+            [
+              -0.4276603162288666,
+              1.1454163789749146,
+              -0.02361469529569149
+            ],
+            [
+              -0.4276603162288666,
+              1.1426262855529785,
+              -0.011800922453403473
+            ],
+            [
+              -0.4255446195602417,
+              1.139329195022583,
+              -0.01195390522480011
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.31373992320956895,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2185,
+          "cosine": 0.31373992320956895,
+          "positions": [
+            [
+              -0.4276603162288666,
+              1.1454163789749146,
+              -0.02361469529569149
+            ],
+            [
+              -0.4276603162288666,
+              1.1426262855529785,
+              -0.011800922453403473
+            ],
+            [
+              -0.4255446195602417,
+              1.139329195022583,
+              -0.01195390522480011
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.946443389273412e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-04-Mint Bucket",
+      "recipe": {
+        "name": "Mint Bucket",
+        "seed": 3932,
+        "height": 0.91,
+        "width": 1.1,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.403921568627451,
+          0.8117647058823529,
+          0.6274509803921569
+        ],
+        "accent": [
+          0.2,
+          0.6196078431372549,
+          0.4666666666666667
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "overalls",
+        "outfitColor": [
+          0.20392156862745098,
+          0.3607843137254902,
+          0.3411764705882353
+        ],
+        "hat": "bucket",
+        "glasses": "none",
+        "accessoryColor": [
+          0.9607843137254902,
+          0.9490196078431372,
+          0.9098039215686274
+        ]
+      },
+      "ms": 1965,
+      "shellTopology": {
+        "vertices": 2951,
+        "edges": 8847,
+        "triangles": 5898,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 8.746375045315304e-7,
+        "signedVolume": 1.1161228356193877
+      },
+      "finalTopology": {
+        "vertices": 2951,
+        "edges": 8847,
+        "triangles": 5898,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 8.746375045315304e-7,
+        "signedVolume": 1.1161228356193877
+      },
+      "shellOrientation": {
+        "minimum": 0.8744710563610545,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4574,
+          "cosine": 0.8744710563610545,
+          "positions": [
+            [
+              0.5156198143959045,
+              1.0562626123428345,
+              0.0361441895365715
+            ],
+            [
+              0.5156198143959045,
+              1.04908287525177,
+              0.005809565540403128
+            ],
+            [
+              0.5240052938461304,
+              1.04239821434021,
+              0.006623685359954834
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.8744710563610545,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4574,
+          "cosine": 0.8744710563610545,
+          "positions": [
+            [
+              0.5156198143959045,
+              1.0562626123428345,
+              0.0361441895365715
+            ],
+            [
+              0.5156198143959045,
+              1.04908287525177,
+              0.005809565540403128
+            ],
+            [
+              0.5240052938461304,
+              1.04239821434021,
+              0.006623685359954834
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.888993211325186e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-05-Lilac Nap",
+      "recipe": {
+        "name": "Lilac Nap",
+        "seed": 4909,
+        "height": 1.1,
+        "width": 0.93,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.6784313725490196,
+          0.5098039215686274,
+          0.8588235294117647
+        ],
+        "accent": [
+          0.5019607843137255,
+          0.32941176470588235,
+          0.6784313725490196
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "tee",
+        "outfitColor": [
+          0.9450980392156862,
+          0.796078431372549,
+          0.49019607843137253
+        ],
+        "hat": "beanie",
+        "glasses": "none",
+        "accessoryColor": [
+          0.396078431372549,
+          0.21568627450980393,
+          0.49411764705882355
+        ]
+      },
+      "ms": 1887,
+      "shellTopology": {
+        "vertices": 2676,
+        "edges": 8022,
+        "triangles": 5348,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 1.0619793493618229e-7,
+        "signedVolume": 0.8398588396242593
+      },
+      "finalTopology": {
+        "vertices": 2676,
+        "edges": 8022,
+        "triangles": 5348,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 1.0619793493618229e-7,
+        "signedVolume": 0.8398588396242593
+      },
+      "shellOrientation": {
+        "minimum": 0.4256756275721255,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2281,
+          "cosine": 0.4256756275721255,
+          "positions": [
+            [
+              -0.4321144223213196,
+              1.195314884185791,
+              -0.03530881553888321
+            ],
+            [
+              -0.4321144223213196,
+              1.1909611225128174,
+              -0.024919603019952774
+            ],
+            [
+              -0.4311707615852356,
+              1.1873795986175537,
+              -0.025747235864400864
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.4256756275721255,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2281,
+          "cosine": 0.4256756275721255,
+          "positions": [
+            [
+              -0.4321144223213196,
+              1.195314884185791,
+              -0.03530881553888321
+            ],
+            [
+              -0.4321144223213196,
+              1.1909611225128174,
+              -0.024919603019952774
+            ],
+            [
+              -0.4311707615852356,
+              1.1873795986175537,
+              -0.025747235864400864
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.9137963264425082e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-06-Orange Pilot",
+      "recipe": {
+        "name": "Orange Pilot",
+        "seed": 5886,
+        "height": 1.04,
+        "width": 1,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          1,
+          0.5882352941176471,
+          0.17647058823529413
+        ],
+        "accent": [
+          0.8588235294117647,
+          0.396078431372549,
+          0.10980392156862745
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "none",
+        "glasses": "aviator",
+        "accessoryColor": [
+          0.1411764705882353,
+          0.1450980392156863,
+          0.16862745098039217
+        ]
+      },
+      "ms": 1768,
+      "shellTopology": {
+        "vertices": 2940,
+        "edges": 8814,
+        "triangles": 5876,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 4.4207018254019273e-7,
+        "signedVolume": 0.9517111105919903
+      },
+      "finalTopology": {
+        "vertices": 2940,
+        "edges": 8814,
+        "triangles": 5876,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 4.4207018254019273e-7,
+        "signedVolume": 0.9517111105919903
+      },
+      "shellOrientation": {
+        "minimum": 0.5975162324610407,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4516,
+          "cosine": 0.5975162324610407,
+          "positions": [
+            [
+              0.4657815396785736,
+              1.116875410079956,
+              0.02820117212831974
+            ],
+            [
+              0.4657815396785736,
+              1.1122219562530518,
+              0.006101943552494049
+            ],
+            [
+              0.46604740619659424,
+              1.1079189777374268,
+              0.006884698756039143
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.5975162324610407,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4516,
+          "cosine": 0.5975162324610407,
+          "positions": [
+            [
+              0.4657815396785736,
+              1.116875410079956,
+              0.02820117212831974
+            ],
+            [
+              0.4657815396785736,
+              1.1122219562530518,
+              0.006101943552494049
+            ],
+            [
+              0.46604740619659424,
+              1.1079189777374268,
+              0.006884698756039143
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 1.7279477626530593e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-07-Teal Bowler",
+      "recipe": {
+        "name": "Teal Bowler",
+        "seed": 6863,
+        "height": 1.09,
+        "width": 0.94,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.25882352941176473,
+          0.788235294117647,
+          0.7450980392156863
+        ],
+        "accent": [
+          0.12941176470588237,
+          0.5607843137254902,
+          0.5529411764705883
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "tee",
+        "outfitColor": [
+          0.9411764705882353,
+          0.8549019607843137,
+          0.7176470588235294
+        ],
+        "hat": "bowler",
+        "glasses": "none",
+        "accessoryColor": [
+          0.1450980392156863,
+          0.14901960784313725,
+          0.16862745098039217
+        ]
+      },
+      "ms": 1822,
+      "shellTopology": {
+        "vertices": 2765,
+        "edges": 8289,
+        "triangles": 5526,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 3.590234156681675e-7,
+        "signedVolume": 0.8544847205449734
+      },
+      "finalTopology": {
+        "vertices": 2765,
+        "edges": 8289,
+        "triangles": 5526,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 3.590234156681675e-7,
+        "signedVolume": 0.8544847205449734
+      },
+      "shellOrientation": {
+        "minimum": 0.19659489841776498,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4237,
+          "cosine": 0.19659489841776498,
+          "positions": [
+            [
+              0.4369083344936371,
+              1.182141900062561,
+              0.03380390629172325
+            ],
+            [
+              0.4369083344936371,
+              1.1754791736602783,
+              0.012142103165388107
+            ],
+            [
+              0.43408268690109253,
+              1.172463059425354,
+              0.013208809308707714
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.19659489841776498,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4237,
+          "cosine": 0.19659489841776498,
+          "positions": [
+            [
+              0.4369083344936371,
+              1.182141900062561,
+              0.03380390629172325
+            ],
+            [
+              0.4369083344936371,
+              1.1754791736602783,
+              0.012142103165388107
+            ],
+            [
+              0.43408268690109253,
+              1.172463059425354,
+              0.013208809308707714
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.28084886533253e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-08-Pink Pop",
+      "recipe": {
+        "name": "Pink Pop",
+        "seed": 7840,
+        "height": 0.94,
+        "width": 1.06,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.9333333333333333,
+          0.4470588235294118,
+          0.6941176470588235
+        ],
+        "accent": [
+          0.7843137254901961,
+          0.2784313725490196,
+          0.5254901960784314
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "none",
+        "glasses": "catEye",
+        "accessoryColor": [
+          1,
+          0.9568627450980393,
+          0.8627450980392157
+        ]
+      },
+      "ms": 1771,
+      "shellTopology": {
+        "vertices": 2984,
+        "edges": 8946,
+        "triangles": 5964,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000041501450331016605,
+        "signedVolume": 1.034971887835793
+      },
+      "finalTopology": {
+        "vertices": 2984,
+        "edges": 8946,
+        "triangles": 5964,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000041501450331016605,
+        "signedVolume": 1.0349718878357888
+      },
+      "shellOrientation": {
+        "minimum": 0.8093867289575813,
+        "reversed": 0,
+        "worst": {
+          "triangle": 272,
+          "cosine": 0.8093867289575813,
+          "positions": [
+            [
+              0.4040777385234833,
+              1.3709219694137573,
+              -0.12744882702827454
+            ],
+            [
+              0.4138451814651489,
+              1.3915091753005981,
+              -0.07172904163599014
+            ],
+            [
+              0.4066167175769806,
+              1.3743979930877686,
+              -0.1168675422668457
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.8093867289575813,
+        "reversed": 0,
+        "worst": {
+          "triangle": 272,
+          "cosine": 0.8093867289575813,
+          "positions": [
+            [
+              0.4040777385234833,
+              1.3709219694137573,
+              -0.12744882702827454
+            ],
+            [
+              0.4138451814651489,
+              1.3915091753005981,
+              -0.07172904163599014
+            ],
+            [
+              0.4066167175769806,
+              1.3743979930877686,
+              -0.1168675422668457
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.783048769217089e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-09-Cookie Crumb",
+      "recipe": {
+        "name": "Cookie Crumb",
+        "seed": 8817,
+        "height": 0.91,
+        "width": 1.08,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.9450980392156862,
+          0.8666666666666667,
+          0.6941176470588235
+        ],
+        "accent": [
+          0.615686274509804,
+          0.396078431372549,
+          0.2235294117647059
+        ],
+        "pattern": 1,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "none",
+        "glasses": "round",
+        "accessoryColor": [
+          0.40784313725490196,
+          0.2823529411764706,
+          0.17647058823529413
+        ]
+      },
+      "ms": 1728,
+      "shellTopology": {
+        "vertices": 2901,
+        "edges": 8697,
+        "triangles": 5798,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 4.2539277562273844e-7,
+        "signedVolume": 1.067458065995414
+      },
+      "finalTopology": {
+        "vertices": 2901,
+        "edges": 8697,
+        "triangles": 5798,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 4.2539277562273844e-7,
+        "signedVolume": 1.067458065995414
+      },
+      "shellOrientation": {
+        "minimum": 0.8481741362146928,
+        "reversed": 0,
+        "worst": {
+          "triangle": 277,
+          "cosine": 0.8481741362146928,
+          "positions": [
+            [
+              0.40865930914878845,
+              1.3735228776931763,
+              -0.13370932638645172
+            ],
+            [
+              0.41985154151916504,
+              1.3933477401733398,
+              -0.07349852472543716
+            ],
+            [
+              0.41458234190940857,
+              1.3807934522628784,
+              -0.10873861610889435
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.8481741362146928,
+        "reversed": 0,
+        "worst": {
+          "triangle": 277,
+          "cosine": 0.8481741362146928,
+          "positions": [
+            [
+              0.40865930914878845,
+              1.3735228776931763,
+              -0.13370932638645172
+            ],
+            [
+              0.41985154151916504,
+              1.3933477401733398,
+              -0.07349852472543716
+            ],
+            [
+              0.41458234190940857,
+              1.3807934522628784,
+              -0.10873861610889435
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.281643984858306e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-10-Cloud Nine",
+      "recipe": {
+        "name": "Cloud Nine",
+        "seed": 9794,
+        "height": 1.03,
+        "width": 0.96,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.4666666666666667,
+          0.7450980392156863,
+          0.9294117647058824
+        ],
+        "accent": [
+          0.9686274509803922,
+          0.9568627450980393,
+          0.8941176470588236
+        ],
+        "pattern": 2,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "cap",
+        "glasses": "none",
+        "accessoryColor": [
+          0.1568627450980392,
+          0.43137254901960786,
+          0.8352941176470589
+        ]
+      },
+      "ms": 1369,
+      "shellTopology": {
+        "vertices": 2695,
+        "edges": 8079,
+        "triangles": 5386,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000002231494981750783,
+        "signedVolume": 0.8634548348535661
+      },
+      "finalTopology": {
+        "vertices": 2695,
+        "edges": 8079,
+        "triangles": 5386,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000002231494981750783,
+        "signedVolume": 0.8634548348535661
+      },
+      "shellOrientation": {
+        "minimum": 0.453146984346433,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4181,
+          "cosine": 0.453146984346433,
+          "positions": [
+            [
+              0.44685739278793335,
+              1.1125597953796387,
+              0.036433666944503784
+            ],
+            [
+              0.44685739278793335,
+              1.1041679382324219,
+              0.007040094584226608
+            ],
+            [
+              0.4461953341960907,
+              1.1003175973892212,
+              0.007863533683121204
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.453146984346433,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4181,
+          "cosine": 0.453146984346433,
+          "positions": [
+            [
+              0.44685739278793335,
+              1.1125597953796387,
+              0.036433666944503784
+            ],
+            [
+              0.44685739278793335,
+              1.1041679382324219,
+              0.007040094584226608
+            ],
+            [
+              0.4461953341960907,
+              1.1003175973892212,
+              0.007863533683121204
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.639714591357034e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-11-Star Gazer",
+      "recipe": {
+        "name": "Star Gazer",
+        "seed": 10771,
+        "height": 1.1,
+        "width": 0.92,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.5372549019607843,
+          0.28627450980392155,
+          0.7764705882352941
+        ],
+        "accent": [
+          0.9725490196078431,
+          0.8313725490196079,
+          0.3333333333333333
+        ],
+        "pattern": 3,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "none",
+        "glasses": "square",
+        "accessoryColor": [
+          0.1411764705882353,
+          0.12549019607843137,
+          0.16862745098039217
+        ]
+      },
+      "ms": 1277,
+      "shellTopology": {
+        "vertices": 2598,
+        "edges": 7788,
+        "triangles": 5192,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000001601282950794372,
+        "signedVolume": 0.8203310250700492
+      },
+      "finalTopology": {
+        "vertices": 2598,
+        "edges": 7788,
+        "triangles": 5192,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000001601282950794372,
+        "signedVolume": 0.8203310250700492
+      },
+      "shellOrientation": {
+        "minimum": 0.4041359934941561,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2224,
+          "cosine": 0.4041359934941561,
+          "positions": [
+            [
+              -0.42739173769950867,
+              1.1944206953048706,
+              -0.0314764566719532
+            ],
+            [
+              -0.42739173769950867,
+              1.191612958908081,
+              -0.02421877346932888
+            ],
+            [
+              -0.42605990171432495,
+              1.1881903409957886,
+              -0.025013122707605362
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.4041359934941561,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2224,
+          "cosine": 0.4041359934941561,
+          "positions": [
+            [
+              -0.42739173769950867,
+              1.1944206953048706,
+              -0.0314764566719532
+            ],
+            [
+              -0.42739173769950867,
+              1.191612958908081,
+              -0.02421877346932888
+            ],
+            [
+              -0.42605990171432495,
+              1.1881903409957886,
+              -0.025013122707605362
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.3636410606542313e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-12-Lime Safari",
+      "recipe": {
+        "name": "Lime Safari",
+        "seed": 11748,
+        "height": 1,
+        "width": 0.99,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.6901960784313725,
+          0.8509803921568627,
+          0.25882352941176473
+        ],
+        "accent": [
+          0.3843137254901961,
+          0.5411764705882353,
+          0.18823529411764706
+        ],
+        "pattern": 4,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "sunhat",
+        "glasses": "none",
+        "accessoryColor": [
+          0.8196078431372549,
+          0.6941176470588235,
+          0.4823529411764706
+        ]
+      },
+      "ms": 1630,
+      "shellTopology": {
+        "vertices": 2820,
+        "edges": 8454,
+        "triangles": 5636,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 2.4015368604064336e-7,
+        "signedVolume": 0.9088368006522626
+      },
+      "finalTopology": {
+        "vertices": 2820,
+        "edges": 8454,
+        "triangles": 5636,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 2.4015368604064336e-7,
+        "signedVolume": 0.9088368006522626
+      },
+      "shellOrientation": {
+        "minimum": 0.6845749166311679,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4396,
+          "cosine": 0.6845749166311679,
+          "positions": [
+            [
+              0.46142467856407166,
+              1.0732258558273315,
+              0.031958069652318954
+            ],
+            [
+              0.46142467856407166,
+              1.0674715042114258,
+              0.010229095816612244
+            ],
+            [
+              0.46281611919403076,
+              1.0629438161849976,
+              0.011228122748434544
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.6845749166311679,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4396,
+          "cosine": 0.6845749166311679,
+          "positions": [
+            [
+              0.46142467856407166,
+              1.0732258558273315,
+              0.031958069652318954
+            ],
+            [
+              0.46142467856407166,
+              1.0674715042114258,
+              0.010229095816612244
+            ],
+            [
+              0.46281611919403076,
+              1.0629438161849976,
+              0.011228122748434544
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.814132560313709e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-13-Berry Buddy",
+      "recipe": {
+        "name": "Berry Buddy",
+        "seed": 12725,
+        "height": 0.96,
+        "width": 1.02,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.9333333333333333,
+          0.3764705882352941,
+          0.4823529411764706
+        ],
+        "accent": [
+          0.6235294117647059,
+          0.18823529411764706,
+          0.30196078431372547
+        ],
+        "pattern": 5,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "cap",
+        "glasses": "none",
+        "accessoryColor": [
+          0.2549019607843137,
+          0.6039215686274509,
+          0.3764705882352941
+        ]
+      },
+      "ms": 1676,
+      "shellTopology": {
+        "vertices": 2861,
+        "edges": 8577,
+        "triangles": 5718,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 7.146916697985859e-7,
+        "signedVolume": 0.9529336277318066
+      },
+      "finalTopology": {
+        "vertices": 2861,
+        "edges": 8577,
+        "triangles": 5718,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 7.146916697985859e-7,
+        "signedVolume": 0.9529336277318066
+      },
+      "shellOrientation": {
+        "minimum": 0.8047308495273131,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2431,
+          "cosine": 0.8047308495273131,
+          "positions": [
+            [
+              -0.47624117136001587,
+              1.0400227308273315,
+              -0.022112829610705376
+            ],
+            [
+              -0.47624117136001587,
+              1.0372949838638306,
+              0.005473371595144272
+            ],
+            [
+              -0.4798726737499237,
+              1.0320103168487549,
+              0.006244535557925701
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.8047308495273131,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2431,
+          "cosine": 0.8047308495273131,
+          "positions": [
+            [
+              -0.47624117136001587,
+              1.0400227308273315,
+              -0.022112829610705376
+            ],
+            [
+              -0.47624117136001587,
+              1.0372949838638306,
+              0.005473371595144272
+            ],
+            [
+              -0.4798726737499237,
+              1.0320103168487549,
+              0.006244535557925701
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.9435374582220675e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-14-Caramel Patch",
+      "recipe": {
+        "name": "Caramel Patch",
+        "seed": 13702,
+        "height": 0.92,
+        "width": 1.08,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.8470588235294118,
+          0.6274509803921569,
+          0.39215686274509803
+        ],
+        "accent": [
+          0.4745098039215686,
+          0.2980392156862745,
+          0.17254901960784313
+        ],
+        "pattern": 6,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "overalls",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "none",
+        "glasses": "round",
+        "accessoryColor": [
+          0.20392156862745098,
+          0.19215686274509805,
+          0.1843137254901961
+        ]
+      },
+      "ms": 1605,
+      "shellTopology": {
+        "vertices": 2985,
+        "edges": 8949,
+        "triangles": 5966,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000015708901042819942,
+        "signedVolume": 1.072442834184663
+      },
+      "finalTopology": {
+        "vertices": 2985,
+        "edges": 8949,
+        "triangles": 5966,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000015708901042819942,
+        "signedVolume": 1.072442834184663
+      },
+      "shellOrientation": {
+        "minimum": 0.8521881400164614,
+        "reversed": 0,
+        "worst": {
+          "triangle": 413,
+          "cosine": 0.8521881400164614,
+          "positions": [
+            [
+              0.5261826515197754,
+              0.8623532652854919,
+              0.01798674277961254
+            ],
+            [
+              0.5255504846572876,
+              0.8644876480102539,
+              0.02385711669921875
+            ],
+            [
+              0.5124553442001343,
+              0.8833931684494019,
+              0.10228779166936874
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.8521881400164614,
+        "reversed": 0,
+        "worst": {
+          "triangle": 413,
+          "cosine": 0.8521881400164614,
+          "positions": [
+            [
+              0.5261826515197754,
+              0.8623532652854919,
+              0.01798674277961254
+            ],
+            [
+              0.5255504846572876,
+              0.8644876480102539,
+              0.02385711669921875
+            ],
+            [
+              0.5124553442001343,
+              0.8833931684494019,
+              0.10228779166936874
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.2658377396567175e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-15-Cyan Static",
+      "recipe": {
+        "name": "Cyan Static",
+        "seed": 14679,
+        "height": 1.08,
+        "width": 0.95,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.2980392156862745,
+          0.32941176470588235,
+          0.36470588235294116
+        ],
+        "accent": [
+          0.26666666666666666,
+          0.7490196078431373,
+          0.8352941176470589
+        ],
+        "pattern": 6,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "beanie",
+        "glasses": "none",
+        "accessoryColor": [
+          0.21176470588235294,
+          0.6745098039215687,
+          0.7725490196078432
+        ]
+      },
+      "ms": 1401,
+      "shellTopology": {
+        "vertices": 2739,
+        "edges": 8211,
+        "triangles": 5474,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000017767561457289425,
+        "signedVolume": 0.8694326915206357
+      },
+      "finalTopology": {
+        "vertices": 2739,
+        "edges": 8211,
+        "triangles": 5474,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000017767561457289425,
+        "signedVolume": 0.8694326915206357
+      },
+      "shellOrientation": {
+        "minimum": 0.29448107479375735,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2308,
+          "cosine": 0.29448107479375735,
+          "positions": [
+            [
+              -0.4417113661766052,
+              1.1649208068847656,
+              -0.020660003647208214
+            ],
+            [
+              -0.4417113661766052,
+              1.162333369255066,
+              -0.004611048847436905
+            ],
+            [
+              -0.43931305408477783,
+              1.1589864492416382,
+              -0.004394203424453735
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.29448107479375735,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2308,
+          "cosine": 0.29448107479375735,
+          "positions": [
+            [
+              -0.4417113661766052,
+              1.1649208068847656,
+              -0.020660003647208214
+            ],
+            [
+              -0.4417113661766052,
+              1.162333369255066,
+              -0.004611048847436905
+            ],
+            [
+              -0.43931305408477783,
+              1.1589864492416382,
+              -0.004394203424453735
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.6274651343527466e-8,
+      "maxWeightError": 2.980232283178452e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "preset-16-Cowabunga",
+      "recipe": {
+        "name": "Cowabunga",
+        "seed": 15656,
+        "height": 0.97,
+        "width": 1.04,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1,
+        "armSpread": 0.08,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1,
+        "blend": 0.16,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.9568627450980393,
+          0.9215686274509803,
+          0.8392156862745098
+        ],
+        "accent": [
+          0.1450980392156863,
+          0.15294117647058825,
+          0.16470588235294117
+        ],
+        "pattern": 7,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "bucket",
+        "glasses": "none",
+        "accessoryColor": [
+          0.9294117647058824,
+          0.29411764705882354,
+          0.27058823529411763
+        ]
+      },
+      "ms": 1265,
+      "shellTopology": {
+        "vertices": 2949,
+        "edges": 8841,
+        "triangles": 5894,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 1.6406263522165145e-7,
+        "signedVolume": 1.0028334101986451
+      },
+      "finalTopology": {
+        "vertices": 2949,
+        "edges": 8841,
+        "triangles": 5894,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 1.6406263522165145e-7,
+        "signedVolume": 1.0028334101986451
+      },
+      "shellOrientation": {
+        "minimum": 0.8050996089692808,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4487,
+          "cosine": 0.8050996089692808,
+          "positions": [
+            [
+              0.485697478055954,
+              1.0553864240646362,
+              0.030897531658411026
+            ],
+            [
+              0.485697478055954,
+              1.0499002933502197,
+              0.0052891201339662075
+            ],
+            [
+              0.4896758496761322,
+              1.044442057609558,
+              0.006052997428923845
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.8050996089692808,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4487,
+          "cosine": 0.8050996089692808,
+          "positions": [
+            [
+              0.485697478055954,
+              1.0553864240646362,
+              0.030897531658411026
+            ],
+            [
+              0.485697478055954,
+              1.0499002933502197,
+              0.0052891201339662075
+            ],
+            [
+              0.4896758496761322,
+              1.044442057609558,
+              0.006052997428923845
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.4802519260624933e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "reported-wave",
+      "recipe": {
+        "name": "Duder 1702468274",
+        "seed": 1702468274,
+        "height": 0.9427383803226985,
+        "width": 0.9838516732957213,
+        "depth": 1.0399583201110363,
+        "belly": 0.9441612956370228,
+        "armLength": 0.9332098877057433,
+        "armSpread": 0.06288972284877672,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1.0360811228537932,
+        "blend": 0.1640717530529946,
+        "facets": 12,
+        "eyeSpace": 1.0488679870753548,
+        "color": [
+          0.9333333333333333,
+          0.3764705882352941,
+          0.4823529411764706
+        ],
+        "accent": [
+          0.6235294117647059,
+          0.18823529411764706,
+          0.30196078431372547
+        ],
+        "pattern": 3,
+        "patternScale": 0.8156558190379293,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "sunhat",
+        "glasses": "none",
+        "accessoryColor": [
+          0.2549019607843137,
+          0.6039215686274509,
+          0.3764705882352941
+        ]
+      },
+      "ms": 1184,
+      "shellTopology": {
+        "vertices": 2608,
+        "edges": 7818,
+        "triangles": 5212,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000005789557460354749,
+        "signedVolume": 0.8049906980669385
+      },
+      "finalTopology": {
+        "vertices": 2608,
+        "edges": 7818,
+        "triangles": 5212,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000005789557460354749,
+        "signedVolume": 0.8049906980669385
+      },
+      "shellOrientation": {
+        "minimum": 0.8225242079133859,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2188,
+          "cosine": 0.8225242079133859,
+          "positions": [
+            [
+              -0.4472673535346985,
+              1.0041393041610718,
+              -0.0206975806504488
+            ],
+            [
+              -0.4472673535346985,
+              1.0015513896942139,
+              -0.002751082880422473
+            ],
+            [
+              -0.45115867257118225,
+              0.9963094592094421,
+              -0.002376244170591235
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.8225242079133859,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2188,
+          "cosine": 0.8225242079133859,
+          "positions": [
+            [
+              -0.4472673535346985,
+              1.0041393041610718,
+              -0.0206975806504488
+            ],
+            [
+              -0.4472673535346985,
+              1.0015513896942139,
+              -0.002751082880422473
+            ],
+            [
+              -0.45115867257118225,
+              0.9963094592094421,
+              -0.002376244170591235
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.7760107101926224e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "thin-short-low-resolution",
+      "recipe": {
+        "name": "Blue Duder",
+        "seed": 1001,
+        "height": 1.3,
+        "width": 0.75,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 0.7,
+        "armSpread": 0.08,
+        "armThickness": 0.65,
+        "armGap": 0,
+        "feet": 1,
+        "blend": 0.22,
+        "facets": 8,
+        "eyeSpace": 1,
+        "color": [
+          0.13725490196078433,
+          0.4549019607843137,
+          0.9372549019607843
+        ],
+        "accent": [
+          0.08235294117647059,
+          0.23137254901960785,
+          0.5725490196078431
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.20392156862745098,
+          0.3686274509803922,
+          0.47058823529411764
+        ],
+        "hat": "none",
+        "glasses": "square",
+        "accessoryColor": [
+          0.09411764705882353,
+          0.13725490196078433,
+          0.17647058823529413
+        ]
+      },
+      "ms": 1677,
+      "shellTopology": {
+        "vertices": 3034,
+        "edges": 9096,
+        "triangles": 6064,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000014542504741770599,
+        "signedVolume": 0.5991645777629763
+      },
+      "finalTopology": {
+        "vertices": 3034,
+        "edges": 9096,
+        "triangles": 6064,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000014542504741770599,
+        "signedVolume": 0.5991645777629756
+      },
+      "shellOrientation": {
+        "minimum": 0.6534012835259237,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4742,
+          "cosine": 0.6534012835259237,
+          "positions": [
+            [
+              0.3395863473415375,
+              1.4625991582870483,
+              0.025041723623871803
+            ],
+            [
+              0.3395863473415375,
+              1.454473853111267,
+              0.005876610521227121
+            ],
+            [
+              0.33995455503463745,
+              1.4487773180007935,
+              0.006537537090480328
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.6534012835259237,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4742,
+          "cosine": 0.6534012835259237,
+          "positions": [
+            [
+              0.3395863473415375,
+              1.4625991582870483,
+              0.025041723623871803
+            ],
+            [
+              0.3395863473415375,
+              1.454473853111267,
+              0.005876610521227121
+            ],
+            [
+              0.33995455503463745,
+              1.4487773180007935,
+              0.006537537090480328
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.930335174511356e-8,
+      "maxWeightError": 3.119930624961853e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "wide-short-thick",
+      "recipe": {
+        "name": "Blue Duder",
+        "seed": 1001,
+        "height": 0.75,
+        "width": 1.3,
+        "depth": 0.88,
+        "belly": 1.2,
+        "armLength": 0.7,
+        "armSpread": -0.15,
+        "armThickness": 1.35,
+        "armGap": 0,
+        "feet": 1,
+        "blend": 0.22,
+        "facets": 8,
+        "eyeSpace": 1,
+        "color": [
+          0.13725490196078433,
+          0.4549019607843137,
+          0.9372549019607843
+        ],
+        "accent": [
+          0.08235294117647059,
+          0.23137254901960785,
+          0.5725490196078431
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.20392156862745098,
+          0.3686274509803922,
+          0.47058823529411764
+        ],
+        "hat": "none",
+        "glasses": "square",
+        "accessoryColor": [
+          0.09411764705882353,
+          0.13725490196078433,
+          0.17647058823529413
+        ]
+      },
+      "ms": 1464,
+      "shellTopology": {
+        "vertices": 3253,
+        "edges": 9753,
+        "triangles": 6502,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 3.3753854161829084e-7,
+        "signedVolume": 2.3514059803149663
+      },
+      "finalTopology": {
+        "vertices": 3253,
+        "edges": 9753,
+        "triangles": 6502,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 3.3753854161829084e-7,
+        "signedVolume": 2.3514059803149663
+      },
+      "shellOrientation": {
+        "minimum": 0.45553103760310293,
+        "reversed": 0,
+        "worst": {
+          "triangle": 5143,
+          "cosine": 0.45553103760310293,
+          "positions": [
+            [
+              0.7593468427658081,
+              1.16023850440979,
+              0.03865634277462959
+            ],
+            [
+              0.7950930595397949,
+              1.145533561706543,
+              0.00815466046333313
+            ],
+            [
+              0.7956923842430115,
+              1.150757908821106,
+              0.04107607156038284
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.45553103760310293,
+        "reversed": 0,
+        "worst": {
+          "triangle": 5143,
+          "cosine": 0.45553103760310293,
+          "positions": [
+            [
+              0.7593468427658081,
+              1.16023850440979,
+              0.03865634277462959
+            ],
+            [
+              0.7950930595397949,
+              1.145533561706543,
+              0.00815466046333313
+            ],
+            [
+              0.7956923842430115,
+              1.150757908821106,
+              0.04107607156038284
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.9639354526267425e-8,
+      "maxWeightError": 3.119930624961853e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "thin-long-minimum-blend",
+      "recipe": {
+        "name": "Blue Duder",
+        "seed": 1001,
+        "height": 1.3,
+        "width": 0.75,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1.4,
+        "armSpread": 0.22,
+        "armThickness": 0.65,
+        "armGap": 0.24,
+        "feet": 1,
+        "blend": 0.03,
+        "facets": 16,
+        "eyeSpace": 1,
+        "color": [
+          0.13725490196078433,
+          0.4549019607843137,
+          0.9372549019607843
+        ],
+        "accent": [
+          0.08235294117647059,
+          0.23137254901960785,
+          0.5725490196078431
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.20392156862745098,
+          0.3686274509803922,
+          0.47058823529411764
+        ],
+        "hat": "none",
+        "glasses": "square",
+        "accessoryColor": [
+          0.09411764705882353,
+          0.13725490196078433,
+          0.17647058823529413
+        ]
+      },
+      "ms": 4424,
+      "shellTopology": {
+        "vertices": 8118,
+        "edges": 24348,
+        "triangles": 16232,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 8.194602722870365e-7,
+        "signedVolume": 0.5924800008283537
+      },
+      "finalTopology": {
+        "vertices": 8118,
+        "edges": 24348,
+        "triangles": 16232,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 8.194602722870365e-7,
+        "signedVolume": 0.592480000828354
+      },
+      "shellOrientation": {
+        "minimum": 0.6808443365288589,
+        "reversed": 0,
+        "worst": {
+          "triangle": 12495,
+          "cosine": 0.6808443365288589,
+          "positions": [
+            [
+              0.3395863473415375,
+              1.4574187994003296,
+              0.0162652637809515
+            ],
+            [
+              0.3395863473415375,
+              1.4542251825332642,
+              0.0037843743339180946
+            ],
+            [
+              0.33990049362182617,
+              1.449028730392456,
+              0.004149526357650757
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.6808443365288589,
+        "reversed": 0,
+        "worst": {
+          "triangle": 12495,
+          "cosine": 0.6808443365288589,
+          "positions": [
+            [
+              0.3395863473415375,
+              1.4574187994003296,
+              0.0162652637809515
+            ],
+            [
+              0.3395863473415375,
+              1.4542251825332642,
+              0.0037843743339180946
+            ],
+            [
+              0.33990049362182617,
+              1.449028730392456,
+              0.004149526357650757
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.7757803278127824e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "deep-thick",
+      "recipe": {
+        "name": "Blue Duder",
+        "seed": 1001,
+        "height": 1,
+        "width": 1,
+        "depth": 1.24,
+        "belly": 1,
+        "armLength": 0.7,
+        "armSpread": 0.08,
+        "armThickness": 1.35,
+        "armGap": 0,
+        "feet": 1,
+        "blend": 0.22,
+        "facets": 12,
+        "eyeSpace": 1,
+        "color": [
+          0.13725490196078433,
+          0.4549019607843137,
+          0.9372549019607843
+        ],
+        "accent": [
+          0.08235294117647059,
+          0.23137254901960785,
+          0.5725490196078431
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.20392156862745098,
+          0.3686274509803922,
+          0.47058823529411764
+        ],
+        "hat": "none",
+        "glasses": "square",
+        "accessoryColor": [
+          0.09411764705882353,
+          0.13725490196078433,
+          0.17647058823529413
+        ]
+      },
+      "ms": 1478,
+      "shellTopology": {
+        "vertices": 3053,
+        "edges": 9153,
+        "triangles": 6102,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 2.9761521740686386e-7,
+        "signedVolume": 0.9786796843360636
+      },
+      "finalTopology": {
+        "vertices": 3053,
+        "edges": 9153,
+        "triangles": 6102,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 2.9761521740686386e-7,
+        "signedVolume": 0.9786796843360636
+      },
+      "shellOrientation": {
+        "minimum": 0.32659977756822794,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2562,
+          "cosine": 0.32659977756822794,
+          "positions": [
+            [
+              -0.4981144368648529,
+              1.0532432794570923,
+              -0.07268118113279343
+            ],
+            [
+              -0.49503210186958313,
+              1.0459284782409668,
+              -0.06114063411951065
+            ],
+            [
+              -0.4829365313053131,
+              1.0477032661437988,
+              -0.06280890852212906
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.32659977756822794,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2562,
+          "cosine": 0.32659977756822794,
+          "positions": [
+            [
+              -0.4981144368648529,
+              1.0532432794570923,
+              -0.07268118113279343
+            ],
+            [
+              -0.49503210186958313,
+              1.0459284782409668,
+              -0.06114063411951065
+            ],
+            [
+              -0.4829365313053131,
+              1.0477032661437988,
+              -0.06280890852212906
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 1.8375547528037828e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    },
+    {
+      "name": "flat-short",
+      "recipe": {
+        "name": "Blue Duder",
+        "seed": 1001,
+        "height": 1,
+        "width": 1,
+        "depth": 0.62,
+        "belly": 1,
+        "armLength": 0.7,
+        "armSpread": 0.08,
+        "armThickness": 0.65,
+        "armGap": 0,
+        "feet": 1,
+        "blend": 0.03,
+        "facets": 8,
+        "eyeSpace": 1,
+        "color": [
+          0.13725490196078433,
+          0.4549019607843137,
+          0.9372549019607843
+        ],
+        "accent": [
+          0.08235294117647059,
+          0.23137254901960785,
+          0.5725490196078431
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.20392156862745098,
+          0.3686274509803922,
+          0.47058823529411764
+        ],
+        "hat": "none",
+        "glasses": "square",
+        "accessoryColor": [
+          0.09411764705882353,
+          0.13725490196078433,
+          0.17647058823529413
+        ]
+      },
+      "ms": 1261,
+      "shellTopology": {
+        "vertices": 2418,
+        "edges": 7248,
+        "triangles": 4832,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000008341545436267531,
+        "signedVolume": 0.8724274785200673
+      },
+      "finalTopology": {
+        "vertices": 2418,
+        "edges": 7248,
+        "triangles": 4832,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.000008341545436267531,
+        "signedVolume": 0.8724274785200673
+      },
+      "shellOrientation": {
+        "minimum": 0.1621689512953498,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2645,
+          "cosine": 0.1621689512953498,
+          "positions": [
+            [
+              -0.45639461278915405,
+              1.104951024055481,
+              -0.030850466340780258
+            ],
+            [
+              -0.45639461278915405,
+              1.0998297929763794,
+              -0.021543098613619804
+            ],
+            [
+              -0.45494943857192993,
+              1.0975830554962158,
+              -0.02212442271411419
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.1621689512953498,
+        "reversed": 0,
+        "worst": {
+          "triangle": 2645,
+          "cosine": 0.1621689512953498,
+          "positions": [
+            [
+              -0.45639461278915405,
+              1.104951024055481,
+              -0.030850466340780258
+            ],
+            [
+              -0.45639461278915405,
+              1.0998297929763794,
+              -0.021543098613619804
+            ],
+            [
+              -0.45494943857192993,
+              1.0975830554962158,
+              -0.02212442271411419
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.3554699302152926e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [],
+      "failures": 0
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,227 @@
+{
+  "purpose": "Pure JavaScript functional integration against actual app event handlers. WebGL is mocked; rendering and browser behavior are validated separately. No performance inference from synthetic frames.",
+  "passed": 43,
+  "checks": [
+    {
+      "name": "Initial smooth gallery with indexed geometry and four-pass accounting",
+      "passed": true,
+      "triangles": 52964,
+      "vertices": 26932,
+      "expandedVertices": 158892,
+      "geometryBytes": 3328768
+    },
+    {
+      "name": "Gallery canvas click selects duder 7",
+      "passed": true
+    },
+    {
+      "name": "Focus button retains selection and collection total",
+      "passed": true
+    },
+    {
+      "name": "Shape slider changes actual recipe and rebuilds geometry",
+      "passed": true,
+      "height": 1.19
+    },
+    {
+      "name": "Depth slider updates body proportion",
+      "passed": true,
+      "depth": 0.93
+    },
+    {
+      "name": "Skin tab and procedural pattern selection",
+      "passed": true
+    },
+    {
+      "name": "Skin color swatch edits shader data",
+      "passed": true
+    },
+    {
+      "name": "Gear tab fits selected hat and glasses",
+      "passed": true
+    },
+    {
+      "name": "Animation, smooth shading round-trip, and wireframe controls",
+      "passed": true
+    },
+    {
+      "name": "Canvas drag orbits and wheel zooms",
+      "passed": true
+    },
+    {
+      "name": "F frames selected view",
+      "passed": true
+    },
+    {
+      "name": "G toggles gallery/focus",
+      "passed": true
+    },
+    {
+      "name": "R rerolls selected duder",
+      "passed": true
+    },
+    {
+      "name": "Shift+R restores original collection",
+      "passed": true
+    },
+    {
+      "name": "duder-recipes-v3.json",
+      "passed": true,
+      "bytes": 14944
+    },
+    {
+      "name": "Recipe file import restores selection and edited parameters",
+      "passed": true
+    },
+    {
+      "name": "imported-duder.glb",
+      "passed": true,
+      "bytes": 97076,
+      "vertices": 1586,
+      "materials": 1
+    },
+    {
+      "name": "Ragdoll button creates seven rigid bodies, six joints, and one batched rig overlay",
+      "passed": true
+    },
+    {
+      "name": "Physics steps feed finite matrices into the actual render data path",
+      "passed": true
+    },
+    {
+      "name": "Space pauses physical motion",
+      "passed": true
+    },
+    {
+      "name": "Rig and shell outline toggles account for exactly one draw each",
+      "passed": true
+    },
+    {
+      "name": "Shell correction slider reaches pure bone skinning",
+      "passed": true
+    },
+    {
+      "name": "D triggers a raised physical drop",
+      "passed": true
+    },
+    {
+      "name": "Canvas grab ray attaches, moves, and releases a physical body",
+      "passed": true
+    },
+    {
+      "name": "S starts two generated rigs in one collision world and character batch",
+      "passed": true
+    },
+    {
+      "name": "Kick action reaches running physics",
+      "passed": true
+    },
+    {
+      "name": "Paused physics exports the current pose as valid GLB",
+      "passed": true,
+      "bytes": 97096
+    },
+    {
+      "name": "Gallery exits physics and restores the editable sixteen-duder batch",
+      "passed": true
+    },
+    {
+      "name": "Motion button opens a clean animation preview",
+      "passed": true
+    },
+    {
+      "name": "Wave clip feeds finite animation matrices to the renderer",
+      "passed": true
+    },
+    {
+      "name": "Space pauses animation even when a UI button is focused",
+      "passed": true
+    },
+    {
+      "name": "Timeline scrub selects an exact held pose",
+      "passed": true
+    },
+    {
+      "name": "Motion speed slider reaches 1.5x",
+      "passed": true
+    },
+    {
+      "name": "Motion rig overlay adds exactly one draw",
+      "passed": true
+    },
+    {
+      "name": "Animation export captures the currently held pose",
+      "passed": true
+    },
+    {
+      "name": "Release to ragdoll preserves all seven current bone transforms",
+      "passed": true,
+      "maxTransformError": 5.960464477539063e-8
+    },
+    {
+      "name": "Playing animation releases physical linear or angular momentum",
+      "passed": true
+    },
+    {
+      "name": "Gallery previews all 16 animated duders in the same fill and outline batches",
+      "passed": true
+    },
+    {
+      "name": "B starts an eight-bean pile with one visible initial rig and seven pending",
+      "passed": true
+    },
+    {
+      "name": "Staggered spawn grows to eight colliding ragdolls while retaining four total draws",
+      "passed": true,
+      "jointGap": 0.0008061296391317127
+    },
+    {
+      "name": "Pile pause and batched collider overlay work",
+      "passed": true
+    },
+    {
+      "name": "Pile size control and refill preserve the requested count",
+      "passed": true
+    },
+    {
+      "name": "Leaving the pile restores the editable gallery",
+      "passed": true
+    }
+  ],
+  "downloads": [
+    {
+      "name": "duder-recipes-v3.json",
+      "bytes": 14944,
+      "mime": "application/json"
+    },
+    {
+      "name": "imported-duder.glb",
+      "bytes": 97076,
+      "mime": "model/gltf-binary"
+    },
+    {
+      "name": "imported-duder-pose.glb",
+      "bytes": 97096,
+      "mime": "model/gltf-binary"
+    },
+    {
+      "name": "imported-duder-pose.glb",
+      "bytes": 97096,
+      "mime": "model/gltf-binary"
+    }
+  ],
+  "sourceHashes": {
+    "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+    "vendor-cannon.js": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26",
+    "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+    "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+    "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+    "collision-shapes.js": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+    "physics.js": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16",
+    "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+    "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+    "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e",
+    "app.js": "3bdf46792be14d8f04da6f02958ed7e466deb815a8fd99bca4dd69efeca47c37"
+  },
+  "errors": []
+}

@@ -104,8 +104,14 @@
       items.forEach((item,i)=>{const [name,val]=Array.isArray(item)?item:[item,item];this.button(name,x+(i%columns)*(bw+gap),y+Math.floor(i/columns)*32,bw,27,'param',{key,value:val},val===current,false,key+':'+val);});
       return y+Math.ceil(items.length/columns)*32+7;
     }
-    _swatches(label,key,x,y,w,current,palette=PALETTE){
+    _swatches(label,key,x,y,w,current,palette=PALETTE,showCurrent=false){
       this._label(label,x,y);y+=19;const gap=7,sw=(w-gap*5)/6;
+      if(showCurrent){
+        const color=current||rgb('#18232d'),hex='#'+color.map(c=>Math.round(clamp(c,0,1)*255).toString(16).padStart(2,'0')).join('').toUpperCase();
+        this.rect(x,y,26,24,C.border,4);this.rect(x+2,y+2,22,20,[...color,1],2);
+        this.text(hex,x+34,y+6,11,C.text);
+        this.button('Reset',x+w-60,y,60,24,'resetGearColor',key,false,false,'gear:reset:'+key);y+=33;
+      }
       palette.forEach((hex,i)=>{const color=rgb(hex),xx=x+i%6*(sw+gap),yy=y+Math.floor(i/6)*33,selected=sameColor(current,color),hover=this._hover(xx,yy,sw,26),keyId=key+':'+hex;
         this.rect(xx-1,yy-1,sw+2,28,selected?C.lime:hover?C.text:C.border,6);this.rect(xx+2,yy+2,sw-4,22,[...color,1],3);
         if(selected)this.rect(xx+sw/2-2,yy+10,4,4,color.reduce((a,b)=>a+b,0)>1.6?C.dark:C.text,2);
@@ -115,7 +121,7 @@
     _header(s,w,l){
       this.rect(0,0,w,l.header,C.panel);this.rect(0,l.header-1,w,1,C.border);
       this._hit(0,0,w,l.header,{type:'block',key:'header'});
-      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.2.1',32,48,9,C.muted);
+      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.4.7',32,48,9,C.muted);
       if(l.mobile){
         this.button(s.panelOpen?'Close':'Edit',w-121,20,65,30,'togglePanel',undefined,s.panelOpen,false,'togglePanel');
         this.button('?',w-48,20,30,30,'help',undefined,s.helpOpen,false,'help');
@@ -150,6 +156,7 @@
       if(tab==='shape'){
         const specs=[['Height','height',.75,1.3],['Width','width',.75,1.3],['Depth','depth',.62,1.24],['Belly','belly',.8,1.2],['Arm length','armLength',.7,1.4],['Arm spread','armSpread',-.15,.22],['Arm thickness','armThickness',.65,1.35],['Arm clearance','armGap',0,.24],['Feet','feet',.7,1.3],['Joint blend','blend',.03,.22],['Eye spacing','eyeSpace',.7,1.3]];
         for(const [label,key,min,max]of specs){this.slider(label,key,min,max,x,yy,iw,r[key],.01);yy+=42;}
+        this.slider('Eye size','eyeSize',.75,1.45,x,yy,iw,r.eyeSize??1.18,.01);yy+=42;
         yy=this._choices('Facet detail','facets',[['Coarse',8],['Low',12],['Fine',16]],x,yy+2,iw,r.facets||12,3);
       }else if(tab==='skin'){
         yy=this._choices('Skin pattern','pattern',['Solid','Freckles','Clouds','Stars','Spots','Seeds','Patchwork','Cow'].map((a,i)=>[a,i]),x,yy,iw,r.pattern||0,2);
@@ -158,10 +165,14 @@
         this.slider('Roughness','roughness',.15,.95,x,yy,iw,r.roughness??.7);yy+=45;
         this.slider('Outline width','outlineWidth',.8,4,x,yy,iw,s.outlineWidth??2.2,.1,'viewParam');yy+=43;
       }else if(tab==='gear'){
-        yy=this._choices('Hat','hat',[['None','none'],['Cap','cap'],['Bucket','bucket'],['Beanie','beanie'],['Bowler','bowler'],['Sunhat','sunhat']],x,yy,iw,r.hat||'none',2);
+        yy=this._choices('Hat','hat',[['None','none'],['Cap','cap'],['Bucket','bucket'],['Beanie','beanie'],['Bowler','bowler'],['Sunhat','sunhat'],['Cowboy','cowboy'],['Wizard','wizard'],['Chef','chef'],['Crown','crown'],['Beret','beret'],['Top hat','topHat']],x,yy,iw,r.hat||'none',2);
+        yy=this._swatches('Hat color','hatColor',x,yy+4,iw,r.hatColor||r.accessoryColor,ACCENTS,true);
         yy=this._choices('Glasses','glasses',[['None','none'],['Square','square'],['Round','round'],['Aviator','aviator'],['Cat eye','catEye']],x,yy+4,iw,r.glasses||'none',2);
-        yy=this._swatches('Accessory color','accessoryColor',x,yy+4,iw,r.accessoryColor,ACCENTS);
-        this.text('Baked profiles. Shared material.',x,yy+1,10,C.muted);yy+=25;
+        yy=this._swatches('Frame color','glassesColor',x,yy+4,iw,r.glassesColor||r.accessoryColor,ACCENTS,true);
+        this.button('Reset both colors',x,yy+4,iw,27,'resetGearColors',null,false,false,'gear:resetColors');yy+=42;
+        yy=this._choices('Outfit','outfit',[['Bare bean','none'],['Overalls','overalls'],['Tee','tee']],x,yy+4,iw,r.outfit||'none',2);
+        yy=this._swatches('Outfit color','outfitColor',x,yy+4,iw,r.outfitColor,ACCENTS);
+        this.text('Fitted colors follow the soft shell.',x,yy+1,10,C.muted);yy+=25;
       }else if(tab==='motion'){
         this._label('Animation clips',x,yy);yy+=21;
         const clips=[['Idle','idle'],['Walk','walk'],['Wave','wave'],['Dance','dance']],pw=(iw-6)/2;
@@ -173,6 +184,8 @@
         this.slider('Motion amount','motionAmplitude',.25,1.25,x,yy,iw,s.motionAmplitude??1,.05,'motionParam');yy+=45;
         this.button('Release to ragdoll',x,yy,iw,33,'ragdoll',null,false,true,'motion:release');yy+=45;
         this.button('Show bones',x,yy,iw,28,'toggle','showRig',!!s.showRig,false,'motion:rig');yy+=39;
+        this.button('Arm weight colors / V',x,yy,iw,28,'toggle','showArmWeights',!!s.showArmWeights,false,'motion:weights');yy+=39;
+        if(s.showArmWeights){yy=this._wrap('Gray 0% / cyan 25% / yellow 50% / red 100% arm influence. The colors stay fixed to the skin.',x,yy,iw,11,C.muted);yy+=13;}
         yy=this._wrap('Scrub to inspect a pose. Release keeps the pose and its momentum. Gallery previews the clip on all 16.',x,yy,iw,11,C.muted);yy+=13;
         this.slider('Shell correction','projectionStrength',0,1,x,yy,iw,s.projectionStrength??.55,.01,'viewParam');yy+=43;
       }else if(tab==='physics'){
@@ -224,7 +237,7 @@
     _footer(s,w,h,l){
       const y=h-l.footer;this.rect(0,y,w,l.footer,C.panel);this.rect(0,y,w,1,C.border);
       this._hit(0,y,w,l.footer,{type:'block',key:'footer'});
-      if(l.left&&!l.mobile)this.text('V3.2.1   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
+      if(l.left&&!l.mobile)this.text('V3.4.7   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
       const x=(l.mobile?0:l.left)+18,st=s.stats||{},tris=st.triangles>=1000?(st.triangles/1000).toFixed(1)+'K':String(st.triangles||0);
       const text=(st.count||16)+((st.count||16)===1?' DUDER   ':' DUDERS   ')+(st.drawCalls??3)+' DRAWS   '+tris+' TRIS'+(w>650?(st.offlineCapture?'   OFFLINE REPLAY':'   '+Math.round(st.fps||0)+' FPS'):'');
       this.text(text,x,y+(l.footer-10)/2,10,C.lime);
@@ -268,7 +281,7 @@
         this.rect(vp.x+18,vp.y+15,ww,27,[.075,.084,.095,.92],6);
         this.clip={x:vp.x+26,y:vp.y+15,w:ww-16,h:27};this.text(title,vp.x+30,vp.y+24,10,C.lime,true);this.clip=null;
       }else if(state.motionEnabled){
-        const title=(state.motionClip||'idle').toUpperCase()+' / '+(state.motionPlaying?'PLAYING':'POSE PAUSED'),ww=this.measure(title,10,true)+24;
+        const title=(state.motionClip||'idle').toUpperCase()+' / '+(state.motionPlaying?'PLAYING':'POSE PAUSED')+(state.showArmWeights?' / ARM WEIGHTS':''),ww=this.measure(title,10,true)+24;
         this.rect(vp.x+18,vp.y+15,ww,27,[.075,.084,.095,.92],6);this.text(title,vp.x+30,vp.y+24,10,C.lime,true);
       }
       this._header(state,width,l);this._inspector(state,width,height,l);this._footer(state,width,height,l);

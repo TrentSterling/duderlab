@@ -1,0 +1,305 @@
+{
+  "scope": "The actual shell and rendered body: all 16 presets, the reported seed, and five dimensional extremes unless --case selects a subset. Identity plus eight wave samples, or bind only with --bind-only. Structural gates: welded closure, directed winding, connectedness, positive volume, nonzero area, stored skin assignments, neutral export identity, and seam continuity. Supplied/transported-normal disagreement is diagnostic: both omit deformation-gradient effects. With --check-facing, each flagged face is tested for exterior/interior generalized winding0/1 and proper nonadjacent triangle intersections. Shared-vertex contacts and coplanar overlaps are excluded; this is not a proof of absence of all self intersections. Color subdivision is suppressed only during deformation checks.",
+  "bindOnly": false,
+  "checkFacing": true,
+  "sourceRoot": "/tmp/duder-loop-local-snap",
+  "sourceHashes": {
+    "core.js": "a1f4549c773f0f59220a8fc6635ad1ae10fa3c4217f4c67f4daae229d7eed97e",
+    "shell.js": "fefc105c831eda93f5fb5330c2fe87affa008cb1c3a928c55f3c64ffc6a195ad",
+    "geometry.js": "716632905b3b784e9bc7e3f94ac162e8df778e32a9dbab487545ebbf2a64cd31",
+    "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3"
+  },
+  "cases": 1,
+  "poseCases": 9,
+  "passed": true,
+  "checks": [
+    {
+      "name": "reported-wave",
+      "recipe": {
+        "name": "Duder 1702468274",
+        "seed": 1702468274,
+        "height": 0.9427383803226985,
+        "width": 0.9838516732957213,
+        "depth": 1.0399583201110363,
+        "belly": 0.9441612956370228,
+        "armLength": 0.9332098877057433,
+        "armSpread": 0.06288972284877672,
+        "armThickness": 1,
+        "armGap": 0.1,
+        "feet": 1.0360811228537932,
+        "blend": 0.1640717530529946,
+        "facets": 12,
+        "eyeSpace": 1.0488679870753548,
+        "color": [
+          0.9333333333333333,
+          0.3764705882352941,
+          0.4823529411764706
+        ],
+        "accent": [
+          0.6235294117647059,
+          0.18823529411764706,
+          0.30196078431372547
+        ],
+        "pattern": 3,
+        "patternScale": 0.8156558190379293,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.3607843137254902,
+          0.4235294117647059,
+          0.5764705882352941
+        ],
+        "hat": "sunhat",
+        "glasses": "none",
+        "accessoryColor": [
+          0.2549019607843137,
+          0.6039215686274509,
+          0.3764705882352941
+        ]
+      },
+      "ms": 7016,
+      "shellTopology": {
+        "vertices": 1133,
+        "edges": 3393,
+        "triangles": 2262,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.00008193968728454697,
+        "signedVolume": 0.8066246510283416
+      },
+      "finalTopology": {
+        "vertices": 1133,
+        "edges": 3393,
+        "triangles": 2262,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.00008193968728454697,
+        "signedVolume": 0.8066246510283416
+      },
+      "shellOrientation": {
+        "minimum": -0.16263241484334395,
+        "reversed": 1,
+        "worst": {
+          "triangle": 1118,
+          "cosine": -0.16263241484334395,
+          "positions": [
+            [
+              -0.4283907115459442,
+              0.98078453540802,
+              0.03417108580470085
+            ],
+            [
+              -0.49631431698799133,
+              0.8739943504333496,
+              0.07695532590150833
+            ],
+            [
+              -0.4297674298286438,
+              0.9800955057144165,
+              0.03425651788711548
+            ]
+          ]
+        },
+        "negativeTriangles": [
+          1118
+        ]
+      },
+      "bindOrientation": {
+        "minimum": -0.16263241484334395,
+        "reversed": 1,
+        "worst": {
+          "triangle": 1118,
+          "cosine": -0.16263241484334395,
+          "positions": [
+            [
+              -0.4283907115459442,
+              0.98078453540802,
+              0.03417108580470085
+            ],
+            [
+              -0.49631431698799133,
+              0.8739943504333496,
+              0.07695532590150833
+            ],
+            [
+              -0.4297674298286438,
+              0.9800955057144165,
+              0.03425651788711548
+            ]
+          ]
+        },
+        "negativeTriangles": [
+          1118
+        ]
+      },
+      "bindFacing": {
+        "tested": 1,
+        "maxWindingError": 2.0650148258027912e-14,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 1.1102230246251565e-16,
+      "maxWeightError": 3.3527612686157227e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [
+        {
+          "pose": "identity",
+          "seamError": 0,
+          "minAreaRatio": 0.9991689309875765,
+          "minTransportAlignment": 0.9999954603569635,
+          "transportReversals": 0,
+          "normalReversals": 9,
+          "minNormalAlignment": -0.2945691504723768,
+          "minDoubleArea": 0.00008432275189003138,
+          "signedVolume": 0.8388564557901339,
+          "facing": {
+            "tested": 9,
+            "maxWindingError": 5.837945476229526e-14,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-0",
+          "seamError": 0,
+          "minAreaRatio": 0.9991689309875765,
+          "minTransportAlignment": 0.9999954603569635,
+          "transportReversals": 0,
+          "normalReversals": 9,
+          "minNormalAlignment": -0.2945691504723768,
+          "minDoubleArea": 0.00008432275189003138,
+          "signedVolume": 0.8388564697288136,
+          "facing": {
+            "tested": 9,
+            "maxWindingError": 5.760141640491403e-14,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-0.8",
+          "seamError": 0,
+          "minAreaRatio": 0.4025402442494034,
+          "minTransportAlignment": 0.7673430919337341,
+          "transportReversals": 0,
+          "normalReversals": 5,
+          "minNormalAlignment": -0.3042732709021674,
+          "minDoubleArea": 0.00004684239218125618,
+          "signedVolume": 0.8395810100381567,
+          "facing": {
+            "tested": 5,
+            "maxWindingError": 1.9984014443252818e-15,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-1.16",
+          "seamError": 0,
+          "minAreaRatio": 0.3047287474791414,
+          "minTransportAlignment": 0.35551209964766817,
+          "transportReversals": 0,
+          "normalReversals": 3,
+          "minNormalAlignment": -0.3114127738604158,
+          "minDoubleArea": 0.00004921821119012045,
+          "signedVolume": 0.840447116115087,
+          "facing": {
+            "tested": 3,
+            "maxWindingError": 1.4432899320127035e-15,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-1.88",
+          "seamError": 0,
+          "minAreaRatio": 0.30479698811398814,
+          "minTransportAlignment": 0.3553084958978605,
+          "transportReversals": 0,
+          "normalReversals": 3,
+          "minNormalAlignment": -0.30484042179807813,
+          "minDoubleArea": 0.000049204897911062044,
+          "signedVolume": 0.8402392104836943,
+          "facing": {
+            "tested": 3,
+            "maxWindingError": 2.7755575615628914e-15,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-2.38",
+          "seamError": 0,
+          "minAreaRatio": 0.30479698811398814,
+          "minTransportAlignment": 0.3553084958978605,
+          "transportReversals": 0,
+          "normalReversals": 3,
+          "minNormalAlignment": -0.2989111340422915,
+          "minDoubleArea": 0.00004921470873642223,
+          "signedVolume": 0.8405681199815519,
+          "facing": {
+            "tested": 3,
+            "maxWindingError": 1.6653345369377348e-15,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-2.82",
+          "seamError": 0,
+          "minAreaRatio": 0.30479698811398814,
+          "minTransportAlignment": 0.3553084958978605,
+          "transportReversals": 0,
+          "normalReversals": 3,
+          "minNormalAlignment": -0.29571905447466174,
+          "minDoubleArea": 0.00004920458357127971,
+          "signedVolume": 0.8402151839588526,
+          "facing": {
+            "tested": 3,
+            "maxWindingError": 8.603692033227067e-16,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-3.2",
+          "seamError": 0,
+          "minAreaRatio": 0.30479698811398814,
+          "minTransportAlignment": 0.3553084958978605,
+          "transportReversals": 0,
+          "normalReversals": 3,
+          "minNormalAlignment": -0.2957934817506148,
+          "minDoubleArea": 0.000049208810890772403,
+          "signedVolume": 0.8404497999685311,
+          "facing": {
+            "tested": 3,
+            "maxWindingError": 1.7763568394002505e-15,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-3.76",
+          "seamError": 0,
+          "minAreaRatio": 0.7526574499678489,
+          "minTransportAlignment": 0.9342307106618666,
+          "transportReversals": 0,
+          "normalReversals": 8,
+          "minNormalAlignment": -0.29511107236863665,
+          "minDoubleArea": 0.0000840780745275543,
+          "signedVolume": 0.838981594674872,
+          "facing": {
+            "tested": 8,
+            "maxWindingError": 1.0882752207698542e-13,
+            "failures": []
+          }
+        }
+      ],
+      "failures": 0
+    }
+  ],
+  "failures": []
+}

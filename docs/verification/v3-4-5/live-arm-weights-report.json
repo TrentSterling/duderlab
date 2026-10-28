@@ -1,0 +1,151 @@
+{
+  "passed": true,
+  "version": "3.4.5",
+  "scope": "Unmodified production vertex/fragment shaders with live uArmWeights=true, replayed on Mesa GLES with the real Motion UI. This is shader execution and visual inspection, not browser or hardware FPS verification.",
+  "seed": 1702468274,
+  "phase": 0.485,
+  "drawCalls": 4,
+  "indexedDrawCalls": 2,
+  "liveUniformEnabled": true,
+  "diagnosticShaderReplacement": false,
+  "sourceHashes": {
+    "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+    "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+    "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+    "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+    "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+    "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+    "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+  },
+  "visualReview": {
+    "inspected": true,
+    "findings": [
+      "Torso and legs display gray zero-arm influence.",
+      "Both arms display red high influence with cyan/yellow shoulder transitions.",
+      "Motion panel, enabled Arm weight colors button, legend and timeline are visible and legible.",
+      "Regular outline pass remains present; no extra render pass was introduced."
+    ]
+  },
+  "image": "duderlab-live-arm-weights.png",
+  "renderReport": {
+    "renderer": {
+      "vendor": "Mesa",
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+      "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+      "shading_language": "OpenGL ES GLSL ES 3.20",
+      "egl_version": "1.5"
+    },
+    "width": 1440,
+    "height": 1000,
+    "draw_calls": 4,
+    "source_hashes": {
+      "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+      "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+      "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+      "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+      "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+      "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+      "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+    },
+    "vertices": 24351,
+    "attribute_vertices": 8311,
+    "indexed_draw_calls": 2,
+    "triangles": 8117,
+    "programs": 3,
+    "shader_validation": [
+      {
+        "stage": "vertex",
+        "compiled": true,
+        "log": ""
+      },
+      {
+        "stage": "fragment",
+        "compiled": true,
+        "log": ""
+      },
+      {
+        "stage": "link",
+        "linked": true,
+        "log": ""
+      },
+      {
+        "stage": "vertex",
+        "compiled": true,
+        "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+      },
+      {
+        "stage": "fragment",
+        "compiled": true,
+        "log": ""
+      },
+      {
+        "stage": "link",
+        "linked": true,
+        "log": ""
+      },
+      {
+        "stage": "vertex",
+        "compiled": true,
+        "log": ""
+      },
+      {
+        "stage": "fragment",
+        "compiled": true,
+        "log": ""
+      },
+      {
+        "stage": "link",
+        "linked": true,
+        "log": ""
+      }
+    ],
+    "draws": [
+      {
+        "index": 0,
+        "method": "drawArrays",
+        "vertices": 3,
+        "unique_vertices": 3,
+        "indices": 0,
+        "submitted_vertices": 3,
+        "mode": 4,
+        "elapsed_ms": 124.06,
+        "errors": []
+      },
+      {
+        "index": 1,
+        "method": "drawElements",
+        "vertices": 1676,
+        "unique_vertices": 1676,
+        "indices": 9696,
+        "submitted_vertices": 9696,
+        "mode": 4,
+        "elapsed_ms": 542.89,
+        "errors": []
+      },
+      {
+        "index": 2,
+        "method": "drawElements",
+        "vertices": 1676,
+        "unique_vertices": 1676,
+        "indices": 9696,
+        "submitted_vertices": 9696,
+        "mode": 4,
+        "elapsed_ms": 3.48,
+        "errors": []
+      },
+      {
+        "index": 3,
+        "method": "drawArrays",
+        "vertices": 4956,
+        "unique_vertices": 4956,
+        "indices": 0,
+        "submitted_vertices": 4956,
+        "mode": 4,
+        "elapsed_ms": 50.73,
+        "errors": []
+      }
+    ],
+    "image": "/tmp/duderlab-live-arm-weights.png",
+    "verification_scope": "Actual captured application GLSL and draw calls on Mesa llvmpipe GLES3; not browser interaction or hardware performance."
+  }
+}

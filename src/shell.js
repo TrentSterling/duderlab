@@ -1,6 +1,7 @@
 /* Duder Lab — coherent Surface Nets skin for the seven-part SDF union.
  * This supplies one closed tessellation instead of overlapping primitive skins.
- * GPU projection onto the animated union preserves the Critters blend-shell idea.
+ * One local shoulder loop distributes the arm bend; the rest of the original
+ * low-poly body and arms keep their existing mesh and bounded SDF correction.
  */
 (function(root){
   'use strict';
@@ -160,11 +161,41 @@
     if(!topologyValid(true))return refine('projection folded a coarse triangle');
     const positions=new Float32Array(indices.length*3),normalArray=new Float32Array(indices.length*3);
     for(let i=0;i<indices.length;i++){positions.set(vertices[indices[i]],i*3);normalArray.set(normals[indices[i]],i*3);}
-    const result={positions,normals:normalArray,triangleCount:indices.length/3,
+    const original={positions,normals:normalArray,triangleCount:indices.length/3,
       indexedPositions:new Float32Array(vertices.flat()),indices:new Uint32Array(indices),
       stats:{step,vertices:vertices.length,triangles:indices.length/3,grid:dims,refinements:attempt,cacheKey:key}};
+    const result=shoulderLoop(original,r,parts);
     cache.set(key,result);while(cache.size>CACHE_LIMIT)cache.delete(cache.keys().next().value);
     return result;
   }
-  root.DuderShell=Object.freeze({build,clearCache:()=>cache.clear(),version:'2.0'});
+ function shoulderLoop(source,r,parts){
+  const C=root.DuderCore,points=[],normals=[],len2=(a,b)=>dot(sub(a,b),sub(a,b));
+  for(let i=0;i<source.indexedPositions.length;i+=3)points.push(Array.from(source.indexedPositions.slice(i,i+3)));
+  let faces=[];for(let i=0;i<source.indices.length;i+=3){faces.push(Array.from(source.indices.slice(i,i+3)));for(let j=0;j<3;j++)normals[source.indices[i+j]]=Array.from(source.normals.slice((i+j)*3,(i+j)*3+3));}
+  const stats=[],skinByPosition=new Map();const skinKey=p=>p.map(v=>Math.round(Math.fround(v)*1e6)).join(',');
+  // Split just one influence contour at each shoulder. Every original vertex
+  // stays at its existing position; only triangles crossed by the loop change.
+  for(const upper of [1,3]){const lower=upper+1,total=p=>{const s=C.skinWeightsForPoint(p,parts,r.blend);return s.indices.reduce((sum,b,k)=>sum+([upper,lower].includes(b)?s.weights[k]:0),0);},values=points.map(p=>total(p)-.5),cuts=new Map(),out=[];let changed=0;
+   function cut(a,b){const k=a<b?a+','+b:b+','+a;if(cuts.has(k))return cuts.get(k);const A=points[a],B=points[b],t=-values[a]/(values[b]-values[a]);const hit=C.projectSurfaceVertex(A.map((v,k)=>v+(B[k]-v)*t),parts,r.blend);
+    // Slide the lower part of the new loop toward the shoulder. This changes
+    // the long flat underarm chord into a bend, without narrowing the arm root.
+    const S=parts[upper].a,rad=parts[upper].ra,below=Math.max(0,Math.min(1,(S[1]-hit.p[1]-rad*.25)/(rad*1.55))),lift=1.2*rad*below*below*(3-2*below),delta=S.map((v,k)=>v-hit.p[k]),length=Math.hypot(...delta);if((t<.08||t>.92)&&lift<=rad*.25){const original=t<.08?a:b;cuts.set(k,original);return original;}hit.p=hit.p.map((v,k)=>v+delta[k]*lift/Math.max(1e-8,length));
+    // Interpolate the original endpoint influences. Re-evaluating the distance
+    // envelope at the inserted point would repaint this carefully placed loop.
+    const w=Array(7).fill(0);for(const [p,f]of [[A,1-t],[B,t]]){const skin=C.skinWeightsForPoint(p,parts,r.blend);for(let j=0;j<4;j++)w[skin.indices[j]]+=skin.weights[j]*f;}w[upper]+=w[lower];w[lower]=0;const ids=w.map((_,i)=>i).sort((a,b)=>w[b]-w[a]).slice(0,4),sum=ids.reduce((s,i)=>s+w[i],0);skinByPosition.set(skinKey(hit.p),{indices:ids,weights:ids.map(i=>w[i]/sum)});
+    const index=points.length;points.push(hit.p);normals.push(hit.n);values.push(0);cuts.set(k,index);return index;}
+   function polygon(ids){ids=ids.filter((v,i)=>i===0||v!==ids[i-1]);if(ids.length>1&&ids[0]===ids[ids.length-1])ids.pop();if(ids.length<3)return;if(ids.length===3)out.push(ids);else if(len2(points[ids[0]],points[ids[2]])<=len2(points[ids[1]],points[ids[3]]))out.push([ids[0],ids[1],ids[2]],[ids[0],ids[2],ids[3]]);else out.push([ids[0],ids[1],ids[3]],[ids[1],ids[2],ids[3]]);}
+   for(const face of faces){const signs=face.map(i=>values[i]>=0);if(signs.every(Boolean)||signs.every(x=>!x)){out.push(face);continue;}changed++;
+    for(const side of [true,false]){const poly=[];for(let j=0;j<3;j++){const a=face[j],b=face[(j+1)%3];if(signs[j]===side)poly.push(a);if(signs[j]!==signs[(j+1)%3])poly.push(cut(a,b));}polygon(poly);}
+   }faces=out;stats.push({upper,cutEdges:cuts.size,changedFaces:changed});
+  }
+  // Recompute normals only on the inserted band and its shared boundary.
+  const touched=new Set();for(const face of faces)if(face.some(i=>i>=source.indexedPositions.length/3))for(const i of face)touched.add(i);
+  const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],unit=a=>{const n=Math.hypot(...a)||1;return a.map(v=>v/n);},sums=points.map(()=>[0,0,0]);
+  for(const face of faces){const n=unit(cross(sub(points[face[1]],points[face[0]]),sub(points[face[2]],points[face[0]])));for(let j=0;j<3;j++){const i=face[j];if(!touched.has(i))continue;const a=unit(sub(points[face[(j+1)%3]],points[i])),b=unit(sub(points[face[(j+2)%3]],points[i])),angle=Math.acos(Math.max(-1,Math.min(1,dot(a,b))));for(let k=0;k<3;k++)sums[i][k]+=n[k]*angle;}}
+  for(const i of touched)normals[i]=unit(sums[i]);
+  const positions=new Float32Array(faces.length*9),ns=new Float32Array(faces.length*9),indices=new Uint32Array(faces.length*3);faces.forEach((f,i)=>f.forEach((v,j)=>{positions.set(points[v],i*9+j*3);ns.set(normals[v],i*9+j*3);indices[i*3+j]=v;}));
+  const result={positions,skinByPosition,normals:ns,indices,indexedPositions:new Float32Array(points.flat()),triangleCount:faces.length,stats:{...source.stats,baseTriangles:source.triangleCount,triangles:faces.length,vertices:points.length,shoulderLoop:stats}};return result;
+ }
+  root.DuderShell=Object.freeze({build,clearCache:()=>cache.clear(),version:'3.1'});
 })(typeof window!=='undefined'?window:globalThis);

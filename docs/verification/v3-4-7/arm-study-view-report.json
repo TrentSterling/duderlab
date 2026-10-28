@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "version": "3.4.7",
+  "scope": "Real application boot, GPU UI and keyboard event wiring with captured WebGL draw submissions. Verifies no geometry rebuild, buffer/texture/program allocation or added draw for the weight view; actual GLSL execution is verified separately.",
+  "checks": [
+    {
+      "name": "Normal startup retains the complete 16-duder collection and regular materials",
+      "passed": true
+    },
+    {
+      "name": "Regular startup restores saved selection, wardrobe, colors, outfits and body edits",
+      "passed": true
+    },
+    {
+      "name": "query starts the exact wave study with its Motion controls and established camera",
+      "passed": true,
+      "seed": 1702468274,
+      "triangles": 3318,
+      "drawCalls": 4
+    },
+    {
+      "name": "query study edits persist separately and preserve the saved regular collection",
+      "passed": true
+    },
+    {
+      "name": "standalone-flag starts the exact wave study with its Motion controls and established camera",
+      "passed": true,
+      "seed": 1702468274,
+      "triangles": 3318,
+      "drawCalls": 4
+    },
+    {
+      "name": "standalone-flag study edits persist separately and preserve the saved regular collection",
+      "passed": true
+    },
+    {
+      "name": "V enables the real weight-color uniform without rebuilding geometry, reallocating resources, changing pose, or adding a draw",
+      "passed": true,
+      "drawCalls": 4,
+      "indexedDrawCalls": 2,
+      "geometryBytes": 211716
+    },
+    {
+      "name": "Uppercase V and the Motion button toggle both ways; text input leaves the view alone",
+      "passed": true
+    }
+  ],
+  "sourceHashes": {
+    "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+    "vendor-cannon.js": "0594e42a766e78d3bc02640771b763029f566c01784c55ac72c1757501960e26",
+    "core.js": "a1f4549c773f0f59220a8fc6635ad1ae10fa3c4217f4c67f4daae229d7eed97e",
+    "shell.js": "fefc105c831eda93f5fb5330c2fe87affa008cb1c3a928c55f3c64ffc6a195ad",
+    "geometry.js": "716632905b3b784e9bc7e3f94ac162e8df778e32a9dbab487545ebbf2a64cd31",
+    "collision-shapes.js": "a82c6428f7d43cca5ecded4e6e41ddb9523ee4f23508d16d27702b071b43e476",
+    "physics.js": "494444ba21db529432d50cecb88cbf3f73dc045f0acc828b96107f865a5a3b16",
+    "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+    "renderer.js": "1a341e115365c9a9d775876f4c0ee56666cfd17fb210b80588cdfb4d823196e3",
+    "ui.js": "c0f550885fc0935a1869f5d4cdf8528979fa72bc7bfcec8b744cd7c6750eaa5e",
+    "app.js": "f5aa58fd472d26954a5471311154d7a612443c95602bd5e55554e2bdfdcda07f"
+  }
+}

@@ -1,0 +1,997 @@
+{
+  "passed": true,
+  "scope": "Render matched shoulder/underarm A/B views and diagnostic weight maps.\n\nSurface images replay production GLSL; weight images only change replay color.\nThis is Mesa software GLES verification, not a browser or hardware FPS test.",
+  "failures": [],
+  "renderer": {
+    "vendor": "Mesa",
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+    "shading_language": "OpenGL ES GLSL ES 3.20",
+    "egl_version": "1.5"
+  },
+  "recipe": {
+    "name": "Arm Study",
+    "seed": 1702468274,
+    "height": 0.9427383803226985,
+    "width": 0.9838516732957213,
+    "depth": 1.0399583201110363,
+    "belly": 0.9441612956370228,
+    "armLength": 0.9332098877057433,
+    "armSpread": 0.06288972284877672,
+    "armThickness": 1,
+    "armGap": 0.1,
+    "feet": 1.0360811228537932,
+    "blend": 0.1640717530529946,
+    "facets": 12,
+    "eyeSpace": 1.0488679870753548,
+    "color": [
+      0.9333333333333333,
+      0.3764705882352941,
+      0.4823529411764706
+    ],
+    "accent": [
+      0.6235294117647059,
+      0.18823529411764706,
+      0.30196078431372547
+    ],
+    "pattern": 0,
+    "patternScale": 0.8156558190379293,
+    "roughness": 0.78,
+    "eyeSize": 1.18,
+    "outfit": "none",
+    "outfitColor": [
+      0.3607843137254902,
+      0.4235294117647059,
+      0.5764705882352941
+    ],
+    "hat": "beanie",
+    "glasses": "none",
+    "accessoryColor": [
+      0.2549019607843137,
+      0.6039215686274509,
+      0.3764705882352941
+    ]
+  },
+  "phase": 0.485,
+  "cases": [
+    {
+      "name": "before-surface-front",
+      "version": "before",
+      "kind": "surface",
+      "view": "front",
+      "label": "FRONT",
+      "phase": 0.485,
+      "time": 1.94,
+      "yaw": 0,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": [
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        },
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "before-weights-front",
+      "version": "before",
+      "kind": "weights",
+      "view": "front",
+      "label": "FRONT",
+      "phase": 0,
+      "time": 0,
+      "yaw": 0,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": true,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": [
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "before-surface-threequarter",
+      "version": "before",
+      "kind": "surface",
+      "view": "threequarter",
+      "label": "THREE QUARTER",
+      "phase": 0.485,
+      "time": 1.94,
+      "yaw": -0.65,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "before-weights-threequarter",
+      "version": "before",
+      "kind": "weights",
+      "view": "threequarter",
+      "label": "THREE QUARTER",
+      "phase": 0,
+      "time": 0,
+      "yaw": -0.65,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": true,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "before-surface-back",
+      "version": "before",
+      "kind": "surface",
+      "view": "back",
+      "label": "BACK",
+      "phase": 0.485,
+      "time": 1.94,
+      "yaw": 3.141592653589793,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "before-weights-back",
+      "version": "before",
+      "kind": "weights",
+      "view": "back",
+      "label": "BACK",
+      "phase": 0,
+      "time": 0,
+      "yaw": 3.141592653589793,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": true,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "before-motion-lift",
+      "version": "before",
+      "kind": "motion",
+      "view": "threequarter",
+      "label": "LIFT",
+      "phase": 0.22,
+      "time": 0.88,
+      "yaw": -0.5,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "before-motion-wave-in",
+      "version": "before",
+      "kind": "motion",
+      "view": "threequarter",
+      "label": "WAVE IN",
+      "phase": 0.485,
+      "time": 1.94,
+      "yaw": -0.5,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "before-motion-wave-out",
+      "version": "before",
+      "kind": "motion",
+      "view": "threequarter",
+      "label": "WAVE OUT",
+      "phase": 0.595,
+      "time": 2.38,
+      "yaw": -0.5,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "before-motion-settle",
+      "version": "before",
+      "kind": "motion",
+      "view": "threequarter",
+      "label": "SETTLE",
+      "phase": 0.94,
+      "time": 3.76,
+      "yaw": -0.5,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+        "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+        "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+        "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 3232,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 1676,
+        "expandedVertices": 9696,
+        "indices": 9696,
+        "geometryBytes": 206384
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "after-surface-front",
+      "version": "after",
+      "kind": "surface",
+      "view": "front",
+      "label": "FRONT",
+      "phase": 0.485,
+      "time": 1.94,
+      "yaw": 0,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": [
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "after-weights-front",
+      "version": "after",
+      "kind": "weights",
+      "view": "front",
+      "label": "FRONT",
+      "phase": 0,
+      "time": 0,
+      "yaw": 0,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": true,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": [
+        {
+          "stage": "vertex",
+          "compiled": true,
+          "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+        },
+        {
+          "stage": "fragment",
+          "compiled": true,
+          "log": ""
+        },
+        {
+          "stage": "link",
+          "linked": true,
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "after-surface-threequarter",
+      "version": "after",
+      "kind": "surface",
+      "view": "threequarter",
+      "label": "THREE QUARTER",
+      "phase": 0.485,
+      "time": 1.94,
+      "yaw": -0.65,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "after-weights-threequarter",
+      "version": "after",
+      "kind": "weights",
+      "view": "threequarter",
+      "label": "THREE QUARTER",
+      "phase": 0,
+      "time": 0,
+      "yaw": -0.65,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": true,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "after-surface-back",
+      "version": "after",
+      "kind": "surface",
+      "view": "back",
+      "label": "BACK",
+      "phase": 0.485,
+      "time": 1.94,
+      "yaw": 3.141592653589793,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "after-weights-back",
+      "version": "after",
+      "kind": "weights",
+      "view": "back",
+      "label": "BACK",
+      "phase": 0,
+      "time": 0,
+      "yaw": 3.141592653589793,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": true,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "after-motion-lift",
+      "version": "after",
+      "kind": "motion",
+      "view": "threequarter",
+      "label": "LIFT",
+      "phase": 0.22,
+      "time": 0.88,
+      "yaw": -0.5,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "after-motion-wave-in",
+      "version": "after",
+      "kind": "motion",
+      "view": "threequarter",
+      "label": "WAVE IN",
+      "phase": 0.485,
+      "time": 1.94,
+      "yaw": -0.5,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "after-motion-wave-out",
+      "version": "after",
+      "kind": "motion",
+      "view": "threequarter",
+      "label": "WAVE OUT",
+      "phase": 0.595,
+      "time": 2.38,
+      "yaw": -0.5,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    },
+    {
+      "name": "after-motion-settle",
+      "version": "after",
+      "kind": "motion",
+      "view": "threequarter",
+      "label": "SETTLE",
+      "phase": 0.94,
+      "time": 3.76,
+      "yaw": -0.5,
+      "pitch": 0.06,
+      "zoom": 1.72,
+      "target": [
+        -0.3,
+        1.05,
+        0
+      ],
+      "sourceHashes": {
+        "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+        "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+        "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+        "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+      },
+      "stats": {
+        "count": 1,
+        "totalCount": 16,
+        "drawCalls": 3,
+        "triangles": 6268,
+        "fps": 0,
+        "offlineCapture": true,
+        "vertices": 3284,
+        "expandedVertices": 18804,
+        "indices": 18804,
+        "geometryBytes": 403616
+      },
+      "diagnosticShader": false,
+      "drawCalls": 3,
+      "indexedDrawCalls": 2,
+      "glErrors": [],
+      "shaderValidation": []
+    }
+  ]
+}
