@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="dark"><meta name="description" content="Duder Lab V3.4.5: eleven hat silhouettes, offline parametric beans, smooth welded geometry, closed wearable meshes, SDF shell outlines, rigid-body ragdolls, sumo, bean piles, friendly procedural waves, and posed GLB export.">
-<meta name="theme-color" content="#14171a"><title>Duder Lab V3.4.5 — Arm Study</title>
+<meta name="color-scheme" content="dark"><meta name="description" content="Duder Lab V3.4.6: eleven hat silhouettes, offline parametric beans, smooth welded geometry, closed wearable meshes, SDF shell outlines, rigid-body ragdolls, sumo, bean piles, friendly procedural waves, and posed GLB export.">
+<meta name="theme-color" content="#14171a"><title>Duder Lab V3.4.6 — Shoulder Loops</title>
 <style>*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#14171a}#duder{width:100%;height:100%;display:block;touch-action:none;outline:none}#fallback{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#161c20;color:#eef1dc;padding:24px;max-width:580px;border:1px solid #55613f;border-radius:12px;font:16px/1.5 system-ui,sans-serif}#fallback[hidden]{display:none}</style>
-</head><body><canvas id="duder" tabindex="0" role="application" aria-label="Duder Lab V3.4.5 interactive 3D bean generator and physics playground. B starts a bean pile, M opens animation, S starts sumo, P releases to ragdoll, Space pauses motion, left drag grabs, right drag orbits, X shows the rig, O toggles shell outlines. G gallery, F frame, R reroll, question mark help."></canvas><div id="fallback">Preparing the duder workshop…</div>
+</head><body><canvas id="duder" tabindex="0" role="application" aria-label="Duder Lab V3.4.6 interactive 3D bean generator and physics playground. B starts a bean pile, M opens animation, S starts sumo, P releases to ragdoll, Space pauses motion, left drag grabs, right drag orbits, X shows the rig, O toggles shell outlines. G gallery, F frame, R reroll, question mark help."></canvas><div id="fallback">Preparing the duder workshop…</div>
 <!-- This file is completely self-contained: no imports, CDNs, fetches, or external assets.
 Original rendering/character UI: Duder Lab, made for Trent Sterling.
 SDF blend-shell projection adapted from https://github.com/TrentSterling/critters .
 Technique inspiration credited by Critters: GOOBERS by u/AntiqueFeedback7447; visual prior art RujiK.
-The live connected shell is sampled from an SDF union and projected in the vertex shader;
+The torso and legs use a connected SDF shell; arms use welded shoulder and elbow rings;
 Vertices are bone-driven; SDF corrections are bounded to blended joint regions.
 Physics uses embedded cannon-es 0.20.0 (MIT license included in vendor source).
 GLB bakes the current polygonal pose and accessories. It does not export runtime constraints or a glTF skeleton.
@@ -13542,7 +13542,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     for(let vi=0;vi<src.length/3;vi+=3){
       const vs=[];let body=true;
       for(let k=0;k<3;k++){
-        const i=vi+k,part=Math.round(meta[i*4+1]),isBody=part>=0&&part<=7;body=body&&isBody;
+        const i=vi+k,part=Math.round(meta[i*4+1]),isBody=part>=0&&part<=8;body=body&&isBody;
         let p=Array.from(src.slice(i*3,i*3+3)),n=ns?Array.from(ns.slice(i*3,i*3+3)):[0,1,0],joint=0;
         const rest=isBody?[p[0],p[1],p[2]*r.depth]:p.slice();
         if(isBody){
@@ -13550,10 +13550,17 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
           joint=clamp((1-Math.max(...skin.weights))*4,0,1);
           if(posed){
             const skinned=skinDualQuaternion(rest,norm([n[0],n[1],n[2]/r.depth]),skin,palette);p=skinned.p;n=norm(skinned.n);
-            if(joint>0){for(let q=0;q<2;q++){const g=posedGradient(p),step=clamp(posedField(p),-.035*strength*joint,.035*strength*joint);for(let j=0;j<3;j++)p[j]-=g[j]*step;}}
-            const g=posedGradient(p);n=norm(n.map((v,j)=>mix(v,g[j],joint*.8)));
+            // Explicit shoulder/arm loops define their own surface. Projecting
+            // them onto the old capsule union would restore the underarm web.
+            if(part<8&&joint>0){
+              for(let q=0;q<2;q++){const g=posedGradient(p),step=clamp(posedField(p),-.035*strength*joint,.035*strength*joint);for(let j=0;j<3;j++)p[j]-=g[j]*step;}
+              const g=posedGradient(p);n=norm(n.map((v,j)=>mix(v,g[j],joint*.8)));
+            }
           }else{
-            const q=part===7?projectSurfaceVertex(p,parts,r.blend):projectVertex(p,part,parts,r.blend);p=q.p;p[2]*=r.depth;n=norm([q.n[0],q.n[1],q.n[2]/r.depth]);
+            // Coherent shell vertices are already the final bind surface.
+            // Keep both sides of the torso/socket boundary exactly welded in
+            // a neutral GLB, as they are in the live renderer.
+            const q=part>=7?{p,n}:projectVertex(p,part,parts,r.blend);p=q.p;p[2]*=r.depth;n=norm([q.n[0],q.n[1],q.n[2]/r.depth]);
           }
         }else if(posed){p=transformPoint(transforms[0],p);n=norm(transformVector(transforms[0],n));}
         const c=cs?Array.from(cs.slice(i*3,i*3+3)):r.color.slice();vs.push({p,n,c,rest,joint});
@@ -13588,25 +13595,25 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const arrays=[pos,nor,linear,indices],total=arrays.reduce((s,a)=>s+a.byteLength,0),views=[];let off=0;
     const binary=new Uint8Array(total);
     for(const a of arrays){binary.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),off);views.push({buffer:0,byteOffset:off,byteLength:a.byteLength,target:a===indices?34963:34962});off+=a.byteLength;}
-    const json={asset:{version:'2.0',generator:'Duder Lab 3.4.5'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
+    const json={asset:{version:'2.0',generator:'Duder Lab 3.4.6'},scene:0,scenes:[{nodes:[0]}],nodes:[{name:r.name,mesh:0}],meshes:[{name:r.name,primitives:[{attributes:{POSITION:0,NORMAL:1,COLOR_0:2},indices:3,material:0,mode:4}]}],materials:[{name:'Duder shared vertex-color material',pbrMetallicRoughness:{baseColorFactor:[1,1,1,1],metallicFactor:0,roughnessFactor:r.roughness},doubleSided:false}],buffers:[{byteLength:total}],bufferViews:views,accessors:[{bufferView:0,byteOffset:0,componentType:5126,count,type:'VEC3',min,max},{bufferView:1,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:2,byteOffset:0,componentType:5126,count,type:'VEC3'},{bufferView:3,byteOffset:0,componentType:5125,count:indices.length,type:'SCALAR',min:[0],max:[count-1]}],extras:{recipe:r,notes:'Static indexed Surface Nets body with smooth welded accessory surfaces. Rigid accessories remain separate closed components; this is not a boolean union, CAD B-rep or a rig. Color and normal seams retain separate vertex records at matching positions. Patterned faces are linearly subdivided for vertex color fidelity. The current pose is baked when supplied; runtime bones and physics constraints are not exported.'}};
     const encoded=new TextEncoder().encode(JSON.stringify(json)),jsonLen=(encoded.length+3)&~3,binLen=(total+3)&~3,buffer=new ArrayBuffer(12+8+jsonLen+8+binLen),view=new DataView(buffer),bytes=new Uint8Array(buffer);
     view.setUint32(0,0x46546C67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
     view.setUint32(12,jsonLen,true);view.setUint32(16,0x4E4F534A,true);bytes.fill(32,20,20+jsonLen);bytes.set(encoded,20);
     const binHeader=20+jsonLen;view.setUint32(binHeader,binLen,true);view.setUint32(binHeader+4,0x004E4942,true);bytes.set(binary,binHeader+8);
     return buffer;
   }
-  root.DuderCore=Object.freeze({version:'3.4.5',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
+  root.DuderCore=Object.freeze({version:'3.4.6',baseDefaults,presets,sanitizeRecipe,randomRecipe,primitives,rigDefinition,boneNames,blendScales,skinWeightsForPoint,dualQuaternion,skinDualQuaternion,transformPoint,transformVector,rigidInverse,sdRC,field,gradient,projectVertex,projectSurfaceVertex,skinColor,skinGLSL,bake,glb,patterns,hats,glasses,ranges,hex});
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
 <script>
-/* Duder Lab — coherent Surface Nets skin for the seven-part SDF union.
- * This supplies one closed tessellation instead of overlapping primitive skins.
- * GPU projection onto the animated union preserves the Critters blend-shell idea.
+/* Duder Lab — one welded body with explicit shoulder and arm loops.
+ * Surface Nets supplies the torso and legs. Elliptical shoulder openings are
+ * stitched to a curved collar and longitudinal arm rings with fixed weights.
  */
 (function(root){
   'use strict';
-  const cache=new Map(),CACHE_LIMIT=64;
+  const torsoCache=new Map(),CACHE_LIMIT=64;
   const shapeKeys=['height','width','belly','armLength','armSpread','armThickness','armGap','feet','blend','facets'];
   const corners=[[0,0,0],[1,0,0],[0,1,0],[1,1,0],[0,0,1],[1,0,1],[0,1,1],[1,1,1]];
   const edges=[[0,1],[2,3],[4,5],[6,7],[0,2],[1,3],[4,6],[5,7],[0,4],[1,5],[2,6],[3,7]];
@@ -13615,13 +13622,14 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
   const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
 
-  function build(recipe,attempt=0){
+  function buildTorso(recipe,attempt=0){
     const C=root.DuderCore;if(!C)throw Error('DuderCore must load before DuderShell.');
     const r=C.sanitizeRecipe(recipe),key=shapeKeys.map(k=>r[k]).join('|');
-    if(cache.has(key)){const hit=cache.get(key);cache.delete(key);cache.set(key,hit);return hit;}
-    // A few more samples keep posed underarm triangles from spanning an entire
-    // occlusion fold. This improves the smooth shell without another draw pass.
-    const parts=C.primitives(r),step=(r.facets<=8?.105:r.facets>=16?.065:.085)*Math.min(1,Math.max(.62,r.width*r.armThickness/.88))*Math.pow(.82,attempt),margin=r.blend+.11;
+    if(torsoCache.has(key)){const hit=torsoCache.get(key);torsoCache.delete(key);torsoCache.set(key,hit);return hit;}
+    // Mesh the torso and legs first. Arm sockets are cut and stitched below.
+    const parts=C.primitives(r),center=parts[0].a;
+    for(const i of [1,2,3,4])parts[i]={a:center.slice(),b:center.slice(),ra:0,rb:0};
+    const step=(r.facets<=8?.105:r.facets>=16?.065:.085)*Math.min(1,Math.max(.62,r.width*r.armThickness/.88))*Math.pow(.82,attempt),margin=r.blend+.11;
     const lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];
     for(const p of parts)for(const [point,radius]of [[p.a,p.ra],[p.b,p.rb]])for(let k=0;k<3;k++){
       lo[k]=Math.min(lo[k],point[k]-radius-margin);hi[k]=Math.max(hi[k],point[k]+radius+margin);
@@ -13711,7 +13719,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       // than the coarse lattice. Allow two extra retries for that rare shape;
       // ordinary recipes keep their original resolution and cached mesh.
       if(attempt>=6)throw Error('Cannot build a regular closed shell: '+reason);
-      return build(recipe,attempt+1);
+      return buildTorso(recipe,attempt+1);
     }
     if(!topologyValid())return refine('ambiguous lattice cell');
 
@@ -13765,10 +13773,84 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const result={positions,normals:normalArray,triangleCount:indices.length/3,
       indexedPositions:new Float32Array(vertices.flat()),indices:new Uint32Array(indices),
       stats:{step,vertices:vertices.length,triangles:indices.length/3,grid:dims,refinements:attempt,cacheKey:key}};
-    cache.set(key,result);while(cache.size>CACHE_LIMIT)cache.delete(cache.keys().next().value);
+    torsoCache.set(key,result);while(torsoCache.size>CACHE_LIMIT)torsoCache.delete(torsoCache.keys().next().value);
     return result;
   }
-  root.DuderShell=Object.freeze({build,clearCache:()=>cache.clear(),version:'2.0'});
+
+ const norm=a=>{const n=Math.hypot(...a)||1;return a.map(v=>v/n);},mix=(a,b,t)=>a+(b-a)*t,clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),smooth=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t);};
+ const key=p=>p.map(x=>Math.round(Math.fround(x)*1e6)).join(',');
+ const cache=new Map();
+ function build(recipe){
+  const C=root.DuderCore,r=C.sanitizeRecipe(recipe),id=shapeKeys.map(k=>r[k]).join('|');
+  if(cache.has(id)){const hit=cache.get(id);cache.delete(id);cache.set(id,hit);return hit;}
+  const original=buildTorso(r),parts=C.primitives(r),vertices=[];for(let i=0;i<original.indexedPositions.length;i+=3)vertices.push(Array.from(original.indexedPositions.slice(i,i+3)));
+  let faces=[];const baseNormals=new Map();for(let i=0;i<original.indices.length;i+=3){faces.push({v:Array.from(original.indices.slice(i,i+3)),kind:7});for(let j=0;j<3;j++)baseNormals.set(original.indices[i+j],Array.from(original.normals.slice((i+j)*3,(i+j)*3+3)));}
+  const weights=new Map(),patched=new Set(),stats=[];
+  function torsoX(y,z){let lo=0,hi=2*r.width;for(let j=0;j<32;j++){const x=(lo+hi)/2;if(C.sdRC([x,y,z],parts[0])>0)hi=x;else lo=x;}return(lo+hi)/2;}
+  function skin(upper,lower,total,fore=0){const w=Array(7).fill(0);w[0]=1-total;w[upper]=total*(1-fore);w[lower]=total*fore;const indices=w.map((_,i)=>i).sort((a,b)=>w[b]-w[a]).slice(0,4);return{indices,weights:indices.map(i=>w[i])};}
+  for(const [upper,lower,sign]of [[1,2,-1],[3,4,1]]){
+   const U=parts[upper],L=parts[lower],S=U.a,rad=U.ra,Ry=rad*2.25,Rz=rad*2.25;
+   // Clip a shared boundary into the actual torso surface. Keeping its polar
+   // angles avoids the folded strips produced by remapping a jagged cut.
+   const kept=[],removed=[],intersections=new Map(),value=p=>((p[1]-S[1])/Ry)**2+(p[2]/Rz)**2-1;
+   function crossing(a,b){const edge=a<b?a+','+b:b+','+a;if(intersections.has(edge))return intersections.get(edge);const A=vertices[a],B=vertices[b];let lo=0,hi=1,positive=value(A)>0;for(let j=0;j<32;j++){const mid=(lo+hi)/2,p=A.map((v,k)=>mix(v,B[k],mid));if((value(p)>0)===positive)lo=mid;else hi=mid;}const t=(lo+hi)/2,p=A.map((v,k)=>mix(v,B[k],t));p[0]=sign*torsoX(p[1],p[2]);const index=vertices.length;vertices.push(p);intersections.set(edge,index);return index;}
+   for(const face of faces){const center=face.v.reduce((sum,i)=>sum+vertices[i][0],0)/3;
+    if(center*sign<=0){kept.push(face);continue;}
+    const ds=face.v.map(i=>value(vertices[i])),inside=ds.filter(d=>d<0).length;if(inside===0){kept.push(face);continue;}removed.push(face);if(inside===3)continue;
+    const polygon=[];for(let j=0;j<3;j++){const a=face.v[j],b=face.v[(j+1)%3];if(ds[j]>=0)polygon.push(a);if((ds[j]>=0)!==(ds[(j+1)%3]>=0))polygon.push(crossing(a,b));}
+    for(let j=1;j<polygon.length-1;j++)kept.push({v:[polygon[0],polygon[j],polygon[j+1]],kind:7});
+   }
+   const edges=new Map();for(const {v}of kept)for(let j=0;j<3;j++){const a=v[j],b=v[(j+1)%3],key=a<b?a+','+b:b+','+a;if(edges.has(key))edges.delete(key);else edges.set(key,[b,a]);}
+   const next=new Map();for(const [a,b]of edges.values()){if(next.has(a))throw Error('Non-disk socket: multiple outgoing edges');next.set(a,b);}
+   const first=next.keys().next().value,loop=[first];let cursor=next.get(first);while(cursor!==first&&loop.length<1000){if(cursor===undefined)throw Error('Open shoulder boundary');loop.push(cursor);cursor=next.get(cursor);}
+   if(loop.length!==next.size)throw Error('Shoulder boundary has more than one loop '+loop.length+'/'+next.size);
+   faces=kept;const retainedFaceCount=faces.length;
+   const N=loop.length,outer=loop.map(i=>vertices[i]);
+   const angles=outer.map(p=>Math.atan2(p[2]/Rz,(p[1]-S[1])/Ry));
+   let prev=loop,ringCount=0;for(const index of loop){patched.add(index);weights.set(key(vertices[index]),skin(upper,lower,0));}
+   function appendRing(points,totalWeight,forearm=0){ringCount++;const ring=[];for(const p of points){const i=vertices.length;vertices.push(p);patched.add(i);ring.push(i);weights.set(key(p.map(Math.fround)),skin(upper,lower,totalWeight,forearm));}
+    for(let i=0;i<N;i++){const j=(i+1)%N;faces.push({v:[prev[i],prev[j],ring[j]],kind:8},{v:[prev[i],ring[j],ring[i]],kind:8});}prev=ring;
+   }
+   // The torso fillet stays pinned. It rounds into a compact high socket,
+   // instead of anchoring the moving arm to vertices low on the rib cage.
+   const rootRadius=.75,filletLength=.25;
+   for(const t of [.2,.4,.6,.8,1])appendRing(angles.map(a=>{const radius=rad*(rootRadius+(2.25-rootRadius)*(1-Math.sin(t*Math.PI/2))),y=S[1]+Math.cos(a)*radius,z=Math.sin(a)*radius,x=mix(torsoX(y,z),torsoX(S[1],0),smooth(0,1,t))+rad*filletLength*(1-Math.cos(t*Math.PI/2));return[sign*x,y,z];}),0);
+   // Bend over enough distance that neighboring tube rings cannot fold over
+   // each other. Shoulder weights follow the sweep angle; the elbow blend
+   // continues across this collar and every subsequent ring.
+   const axis=norm(sub(U.b,S)),upperLength=Math.hypot(...sub(U.b,S)),foreLength=Math.hypot(...sub(L.b,L.a));
+   let join=Math.min(upperLength*.88,rad*3.2);
+   // Very thin, steep arms need more lateral room before the ring can lean.
+   // Constrain the inner edge to stay outside the planar socket instead of
+   // allowing a buried second layer in the first moving band.
+   const rootOut=torsoX(S[1],0)+rad*filletLength,sideLean=Math.hypot(axis[1],axis[2]),bendRadius=3*(rad*.95)**2/(2*Math.max(1e-8,(join-rad*.80)*sideLean)),tightBend=bendRadius<rad*rootRadius;
+   if(tightBend)join=Math.min(upperLength*.98,Math.max(join,(rootOut-S[0]*sign+rad*.99*sideLean+rad*.05)/Math.abs(axis[0])));
+   const P0=[sign*(torsoX(S[1],0)+rad*filletLength),S[1],0],P3=S.map((v,k)=>v+axis[k]*join),P1=P0.map((v,k)=>v+(k===0?sign*rad*.95:0)),P2=P3.map((v,k)=>v-axis[k]*rad*.80);
+   function ring(center,tangent,radius){let e1=norm([-tangent[1]*sign,tangent[0]*sign,0]),e2=norm(cross(tangent,e1)).map(v=>v*sign);return angles.map(a=>center.map((v,k)=>v+radius*(Math.cos(a)*e1[k]+Math.sin(a)*e2[k])));}
+   for(const t of [.16,.32,.5,.72,1]){const q=1-t,center=[0,1,2].map(k=>P0[k]*q*q*q+3*P1[k]*q*q*t+3*P2[k]*q*t*t+P3[k]*t*t*t),tangent=norm([0,1,2].map(k=>3*(P1[k]-P0[k])*q*q+6*(P2[k]-P1[k])*q*t+3*(P3[k]-P2[k])*t*t));
+    const radius=rad*mix(rootRadius,.99,t);let frame=tangent;
+    if(tightBend){const lean=Math.min(Math.hypot(tangent[1],tangent[2]),clamp(((center[0]-P0[0])*sign-rad*.03*t)/radius,0,1)),yz=Math.max(1e-8,Math.hypot(tangent[1],tangent[2]));frame=[sign*Math.sqrt(1-lean*lean),tangent[1]*lean/yz,tangent[2]*lean/yz];}
+    appendRing(ring(center,frame,radius),clamp(Math.atan2(center[1]-S[1],(center[0]-S[0])*sign)/Math.atan2(axis[1],axis[0]*sign),0,1),smooth(-L.ra*2.05,L.ra*2.05,dot(sub(center,S),axis)-upperLength));
+   }
+   const end=upperLength+foreLength,steps=Array.from({length:Math.ceil((end-join)/(rad*.55))},(_,i)=>mix(join,end,(i+1)/Math.ceil((end-join)/(rad*.55))));
+   for(const s of steps){const radius=s<=upperLength?mix(U.ra,U.rb,s/upperLength):mix(L.ra,L.rb,(s-upperLength)/foreLength),center=S.map((v,k)=>v+axis[k]*s),f=smooth(-L.ra*2.05,L.ra*2.05,s-upperLength);appendRing(ring(center,axis,radius),1,f);}
+   for(const angle of [Math.PI/8,Math.PI/4,Math.PI*3/8]){const center=L.b.map((v,k)=>v+axis[k]*L.rb*Math.sin(angle));appendRing(ring(center,axis,L.rb*Math.cos(angle)),1,1);}
+   const tip=vertices.length,pole=L.b.map((v,k)=>v+axis[k]*L.rb);vertices.push(pole);patched.add(tip);weights.set(key(pole.map(Math.fround)),skin(upper,lower,1,1));
+   for(let i=0;i<N;i++)faces.push({v:[prev[i],prev[(i+1)%N],tip],kind:8});
+   stats.push({side:sign,tightBend,join:join/rad,removed:removed.length,boundaryVertices:N,rings:ringCount,addedFaces:faces.length-retainedFaceCount});
+  }
+  const normals=vertices.map(()=>[0,0,0]);
+  for(const {v}of faces){const [a,b,c]=v.map(i=>vertices[i]),n=norm(cross(sub(b,a),sub(c,a)));for(let j=0;j<3;j++){const u=norm(sub(vertices[v[(j+1)%3]],vertices[v[j]])),w=norm(sub(vertices[v[(j+2)%3]],vertices[v[j]])),angle=Math.acos(clamp(dot(u,w),-1,1));for(let k=0;k<3;k++)normals[v[j]][k]+=n[k]*angle;}}
+  for(let i=0;i<vertices.length;i++)normals[i]=patched.has(i)?norm(normals[i]):(baseNormals.get(i)||norm(normals[i]));
+  const edgeCounts=new Map();for(const {v}of faces)for(let j=0;j<3;j++){const a=v[j],b=v[(j+1)%3],key=a<b?a+','+b:b+','+a,q=edgeCounts.get(key)||[0,0];q[0]++;q[1]+=a<b?1:-1;edgeCounts.set(key,q);}
+  const badEdges=[...edgeCounts.values()].filter(q=>q[0]!==2||q[1]!==0);if(badEdges.length)throw Error('Ring mesh has '+badEdges.length+' invalid edges');
+  // Removed socket interiors must not survive as unused indexed vertices.
+  const used=[...new Set(faces.flatMap(f=>f.v))],remap=new Map(used.map((v,i)=>[v,i]));
+  const positions=new Float32Array(faces.length*9),normalArray=new Float32Array(faces.length*9),indices=new Uint32Array(faces.length*3),faceKinds=[];
+  faces.forEach((f,i)=>{faceKinds.push(f.kind);f.v.forEach((vi,j)=>{positions.set(vertices[vi],i*9+j*3);normalArray.set(normals[vi],i*9+j*3);indices[i*3+j]=remap.get(vi);});});
+  const result={positions,normals:normalArray,indices,indexedPositions:new Float32Array(used.flatMap(i=>vertices[i])),faceKinds,skinByPosition:weights,triangleCount:faces.length,stats:{...original.stats,ringPatch:stats,closedManifold:true,vertices:used.length,triangles:faces.length}};cache.set(id,result);while(cache.size>CACHE_LIMIT)cache.delete(cache.keys().next().value);return result;
+ }
+ root.DuderShell=Object.freeze({build,clearCache:()=>{cache.clear();torsoCache.clear();},version:'3.0'});
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
@@ -14182,17 +14264,18 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     const r=recipe||{},B=new Builder(characterId),m=metrics(r);
     const sides=num(r,'facets',12)<=8?8:num(r,'facets',12)>=16?16:12;
     const rings=sides===8?6:sides===16?10:8;
-    const base=validCol(r.color,[.20,.45,.94]),rough=clamp(num(r,'roughness',.7),.05,1);
+    const base=validCol(r.color,[.20,.45,.94]),rough=clamp(num(r,'roughness',.7),.05,1);let socketWeights=null;
     if(global.DuderShell&&typeof global.DuderShell.build==='function'){
-      // One coherent rest shell removes the internal overlapping triangles of
-      // per-primitive sphere templates. The vertex shader still projects every
-      // vertex against the live seven-primitive SDF, preserving blend-shell motion.
-      const shell=global.DuderShell.build(r),p=shell.positions,n=shell.normals;
+      // One closed shell: torso/legs retain bounded SDF repair (tag 7), while
+      // structured shoulder/arm loops use their authored surface (tag 8).
+      const shell=global.DuderShell.build(r),p=shell.positions,n=shell.normals;socketWeights=shell.skinByPosition;
       for(let i=0;i<p.length;i+=9){
         const a=Array.from(p.subarray(i,i+3)),b=Array.from(p.subarray(i+3,i+6)),c=Array.from(p.subarray(i+6,i+9));
         const ns=[Array.from(n.subarray(i,i+3)),Array.from(n.subarray(i+3,i+6)),Array.from(n.subarray(i+6,i+9))];
-        const outward=ns[0].map((v,k)=>v+ns[1][k]+ns[2][k]);
-        B.triFacing(a,b,c,outward,base,0,rough,7,ns);
+        // Shell indices already have one coherent outward winding. A smooth
+        // normal near a concave collar can point across a small triangle;
+        // using it to flip that face would break the welded mesh orientation.
+        B.tri(a,b,c,base,0,rough,shell.faceKinds?shell.faceKinds[i/9]:7,ns);
       }
     }else{
       // Development fallback only; the standalone build includes shell.js.
@@ -14208,13 +14291,23 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     out.skinIndices=new Float32Array(vertices*4);out.skinWeights=new Float32Array(vertices*4);
     for(let i=0;i<vertices;i++){
       if(out.meta[i*4+1]<0){out.skinWeights[i*4]=1;continue;}
-      const p=Array.from(out.positions.subarray(i*3,i*3+3)),skin=global.DuderCore.skinWeightsForPoint(p,parts,num(r,'blend',.16));
+      const p=Array.from(out.positions.subarray(i*3,i*3+3));
+      let skin=socketWeights?.get(p.map(x=>Math.round(Math.fround(x)*1e6)).join(','))||global.DuderCore.skinWeightsForPoint(p,parts,num(r,'blend',.16));
+      if(out.meta[i*4+1]===7){
+        // This mesh was sampled without arms. Its torso must stay attached to
+        // the torso, including tiny faces beside the pinned socket boundary.
+        // Preserve the existing leg blend while returning every arm component.
+        const weights=Array(7).fill(0);
+        for(let j=0;j<4;j++){const id=skin.indices[j];weights[id>=1&&id<=4?0:id]+=skin.weights[j];}
+        const indices=weights.map((_,id)=>id).sort((a,b)=>weights[b]-weights[a]).slice(0,4);
+        skin={indices,weights:indices.map(id=>weights[id])};
+      }
       out.skinIndices.set(skin.indices,i*4);out.skinWeights.set(skin.weights,i*4);
     }
     out.counts.parts=7;out.counts.hat=r.hat||'none';out.counts.glasses=r.glasses||'none';
     out.indexed=indexedGeometry(out);return out;
   }
-  global.DuderGeometry={build,metrics,version:'3.4.5',hatNames:['none','cap','bucket','beanie','bowler','sunhat','cowboy','wizard','chef','crown','beret','topHat'],glassesNames:['none','square','round','aviator','catEye']};
+  global.DuderGeometry={build,metrics,version:'3.4.6',hatNames:['none','cap','bucket','beanie','bowler','sunhat','cowboy','wizard','chef','crown','beret','topHat'],glassesNames:['none','square','round','aviator','catEye']};
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
@@ -14697,7 +14790,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
 
 </script>
 <script>
-/* Duder Lab V3.4.5 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.4.6 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -14783,7 +14876,9 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     // Bone-driven positions never accumulate projection: each frame starts from
     // rest coordinates. Rigid regions stay exactly attached; only joint vertices
     // receive two bounded corrections, each no larger than .035 world units.
-    if(body&&vJoint>.0001){
+    // Surface tag 8 is a structured shoulder/arm surface with fixed ring weights;
+    // the former straight-capsule field must not pull it back into a web.
+    if(body&&aMeta.y<7.5&&vJoint>.0001){
       float cap=.035*uProjection*vJoint;
       for(int i=0;i<2;i++){vec3 g=grad(p);p-=g*clamp(field(p),-cap,cap);}
       n=normalize(mix(n,grad(p),vJoint*.8));
@@ -15161,7 +15256,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     _header(s,w,l){
       this.rect(0,0,w,l.header,C.panel);this.rect(0,l.header-1,w,1,C.border);
       this._hit(0,0,w,l.header,{type:'block',key:'header'});
-      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.4.5',32,48,9,C.muted);
+      this.rect(18,20,4,25,C.lime,2);this.text('DUDER LAB',31,18,w<360?20:23,C.text,true);this.text('BEAN WORKBENCH / V3.4.6',32,48,9,C.muted);
       if(l.mobile){
         this.button(s.panelOpen?'Close':'Edit',w-121,20,65,30,'togglePanel',undefined,s.panelOpen,false,'togglePanel');
         this.button('?',w-48,20,30,30,'help',undefined,s.helpOpen,false,'help');
@@ -15277,7 +15372,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     _footer(s,w,h,l){
       const y=h-l.footer;this.rect(0,y,w,l.footer,C.panel);this.rect(0,y,w,1,C.border);
       this._hit(0,y,w,l.footer,{type:'block',key:'footer'});
-      if(l.left&&!l.mobile)this.text('V3.4.5   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
+      if(l.left&&!l.mobile)this.text('V3.4.6   /   WEBGL2',18,y+(l.footer-10)/2,10,C.muted);
       const x=(l.mobile?0:l.left)+18,st=s.stats||{},tris=st.triangles>=1000?(st.triangles/1000).toFixed(1)+'K':String(st.triangles||0);
       const text=(st.count||16)+((st.count||16)===1?' DUDER   ':' DUDERS   ')+(st.drawCalls??3)+' DRAWS   '+tris+' TRIS'+(w>650?(st.offlineCapture?'   OFFLINE REPLAY':'   '+Math.round(st.fps||0)+' FPS'):'');
       this.text(text,x,y+(l.footer-10)/2,10,C.lime);
@@ -15375,7 +15470,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
   const errors=[];window.addEventListener('error',e=>{errors.push(e.message);canvas.dataset.error=e.message;});
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   const search=new URLSearchParams(location.search),isQA=search.has('qa'),isArmStudy=search.has('armstudy')||!!window.DuderArmStudyStart;
-  const STORAGE=isArmStudy?'tront-duder-arm-study-v3-4-5':'tront-duder-lab-v03';
+  const STORAGE=isArmStudy?'tront-duder-arm-study-v3-4-6':'tront-duder-lab-v03';
   let recipes=DuderCore.presets();
   let state={tab:'shape',mode:'gallery',selected:0,panelOpen:false,helpOpen:false,autoSpin:false,animate:true,smooth:true,wireframe:false,outlines:true,outlineWidth:2.2,projectionStrength:.55,physicsEnabled:false,physicsMode:'ragdoll',physicsPaused:false,physicsSettings:{gravity:9.81,damping:.18},physicsStats:{bodies:7,joints:6,maxJointError:0,sleeping:false},pileCount:8,motionEnabled:false,motionClip:'idle',motionTime:0,motionSpeed:1,motionAmplitude:1,motionPlaying:true,showRig:true,showArmWeights:false,poseById:{},toast:'',dt:0,stats:{count:16,drawCalls:3,triangles:0,fps:0}};
   try{if(!isQA&&!isArmStudy){const old=JSON.parse(localStorage.getItem(STORAGE)||localStorage.getItem('tront-duder-lab-v02')||localStorage.getItem('tront-duder-lab-v01')||'null');if(old&&[1,2,3].includes(old.version)&&Array.isArray(old.recipes)&&old.recipes.length===16){recipes=old.recipes.map(DuderCore.sanitizeRecipe);state.selected=clamp(old.selected|0,0,15);}}}catch(e){/* Local storage can be unavailable for file://. Explicit recipe export remains usable. */}
@@ -15490,7 +15585,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
     else if(name==='exportRecipe')exportRecipe();
     else if(name==='importRecipe')importRecipe();
     else if(name==='reset'){stopPhysics();state.motionEnabled=false;recipes=DuderCore.presets();state.selected=0;dirty=true;renderer.frame(state);persist();toast('Original 16 restored');}
-    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-4-5.png');});}
+    else if(name==='screenshot'){canvas.toBlob(b=>{if(b)download(b,'image/png','duder-lab-v3-4-6.png');});}
     state.recipe=recipes[state.selected];
   }
   try{
@@ -15566,7 +15661,7 @@ vec3 skinColor(vec3 p,vec3 base,vec3 accent,float pattern,float scale,float seed
       frames++;
       if(frames%30===0){
         const err=renderer.gl.getError();if(err!==0){errors.push('WebGL error '+err);console.error('WebGL error',err);}
-        canvas.dataset.diagnostics=JSON.stringify({version:'3.4.5',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength,showArmWeights:state.showArmWeights});
+        canvas.dataset.diagnostics=JSON.stringify({version:'3.4.6',frames,mode:state.mode,selected:state.selected,tab:state.tab,drawCalls:state.stats.drawCalls,triangles:renderer.triangles,vertices:renderer.vertexCount,expandedVertices:renderer.expandedVertexCount,indices:renderer.indexCount,geometryBytes:renderer.gpuGeometryBytes,fps:Math.round(state.stats.fps),errors,viewport:vp,recipe:{name:state.recipe.name,height:state.recipe.height,width:state.recipe.width,blend:state.recipe.blend,pattern:state.recipe.pattern,hat:state.recipe.hat,glasses:state.recipe.glasses},smooth:state.smooth,wireframe:state.wireframe,outlines:state.outlines,physics:state.physicsEnabled?state.physicsStats:null,physicsMode:state.physicsMode,motion:state.motionEnabled?{clip:state.motionClip,time:state.motionTime,playing:state.motionPlaying}:null,projectionStrength:state.projectionStrength,showArmWeights:state.showArmWeights});
       }
       requestAnimationFrame(tick);
     }catch(e){errors.push(e.message);console.error(e);canvas.dataset.error=e.message;fallback.hidden=false;fallback.textContent=e.message;}

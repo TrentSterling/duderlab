@@ -29,7 +29,7 @@ def main():
                        stdout=subprocess.DEVNULL)
         modules.append({'file': name, 'bytes': len(source.encode()),
                         'sha256': digest(source.encode()), 'exactEmbedding': True})
-    paths = ['static.html', 'duder-lab-v3-4-5.html', 'dist/index.html']
+    paths = ['static.html', 'duder-lab-v3-4-6.html', 'dist/index.html']
     outputs = []
     for path in paths:
         data = (ROOT / path).read_bytes()
@@ -51,8 +51,8 @@ def main():
     css = re.findall(r'url\(\s*["\']?(?:https?:)?//[^)]+', html, re.I)
     network = re.findall(r'\b(?:fetch|XMLHttpRequest|WebSocket|EventSource|importScripts)\s*\(', '\n'.join(scripts))
     assert not (external or css or network), 'Distribution depends on external resources'
-    assert 'V3.4.5' in html and "version:'3.4.5'" in html
-    report = {'passed': True, 'version': '3.4.5', 'moduleCount': len(files),
+    assert 'V3.4.6' in html and "version:'3.4.6'" in html
+    report = {'passed': True, 'version': '3.4.6', 'moduleCount': len(files),
               'modules': modules, 'outputs': outputs, 'externalResourceAttributes': external,
               'externalCssResources': css, 'networkApiMatches': network,
               'releaseSourceHashes': {x['file']: x['sha256'] for x in modules},

@@ -1,14 +1,14 @@
 # Duder Lab
 
-An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.4.5 — Arm Study**.
+An offline WebGL2 workbench for parametric bean characters, wearable meshes, procedural skins, animation, and rigid-body ragdolls. Current version: **V3.4.6 — Shoulder Loops**.
 
 Together with [Duderworld](https://github.com/TrentSterling/duderworld), Duder Lab develops reusable content for future **Tront EOS lobby demos and minigame samples**. Duder Lab handles the characters, wearables, rigs, and animation; Duderworld handles the environments and level geometry. The browser previews support rapid inspection and mesh export for eventual integration into Unity and Tront EOS projects.
 
 **Scope:** Duder Lab is a browser prototyping lab, not a web game. It is plain WebGL2 with cannon-es physics (no Three.js), and the hosted page is a development preview for inspecting and comparing iterations. Approved meshes get converted to Unity locally later; this repository holds no Unity project, EOS networking, or gameplay code.
 
-![Waving-arm influences before and after the focused shoulder study](docs/media/v3-4-5-arm-weights.png)
+![Shoulder surface and edge loops before and after the geometry repair](docs/media/v3-4-6-shoulder-closeup.png)
 
-[Watch the matched before/after wave](docs/media/v3-4-5-arm-wave.mp4) · [Read the focused arm study](docs/arm-study.md) · [Open the offline arm-study build](duder-lab-arm-study.html)
+[Watch the new before/after wave](docs/media/v3-4-6-shoulder-wave.mp4) · [Read the topology change](docs/shoulder-topology.md) · [Open the offline arm-study build](duder-lab-arm-study.html)
 
 ## Run
 
@@ -44,13 +44,23 @@ Python 3 is the only build dependency:
 python3 build.py
 ```
 
-On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-4-5.html`, and `dist/index.html`. It also writes `duder-lab-arm-study.html`, which starts the fixed reference character in Wave with the Motion panel open. The study uses its own local-storage key. UTF-8 is explicit, and the output directory is created automatically.
+On Windows, `py -3 build.py` works with the Python launcher. The script writes `static.html`, `duder-lab-v3-4-6.html`, and `dist/index.html`. It also writes `duder-lab-arm-study.html`, which starts the fixed reference character in Wave with the Motion panel open. The study uses its own local-storage key. UTF-8 is explicit, and the output directory is created automatically.
 
 ### Hosted preview
 
 The [Pages workflow](.github/workflows/pages.yml) builds from `src/` on pushes to `main` and can also be run manually from `main`. It runs `python3 qa/check-build.py` to verify exact source embedding, JavaScript syntax, identical offline builds, and the absence of external runtime dependencies. The deployment contains only `dist/index.html` and a byte-identical `dist/static.html` alias for saving an offline copy.
 
 GitHub Pages uses **Settings → Pages → Build and deployment → Source: GitHub Actions**. The workflow uses the `github-pages` environment and official GitHub Actions pinned to release commits. Its build job has read access to repository contents; only its deployment job receives Pages and deployment-token write permissions. The hosted build uses the same meshes, shaders, controls, and exports as `static.html`.
+
+## V3.4.6: rebuilt shoulder and arm topology
+
+The V3.4.5 influence numbers improved much more than the visible wave. The remaining defect was a fan of triangles connecting the raised arm to vertices low on the ribs. The new mesh replaces that attachment: the torso and legs are meshed first, elliptical shoulder sockets are cut into the body, and a rounded collar joins them to explicit circumferential arm rings. The rings continue through the upper arm, elbow, forearm, and rounded tip.
+
+The original seven-bone rig and wave clip drive the new surface. Torso vertices retain torso/leg weights, and the shoulder rings carry their own progressive arm weights. This prevents thin clipped torso faces from moving against a pinned socket. The custom rings keep their authored shape instead of being projected back onto the former straight-capsule union. Neutral and posed GLB exports preserve the shared attachment positions.
+
+The reference character increases from **3,232 to 6,268 triangles**, from **1,676 to 3,284 indexed vertices**, and from **206,384 to 403,616 bytes of geometry buffers**. The increase is the actual ringed arm geometry. It retains **four draws including the GPU UI**, one character fill batch, one outline batch, and seven physics bodies. Shape meshes use bounded caches; color and wardrobe edits reuse them.
+
+The long underarm web is visibly removed in the matched wave. A small local shading crease remains at the strongest bend; this pass does not claim an anatomically finished shoulder. Inspect the surface and actual wireframe in the [topology study](docs/shoulder-topology.md), or open `duder-lab-arm-study.html`, pause the wave, and use **Preview → Wireframe**. The prior weight-only study remains below as release history.
 
 ## V3.4.5: focused shoulder weights and an inspectable arm study
 

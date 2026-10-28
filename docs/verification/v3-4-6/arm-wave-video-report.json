@@ -1,0 +1,855 @@
+{
+  "passed": true,
+  "scope": "Render matched shoulder/underarm A/B views and diagnostic weight maps.\n\nSurface images replay production GLSL; weight images only change replay color.\nThis is Mesa software GLES verification, not a browser or hardware FPS test.",
+  "frames": 64,
+  "fps": 16,
+  "duration": 4.0,
+  "width": 1052,
+  "height": 612,
+  "sourceHashes": {
+    "before": {
+      "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+      "core.js": "073dc487a4d57440a39f0589f974dddca11775d17243eb098812cb55eea95615",
+      "shell.js": "c85220847a8e266030b7c95a82cbd3650bb4a42c91f1c3995e00b729815cb1a3",
+      "geometry.js": "b49a1899b13b2a64f6c6a8e984275323fafb6ab21c5c8926617a305e6660d667",
+      "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+      "renderer.js": "2080c1df4d8cde935217d2318308003034a8100f6997ec862e01bb5f40e4ca7e",
+      "ui.js": "21e5838b64c936f15b861a6bc3a63a647b3df87558bc1c815124ec577ed2647e"
+    },
+    "after": {
+      "font-data.js": "38bb2ccb58b677f0602f8973840b79d0d0e9d943f1f476339a5c80b326fe4cbd",
+      "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+      "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+      "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+      "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3",
+      "renderer.js": "4e0d45a47baec90af2f85320b6fec62b5878ebc92ed5335a2ea3dcc366d1a8bc",
+      "ui.js": "c2e905c001cf410204caab0ce137723ca6f021453ea9421ce9b29f23a38a55db"
+    }
+  },
+  "renderer": {
+    "vendor": "Mesa",
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+    "shading_language": "OpenGL ES GLSL ES 3.20",
+    "egl_version": "1.5"
+  },
+  "shaderValidation": [
+    {
+      "stage": "vertex",
+      "compiled": true,
+      "log": ""
+    },
+    {
+      "stage": "fragment",
+      "compiled": true,
+      "log": ""
+    },
+    {
+      "stage": "link",
+      "linked": true,
+      "log": ""
+    },
+    {
+      "stage": "vertex",
+      "compiled": true,
+      "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+    },
+    {
+      "stage": "fragment",
+      "compiled": true,
+      "log": ""
+    },
+    {
+      "stage": "link",
+      "linked": true,
+      "log": ""
+    },
+    {
+      "stage": "vertex",
+      "compiled": true,
+      "log": "0:25(37): warning: `Depth' used uninitialized\n0:26(17): warning: `A' used uninitialized\n0:26(22): warning: `B' used uninitialized\n0:27(12): warning: `Depth' used uninitialized\n0:27(27): warning: `K' used uninitialized\n0:30(9): warning: `Physics' used uninitialized\n"
+    },
+    {
+      "stage": "fragment",
+      "compiled": true,
+      "log": ""
+    },
+    {
+      "stage": "link",
+      "linked": true,
+      "log": ""
+    }
+  ],
+  "samples": [
+    {
+      "frame": 0,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 0,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 1,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 1,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 2,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 2,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 3,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 3,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 4,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 4,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 5,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 5,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 6,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 6,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 7,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 7,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 8,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 8,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 9,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 9,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 10,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 10,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 11,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 11,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 12,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 12,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 13,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 13,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 14,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 14,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 15,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 15,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 16,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 16,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 17,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 17,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 18,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 18,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 19,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 19,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 20,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 20,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 21,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 21,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 22,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 22,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 23,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 23,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 24,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 24,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 25,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 25,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 26,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 26,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 27,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 27,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 28,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 28,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 29,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 29,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 30,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 30,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 31,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 31,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 32,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 32,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 33,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 33,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 34,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 34,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 35,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 35,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 36,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 36,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 37,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 37,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 38,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 38,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 39,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 39,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 40,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 40,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 41,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 41,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 42,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 42,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 43,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 43,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 44,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 44,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 45,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 45,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 46,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 46,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 47,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 47,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 48,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 48,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 49,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 49,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 50,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 50,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 51,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 51,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 52,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 52,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 53,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 53,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 54,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 54,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 55,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 55,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 56,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 56,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 57,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 57,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 58,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 58,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 59,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 59,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 60,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 60,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 61,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 61,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 62,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 62,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 63,
+      "version": "before",
+      "drawCalls": 3,
+      "glErrors": []
+    },
+    {
+      "frame": 63,
+      "version": "after",
+      "drawCalls": 3,
+      "glErrors": []
+    }
+  ],
+  "video": "arm-wave-before-after.mp4",
+  "bytes": 209694
+}

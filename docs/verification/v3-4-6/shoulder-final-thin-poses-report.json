@@ -1,0 +1,564 @@
+{
+  "scope": "The actual shell and rendered body: all 16 presets, the reported seed, and five dimensional extremes unless --case selects a subset. Identity plus eight wave samples, or bind only with --bind-only. Structural gates: welded closure, directed winding, connectedness, positive volume, nonzero area, stored skin assignments, neutral export identity, and seam continuity. Supplied/transported-normal disagreement is diagnostic: both omit deformation-gradient effects. With --check-facing, each flagged face is tested for exterior/interior generalized winding0/1 and proper nonadjacent triangle intersections. Shared-vertex contacts and coplanar overlaps are excluded; this is not a proof of absence of all self intersections. Color subdivision is suppressed only during deformation checks.",
+  "bindOnly": false,
+  "checkFacing": true,
+  "sourceRoot": "/workspace/scratch/b58b947dd638/duderlab",
+  "sourceHashes": {
+    "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+    "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+    "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+    "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3"
+  },
+  "cases": 2,
+  "poseCases": 18,
+  "passed": true,
+  "checks": [
+    {
+      "name": "thin-short-low-resolution",
+      "recipe": {
+        "name": "Blue Duder",
+        "seed": 1001,
+        "height": 1.3,
+        "width": 0.75,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 0.7,
+        "armSpread": 0.08,
+        "armThickness": 0.65,
+        "armGap": 0,
+        "feet": 1,
+        "blend": 0.22,
+        "facets": 8,
+        "eyeSpace": 1,
+        "color": [
+          0.13725490196078433,
+          0.4549019607843137,
+          0.9372549019607843
+        ],
+        "accent": [
+          0.08235294117647059,
+          0.23137254901960785,
+          0.5725490196078431
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.20392156862745098,
+          0.3686274509803922,
+          0.47058823529411764
+        ],
+        "hat": "none",
+        "glasses": "square",
+        "accessoryColor": [
+          0.09411764705882353,
+          0.13725490196078433,
+          0.17647058823529413
+        ]
+      },
+      "ms": 9147,
+      "shellTopology": {
+        "vertices": 3034,
+        "edges": 9096,
+        "triangles": 6064,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000014542504741770599,
+        "signedVolume": 0.5991645777629763
+      },
+      "finalTopology": {
+        "vertices": 3034,
+        "edges": 9096,
+        "triangles": 6064,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 0.0000014542504741770599,
+        "signedVolume": 0.5991645777629756
+      },
+      "shellOrientation": {
+        "minimum": 0.6534012835259237,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4742,
+          "cosine": 0.6534012835259237,
+          "positions": [
+            [
+              0.3395863473415375,
+              1.4625991582870483,
+              0.025041723623871803
+            ],
+            [
+              0.3395863473415375,
+              1.454473853111267,
+              0.005876610521227121
+            ],
+            [
+              0.33995455503463745,
+              1.4487773180007935,
+              0.006537537090480328
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.6534012835259237,
+        "reversed": 0,
+        "worst": {
+          "triangle": 4742,
+          "cosine": 0.6534012835259237,
+          "positions": [
+            [
+              0.3395863473415375,
+              1.4625991582870483,
+              0.025041723623871803
+            ],
+            [
+              0.3395863473415375,
+              1.454473853111267,
+              0.005876610521227121
+            ],
+            [
+              0.33995455503463745,
+              1.4487773180007935,
+              0.006537537090480328
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.930335174511356e-8,
+      "maxWeightError": 3.119930624961853e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [
+        {
+          "pose": "identity",
+          "seamError": 0,
+          "minAreaRatio": 0.9999615073795682,
+          "minTransportAlignment": 0.9999999733907465,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.6506806273564969,
+          "minDoubleArea": 0.0000013048797437607896,
+          "signedVolume": 0.5272647315045613,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-0",
+          "seamError": 0,
+          "minAreaRatio": 0.9999615685604095,
+          "minTransportAlignment": 0.9999999735035685,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.6506806273564969,
+          "minDoubleArea": 0.0000013048797437607896,
+          "signedVolume": 0.5272647373309018,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-0.8",
+          "seamError": 0,
+          "minAreaRatio": 0.6502009600378055,
+          "minTransportAlignment": 0.6799160947811586,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.6678965824945656,
+          "minDoubleArea": 0.0000013049251622854454,
+          "signedVolume": 0.5272271069998613,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-1.16",
+          "seamError": 0,
+          "minAreaRatio": 0.3760654642161543,
+          "minTransportAlignment": 0.12878794246274242,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.4555221690182815,
+          "minDoubleArea": 0.000001304836093568618,
+          "signedVolume": 0.5271821233088696,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-1.88",
+          "seamError": 0,
+          "minAreaRatio": 0.2908371052070202,
+          "minTransportAlignment": 0.12879156425681992,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.45552238284577096,
+          "minDoubleArea": 0.000001304925353878847,
+          "signedVolume": 0.5271759458937687,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-2.38",
+          "seamError": 0,
+          "minAreaRatio": 0.4300703253478841,
+          "minTransportAlignment": 0.12879156425681992,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.45552238284577096,
+          "minDoubleArea": 0.000001304925353878847,
+          "signedVolume": 0.5271885855708162,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-2.82",
+          "seamError": 0,
+          "minAreaRatio": 0.2822453547155666,
+          "minTransportAlignment": 0.12879156425681992,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.45552238284577096,
+          "minDoubleArea": 0.000001304925353878847,
+          "signedVolume": 0.5271753955771741,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-3.2",
+          "seamError": 0,
+          "minAreaRatio": 0.3760697363084804,
+          "minTransportAlignment": 0.12879156425681992,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.45552238284577096,
+          "minDoubleArea": 0.000001304925353878847,
+          "signedVolume": 0.5271825005717279,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-3.76",
+          "seamError": 0,
+          "minAreaRatio": 0.8773548077694969,
+          "minTransportAlignment": 0.9738969608907837,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.6561805385153606,
+          "minDoubleArea": 0.0000013048313743182517,
+          "signedVolume": 0.5272558446623662,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        }
+      ],
+      "failures": 0
+    },
+    {
+      "name": "thin-long-minimum-blend",
+      "recipe": {
+        "name": "Blue Duder",
+        "seed": 1001,
+        "height": 1.3,
+        "width": 0.75,
+        "depth": 0.88,
+        "belly": 1,
+        "armLength": 1.4,
+        "armSpread": 0.22,
+        "armThickness": 0.65,
+        "armGap": 0.24,
+        "feet": 1,
+        "blend": 0.03,
+        "facets": 16,
+        "eyeSpace": 1,
+        "color": [
+          0.13725490196078433,
+          0.4549019607843137,
+          0.9372549019607843
+        ],
+        "accent": [
+          0.08235294117647059,
+          0.23137254901960785,
+          0.5725490196078431
+        ],
+        "pattern": 0,
+        "patternScale": 1,
+        "roughness": 0.78,
+        "eyeSize": 1.18,
+        "outfit": "none",
+        "outfitColor": [
+          0.20392156862745098,
+          0.3686274509803922,
+          0.47058823529411764
+        ],
+        "hat": "none",
+        "glasses": "square",
+        "accessoryColor": [
+          0.09411764705882353,
+          0.13725490196078433,
+          0.17647058823529413
+        ]
+      },
+      "ms": 15876,
+      "shellTopology": {
+        "vertices": 8118,
+        "edges": 24348,
+        "triangles": 16232,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 8.194602722870365e-7,
+        "signedVolume": 0.5924800008283537
+      },
+      "finalTopology": {
+        "vertices": 8118,
+        "edges": 24348,
+        "triangles": 16232,
+        "components": 1,
+        "euler": 2,
+        "invalidIncidence": 0,
+        "inconsistentWinding": 0,
+        "zeroArea": 0,
+        "minDoubleArea": 8.194602722870365e-7,
+        "signedVolume": 0.592480000828354
+      },
+      "shellOrientation": {
+        "minimum": 0.6808443365288589,
+        "reversed": 0,
+        "worst": {
+          "triangle": 12495,
+          "cosine": 0.6808443365288589,
+          "positions": [
+            [
+              0.3395863473415375,
+              1.4574187994003296,
+              0.0162652637809515
+            ],
+            [
+              0.3395863473415375,
+              1.4542251825332642,
+              0.0037843743339180946
+            ],
+            [
+              0.33990049362182617,
+              1.449028730392456,
+              0.004149526357650757
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindOrientation": {
+        "minimum": 0.6808443365288589,
+        "reversed": 0,
+        "worst": {
+          "triangle": 12495,
+          "cosine": 0.6808443365288589,
+          "positions": [
+            [
+              0.3395863473415375,
+              1.4574187994003296,
+              0.0162652637809515
+            ],
+            [
+              0.3395863473415375,
+              1.4542251825332642,
+              0.0037843743339180946
+            ],
+            [
+              0.33990049362182617,
+              1.449028730392456,
+              0.004149526357650757
+            ]
+          ]
+        },
+        "negativeTriangles": []
+      },
+      "bindFacing": {
+        "tested": 0,
+        "failures": []
+      },
+      "flipped": 0,
+      "reordered": 0,
+      "missingPatchWeights": 0,
+      "maxStoredSkinError": 2.7757803278127824e-8,
+      "maxWeightError": 2.9802322387695312e-8,
+      "maxSeamWeightError": 0,
+      "maxSeamNormalError": 0,
+      "neutralRestError": 0,
+      "poseResults": [
+        {
+          "pose": "identity",
+          "seamError": 0,
+          "minAreaRatio": 0.9999117943824096,
+          "minTransportAlignment": 0.9999997334541832,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.6792222406981565,
+          "minDoubleArea": 7.337476664748051e-7,
+          "signedVolume": 0.521382355507235,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-0",
+          "seamError": 0,
+          "minAreaRatio": 0.9999112924920889,
+          "minTransportAlignment": 0.9999997338143877,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.6792222406981565,
+          "minDoubleArea": 7.337476664748051e-7,
+          "signedVolume": 0.521382359838263,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-0.8",
+          "seamError": 0,
+          "minAreaRatio": 0.6571638047245568,
+          "minTransportAlignment": 0.6508740198705465,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.6964374302056655,
+          "minDoubleArea": 7.337232519436084e-7,
+          "signedVolume": 0.5213229620457419,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-1.16",
+          "seamError": 0,
+          "minAreaRatio": 0.4130718912907303,
+          "minTransportAlignment": 0.1268411934794071,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.38144591241107473,
+          "minDoubleArea": 7.337859415450761e-7,
+          "signedVolume": 0.5212547719032489,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-1.88",
+          "seamError": 0,
+          "minAreaRatio": 0.3372755086469127,
+          "minTransportAlignment": 0.12683811683339166,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.3814398988385329,
+          "minDoubleArea": 7.337800391474941e-7,
+          "signedVolume": 0.5212466500858839,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-2.38",
+          "seamError": 0,
+          "minAreaRatio": 0.44717419496653804,
+          "minTransportAlignment": 0.12683811683339166,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.3814398988385329,
+          "minDoubleArea": 7.337800391474941e-7,
+          "signedVolume": 0.5212595258810578,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-2.82",
+          "seamError": 0,
+          "minAreaRatio": 0.32986132351392555,
+          "minTransportAlignment": 0.12683811683339166,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.3814398988385329,
+          "minDoubleArea": 7.337800391474941e-7,
+          "signedVolume": 0.5212460224793456,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-3.2",
+          "seamError": 0,
+          "minAreaRatio": 0.4130743378184452,
+          "minTransportAlignment": 0.12683811683339166,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.3814398988385329,
+          "minDoubleArea": 7.337800391474941e-7,
+          "signedVolume": 0.5212532966850982,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        },
+        {
+          "pose": "wave-3.76",
+          "seamError": 0,
+          "minAreaRatio": 0.870138076371179,
+          "minTransportAlignment": 0.9671077666140723,
+          "transportReversals": 0,
+          "normalReversals": 0,
+          "minNormalAlignment": 0.6847562195672262,
+          "minDoubleArea": 7.337486278593833e-7,
+          "signedVolume": 0.5213648756820011,
+          "facing": {
+            "tested": 0,
+            "failures": []
+          }
+        }
+      ],
+      "failures": 0
+    }
+  ],
+  "failures": []
+}

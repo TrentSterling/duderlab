@@ -56,7 +56,7 @@ def render_video(module,output,baseline,fps):
                     for key,value in patch.items():
                         if key!='draws':traces[j][key]=value
             canvas=Image.new('RGB',(vw,vh),BG);draw=ImageDraw.Draw(canvas)
-            draw.text((18,12),'DUDERLAB / ARM WEIGHTS / SAME WAVE',font=font(24),fill='#172129')
+            draw.text((18,12),'DUDERLAB / SHOULDERS / SAME WAVE',font=font(24),fill='#172129')
             draw.text((880,17),f"{frames/fps:.2f}s",font=font(18),fill='#56636b')
             for j,trace in enumerate(traces):
                 renderer.draw_report=[];clear=trace.get('clear',{})

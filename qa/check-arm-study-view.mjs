@@ -78,7 +78,7 @@ async function boot({query='?qa=1',studyFlag=false,seedStorage=false}={}){
 
 const normal=await boot();
 assert.equal(normal.ui.state.mode,'gallery');assert.equal(normal.ui.state.motionEnabled,false);assert.equal(normal.ui.state.showArmWeights,false);
-assert.equal(normal.context.DuderLab.recipes.length,16);assert.equal(normal.context.DuderCore.version,'3.4.5');
+assert.equal(normal.context.DuderLab.recipes.length,16);assert.equal(normal.context.DuderCore.version,'3.4.6');
 assert.equal(normal.renderer.program.uniforms.uArmWeights.value[0],0);
 assert.deepEqual(JSON.parse(JSON.stringify(normal.context.DuderLab.recipes)),JSON.parse(JSON.stringify(normal.context.DuderCore.presets())));
 pass('Normal startup retains the complete 16-duder collection and regular materials');
@@ -104,9 +104,9 @@ for(const spec of [{name:'query',query:'?armstudy',seedStorage:true},{name:'stan
   assert.equal(session.storageReads.length,0,'Arm study unexpectedly loaded the main saved collection');
   context.DuderLab.action('param',{key:'color',value:[.8,.3,.4]});
   for(let i=0;i<17;i++)session.frame(false);
-  assert.deepEqual(session.storageWrites,['tront-duder-arm-study-v3-4-5']);
+  assert.deepEqual(session.storageWrites,['tront-duder-arm-study-v3-4-6']);
   assert.equal(session.storage.get('tront-duder-lab-v03'),session.savedCollection);
-  assert.equal(JSON.parse(session.storage.get('tront-duder-arm-study-v3-4-5')).recipes[0].name,'Arm Study');
+  assert.equal(JSON.parse(session.storage.get('tront-duder-arm-study-v3-4-6')).recipes[0].name,'Arm Study');
   pass(spec.name+' study edits persist separately and preserve the saved regular collection');
   sessions.push(session);
 }
@@ -136,6 +136,6 @@ session.click(ui.hits.find(hit=>hit.key==='motion:weights'));assert.equal(ui.sta
 assert.deepEqual(resources,beforeResources);assert.equal(renderer.batchGeometry[0],beforeGeometry);assert.equal(ui.state.stats.drawCalls,4);
 pass('Uppercase V and the Motion button toggle both ways; text input leaves the view alone');
 
-const report={passed:true,version:'3.4.5',scope:'Real application boot, GPU UI and keyboard event wiring with captured WebGL draw submissions. Verifies no geometry rebuild, buffer/texture/program allocation or added draw for the weight view; actual GLSL execution is verified separately.',checks,sourceHashes};
+const report={passed:true,version:'3.4.6',scope:'Real application boot, GPU UI and keyboard event wiring with captured WebGL draw submissions. Verifies no geometry rebuild, buffer/texture/program allocation or added draw for the weight view; actual GLSL execution is verified separately.',checks,sourceHashes};
 const output=path.join(here,'arm-study-view-report.json');fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({passed:true,checks:checks.length,report:output}));

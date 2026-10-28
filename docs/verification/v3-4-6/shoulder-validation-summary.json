@@ -1,0 +1,301 @@
+{
+  "passed": true,
+  "version": "3.4.6",
+  "sourceHashes": {
+    "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+    "shell.js": "0e77fafec8bf198cc08134008d9703f3d31444892e05d697277be6c6116b637e",
+    "geometry.js": "7b0ff98bf59b5be8d6ee39c4e8d31011406c321a4c805a412cbc8981b9343e51",
+    "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3"
+  },
+  "conclusion": "The final integrated shoulder mesh passes 22 bind-shape checks and 18 targeted posed checks for the two geometry changes. Six explicit probes confirm the formerly buried cells are now exterior, consistently oriented faces. Prior pose checks remain applicable to the 20 unchanged recipes; the preceding sweep is recorded with its source hashes and original failed status, not relabeled as a pass.",
+  "coverage": {
+    "precedingFullSweep": {
+      "recipes": 22,
+      "posesPerRecipe": 9,
+      "poseCases": 198,
+      "status": "Recorded before final winding and thin-clearance fixes; original failures retained.",
+      "actualDefectsFound": [
+        "Two wrongly reoriented triangles on thin-short and one on thin-long, caused by orienting a coherent shell against averaged normals.",
+        "Actual buried first-band cells on thin shoulders, confirmed separately by generalized winding 1/2."
+      ],
+      "diagnosticCorrections": [
+        "Transported and smooth normals omit deformation-gradient effects; their disagreement alone is not a geometric inversion.",
+        "Builder canonicalization at 1e-6 precision is compared using the same canonical keys."
+      ],
+      "sourceHashes": {
+        "core.js": "905852d5c711c4a4128d78ad2859415e1f29b2d757fdf19b1eaa17f946c55387",
+        "shell.js": "74fd5bba30666468d9323ad7455f87476be5ccaca5ca9797674bcc375211ad40",
+        "geometry.js": "3a1ef0e7f524f7a78914445cb021824dfc7704c11b9dd9367943141ffecba40a",
+        "animation.js": "f850f45190a5faddc658bc7f6928b4619767368202480c88031a30108e27b3b3"
+      },
+      "originalReportSHA256": "324cc13344259290b2c93ca8f4bcd80420a62d6dd888a384f4092cdacbe7722b",
+      "recordedOutcome": "failed; not a final pass",
+      "caseSummary": [
+        {
+          "name": "preset-01-Blue Shift",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 1.1080294342823962e-06
+        },
+        {
+          "name": "preset-02-Coral Cap",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 7.657086642292048e-07
+        },
+        {
+          "name": "preset-03-Sunshine",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 4.6523172298295875e-06
+        },
+        {
+          "name": "preset-04-Mint Bucket",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 7.741532864480668e-07
+        },
+        {
+          "name": "preset-05-Lilac Nap",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 9.34484845160643e-08
+        },
+        {
+          "name": "preset-06-Orange Pilot",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 4.0422300539323314e-07
+        },
+        {
+          "name": "preset-07-Teal Bowler",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 3.25207611546199e-07
+        },
+        {
+          "name": "preset-08-Pink Pop",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 3.698183427116749e-06
+        },
+        {
+          "name": "preset-09-Cookie Crumb",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 3.7638909710933396e-07
+        },
+        {
+          "name": "preset-10-Cloud Nine",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 1.966975918394268e-06
+        },
+        {
+          "name": "preset-11-Star Gazer",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 1.4093314651486502e-06
+        },
+        {
+          "name": "preset-12-Lime Safari",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 2.121938571402646e-07
+        },
+        {
+          "name": "preset-13-Berry Buddy",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 6.461305262051708e-07
+        },
+        {
+          "name": "preset-14-Caramel Patch",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 1.4303679547952353e-06
+        },
+        {
+          "name": "preset-15-Cyan Static",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 1.3607536980158896e-05
+        },
+        {
+          "name": "preset-16-Cowabunga",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 1.443817198439926e-07
+        },
+        {
+          "name": "reported-wave",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 5.894302517008541e-06
+        },
+        {
+          "name": "thin-short-low-resolution",
+          "poseCases": 9,
+          "builderFlips": 2,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 1.3048313743182517e-06
+        },
+        {
+          "name": "wide-short-thick",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 2.999169691831064e-07
+        },
+        {
+          "name": "thin-long-minimum-blend",
+          "poseCases": 9,
+          "builderFlips": 1,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 7.337232519436084e-07
+        },
+        {
+          "name": "deep-thick",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 3.279793994257693e-07
+        },
+        {
+          "name": "flat-short",
+          "poseCases": 9,
+          "builderFlips": 0,
+          "maxPoseSeamSeparation": 0,
+          "neutralSurfaceDrift": 0,
+          "minimumPosedDoubleArea": 6.985025886619875e-06
+        }
+      ]
+    },
+    "unchangedRecipePoseCoverage": {
+      "recipes": 20,
+      "poseCases": 180,
+      "recipeNames": [
+        "preset-01-Blue Shift",
+        "preset-02-Coral Cap",
+        "preset-03-Sunshine",
+        "preset-04-Mint Bucket",
+        "preset-05-Lilac Nap",
+        "preset-06-Orange Pilot",
+        "preset-07-Teal Bowler",
+        "preset-08-Pink Pop",
+        "preset-09-Cookie Crumb",
+        "preset-10-Cloud Nine",
+        "preset-11-Star Gazer",
+        "preset-12-Lime Safari",
+        "preset-13-Berry Buddy",
+        "preset-14-Caramel Patch",
+        "preset-15-Cyan Static",
+        "preset-16-Cowabunga",
+        "reported-wave",
+        "wide-short-thick",
+        "deep-thick",
+        "flat-short"
+      ],
+      "traceability": "The adaptive clearance branch is false for these 20 recipes. The preceding builder changed no face winding in any of them. Their preceding full-pose checks cover unchanged geometry; no second broad pose sweep was performed."
+    },
+    "finalBindSweep": {
+      "recipes": 22,
+      "passed": true,
+      "report": "shoulder-final-bind-report.json",
+      "checks": [
+        "One connected body",
+        "Two opposite directed incidences per edge",
+        "Euler characteristic 2 and positive signed volume",
+        "No zero-area triangles",
+        "No builder triangle reorientation",
+        "Finite normalized weights with at most 4 influences and seven bones",
+        "Structured-weight map lookup",
+        "Coincident position/normal/weight consistency",
+        "Exact neutral export surface"
+      ]
+    },
+    "finalChangedRecipePoseSweep": {
+      "recipes": 2,
+      "recipeNames": [
+        "thin-short-low-resolution",
+        "thin-long-minimum-blend"
+      ],
+      "posesPerRecipe": 9,
+      "poseCases": 18,
+      "passed": true,
+      "report": "shoulder-final-thin-poses-report.json",
+      "poseTimesSeconds": [
+        0,
+        0.8,
+        1.16,
+        1.88,
+        2.38,
+        2.82,
+        3.2,
+        3.76
+      ],
+      "extraPose": "identity",
+      "maxSeamSeparation": 0,
+      "maxNeutralDrift": 0,
+      "normalWarningCount": 0
+    },
+    "formerOverlapRegression": {
+      "faces": 3,
+      "states": [
+        "bind",
+        "held wave 1.88 s"
+      ],
+      "probes": 6,
+      "passed": true,
+      "report": "shoulder-former-overlap-probes.json"
+    }
+  },
+  "limitations": [
+    "Topology/closure checks do not constitute an exhaustive global self-intersection proof. Actual geometric winding/intersection probes target the previously failing cells and normal-disagreement cells.",
+    "Existing DQ shading normals can disagree with the deformed geometric normal; outward winding and intersection probes adjudicated the examined Blue Shift, Sunshine, and Lilac Nap warnings. The shading model was not expanded in this change."
+  ],
+  "reproduction": [
+    "node qa/check-shoulder-manifold.mjs --bind-only --check-facing",
+    "node qa/check-shoulder-manifold.mjs --case thin- --check-facing",
+    "node qa/check-shoulder-manifold.mjs --case thin-short --check-facing --probe-triangles 3211,4738",
+    "node qa/check-shoulder-manifold.mjs --case thin-long --check-facing --probe-triangles 12485"
+  ]
+}

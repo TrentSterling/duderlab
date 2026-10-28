@@ -1,4 +1,4 @@
-/* Duder Lab V3.4.5 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
+/* Duder Lab V3.4.6 — indexed WebGL2 skinning, bounded SDF correction, and smooth welded hull outlines.
  * SDF blend-shell projection adapted from Trent Sterling's Critters.
  * Technique provenance: GOOBERS / u/AntiqueFeedback7447; visual prior art RujiK.
  * The projected shells visually fuse; they do not form a welded CAD solid.
@@ -84,7 +84,9 @@
     // Bone-driven positions never accumulate projection: each frame starts from
     // rest coordinates. Rigid regions stay exactly attached; only joint vertices
     // receive two bounded corrections, each no larger than .035 world units.
-    if(body&&vJoint>.0001){
+    // Surface tag 8 is a structured shoulder/arm surface with fixed ring weights;
+    // the former straight-capsule field must not pull it back into a web.
+    if(body&&aMeta.y<7.5&&vJoint>.0001){
       float cap=.035*uProjection*vJoint;
       for(int i=0;i<2;i++){vec3 g=grad(p);p-=g*clamp(field(p),-cap,cap);}
       n=normalize(mix(n,grad(p),vJoint*.8));
